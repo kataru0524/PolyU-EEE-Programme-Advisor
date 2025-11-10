@@ -344,9 +344,179 @@ def main(content: str):
         "result": process_markdown_content(content)
     }
 
+def count_heading_characters(content: str) -> dict:
+    """
+    Count characters in each Heading 1 and Heading 2 section.
+    H2 sections are included within their parent H1 section.
+    Heading text itself is also counted.
+    Returns a dictionary with heading information and character counts.
+    """
+    lines = content.split('\n')
+    stats = []
+    current_h1 = None
+    current_h1_line = None
+    current_h2 = None
+    current_h2_line = None
+    h1_all_content = []  # All content under H1 including H2s
+    h2_content = []  # Content under current H2 only
+    
+    for i, line in enumerate(lines):
+        # Check if this is a heading
+        heading_match = re.match(r'^(#{1,2})\s+(.+)$', line)
+        
+        if heading_match:
+            hashes = heading_match.group(1)
+            heading_text = heading_match.group(2).strip()
+            
+            if len(hashes) == 1:  # H1
+                # Save previous H2 if exists
+                if current_h2:
+                    # Include the H2 heading line itself
+                    content_with_heading = current_h2_line + '\n' + '\n'.join(h2_content)
+                    char_count = len(content_with_heading)
+                    stats.append({
+                        'type': 'H2',
+                        'heading': current_h2,
+                        'char_count': char_count
+                    })
+                    h2_content = []
+                    current_h2 = None
+                    current_h2_line = None
+                
+                # Save previous H1 if exists
+                if current_h1:
+                    # Include the H1 heading line itself
+                    content_with_heading = current_h1_line + '\n' + '\n'.join(h1_all_content)
+                    char_count = len(content_with_heading)
+                    stats.append({
+                        'type': 'H1',
+                        'heading': current_h1,
+                        'char_count': char_count
+                    })
+                    h1_all_content = []
+                
+                # Start new H1
+                current_h1 = heading_text
+                current_h1_line = line
+                
+            elif len(hashes) == 2:  # H2
+                # Save previous H2 if exists
+                if current_h2:
+                    # Include the H2 heading line itself
+                    content_with_heading = current_h2_line + '\n' + '\n'.join(h2_content)
+                    char_count = len(content_with_heading)
+                    stats.append({
+                        'type': 'H2',
+                        'heading': current_h2,
+                        'char_count': char_count
+                    })
+                    h2_content = []
+                
+                # Start new H2
+                current_h2 = heading_text
+                current_h2_line = line
+                # Add H2 heading line to H1's all content
+                if current_h1:
+                    h1_all_content.append(line)
+        else:
+            # Regular content line
+            if current_h2:
+                h2_content.append(line)
+                # Also add to H1's all content
+                if current_h1:
+                    h1_all_content.append(line)
+            elif current_h1:
+                h1_all_content.append(line)
+    
+    # Save final sections
+    if current_h2:
+        # Include the H2 heading line itself
+        content_with_heading = current_h2_line + '\n' + '\n'.join(h2_content)
+        char_count = len(content_with_heading)
+        stats.append({
+            'type': 'H2',
+            'heading': current_h2,
+            'char_count': char_count
+        })
+    
+    if current_h1:
+        # Include the H1 heading line itself
+        content_with_heading = current_h1_line + '\n' + '\n'.join(h1_all_content)
+        char_count = len(content_with_heading)
+        stats.append({
+            'type': 'H1',
+            'heading': current_h1,
+            'char_count': char_count
+        })
+    
+    return stats
+
+def generate_stats_file(stats: list, output_path: Path):
+    """
+    Generate a statistics text file with heading information and character counts.
+    """
+    stats_path = output_path.with_suffix('.txt')
+    
+    with open(stats_path, 'w', encoding='utf-8') as f:
+        f.write("=" * 80 + "\n")
+        f.write("MARKDOWN HEADING STATISTICS\n")
+        f.write("=" * 80 + "\n\n")
+        f.write(f"File: {output_path.name}\n")
+        f.write(f"Total sections analyzed: {len(stats)}\n\n")
+        
+        # Summary statistics
+        h1_count = sum(1 for s in stats if s['type'] == 'H1')
+        h2_count = sum(1 for s in stats if s['type'] == 'H2')
+        total_h1_chars = sum(s['char_count'] for s in stats if s['type'] == 'H1')
+        total_h2_chars = sum(s['char_count'] for s in stats if s['type'] == 'H2')
+        
+        f.write(f"Heading 1 (H1) sections: {h1_count}\n")
+        f.write(f"Heading 2 (H2) sections: {h2_count}\n")
+        f.write(f"Total H1 content characters: {total_h1_chars:,}\n")
+        f.write(f"Total H2 content characters: {total_h2_chars:,}\n")
+        
+        if h1_count > 0:
+            max_h1_chars = max(s['char_count'] for s in stats if s['type'] == 'H1')
+            f.write(f"Maximum H1 content characters: {max_h1_chars:,}\n")
+        if h2_count > 0:
+            max_h2_chars = max(s['char_count'] for s in stats if s['type'] == 'H2')
+            f.write(f"Maximum H2 content characters: {max_h2_chars:,}\n")
+        
+        f.write("\n" + "=" * 80 + "\n")
+        f.write("DETAILED BREAKDOWN\n")
+        f.write("=" * 80 + "\n\n")
+        
+        # Separate H1 and H2 sections
+        h1_stats = [s for s in stats if s['type'] == 'H1']
+        h2_stats = [s for s in stats if s['type'] == 'H2']
+        
+        # Sort by character count (largest to smallest)
+        h1_stats.sort(key=lambda x: x['char_count'], reverse=True)
+        h2_stats.sort(key=lambda x: x['char_count'], reverse=True)
+        
+        # H1 Section
+        f.write("--- HEADING 1 (H1) SECTIONS ---\n")
+        f.write("(Sorted by character count: largest to smallest)\n\n")
+        for i, stat in enumerate(h1_stats, 1):
+            f.write(f"{i}. {stat['heading']}\n")
+            f.write(f"   Content characters: {stat['char_count']:,}\n\n")
+        
+        # H2 Section
+        f.write("\n" + "-" * 80 + "\n\n")
+        f.write("--- HEADING 2 (H2) SECTIONS ---\n")
+        f.write("(Sorted by character count: largest to smallest)\n\n")
+        for i, stat in enumerate(h2_stats, 1):
+            f.write(f"{i}. {stat['heading']}\n")
+            f.write(f"   Content characters: {stat['char_count']:,}\n\n")
+        
+        f.write("=" * 80 + "\n")
+        f.write("END OF STATISTICS\n")
+        f.write("=" * 80 + "\n")
+
 def process_file(file_path):
     """
     Process a single markdown file and save the result to a new file.
+    Also generate a statistics file with heading character counts.
     """
     print(f"Processing: {file_path}")
     
@@ -367,6 +537,14 @@ def process_file(file_path):
         
         print(f"  ✓ Processed file saved: {output_path.name}")
         
+        # Count characters in headings
+        stats = count_heading_characters(processed_content)
+        
+        # Generate statistics file
+        generate_stats_file(stats, output_path)
+        
+        print(f"  ✓ Statistics file saved: {output_path.with_suffix('.txt').name}")
+        
     except Exception as e:
         print(f"  ✗ Error: {e}")
         import traceback
@@ -379,7 +557,7 @@ if __name__ == "__main__":
     # Find both target files
     target_files = [
         list(base_dir.rglob('46408_PRD_2526.md')),
-        list(base_dir.rglob('46409_PRD_2425.md'))
+        list(base_dir.rglob('46409_PRD_2526.md'))
     ]
     
     # Flatten the list and remove empty results
