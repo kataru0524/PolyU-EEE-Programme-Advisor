@@ -1,5 +1,328 @@
 import re
 from pathlib import Path
+from html.parser import HTMLParser
+
+class TableParser(HTMLParser):
+    """Parse HTML table and extract cell data with rowspan/colspan information."""
+    
+    def __init__(self):
+        super().__init__()
+        self.rows = []
+        self.current_row = []
+        self.current_cell = ''
+        self.in_table = False
+        self.in_td = False
+        self.current_rowspan = 1
+        self.current_colspan = 1
+        
+    def handle_starttag(self, tag, attrs):
+        if tag == 'table':
+            self.in_table = True
+            self.rows = []
+        elif tag == 'tr' and self.in_table:
+            self.current_row = []
+        elif tag == 'td' and self.in_table:
+            self.in_td = True
+            self.current_cell = ''
+            self.current_rowspan = 1
+            self.current_colspan = 1
+            # Get rowspan and colspan attributes
+            for attr, value in attrs:
+                if attr == 'rowspan':
+                    self.current_rowspan = int(value)
+                elif attr == 'colspan':
+                    self.current_colspan = int(value)
+    
+    def handle_endtag(self, tag):
+        if tag == 'table':
+            self.in_table = False
+        elif tag == 'tr' and self.in_table:
+            if self.current_row:
+                self.rows.append(self.current_row)
+        elif tag == 'td' and self.in_td:
+            self.in_td = False
+            # Store cell with its span information
+            self.current_row.append({
+                'content': self.current_cell.strip(),
+                'rowspan': self.current_rowspan,
+                'colspan': self.current_colspan
+            })
+    
+    def handle_data(self, data):
+        if self.in_td:
+            # Replace newlines with space to keep content on single line for Markdown tables
+            cleaned_data = ' '.join(data.split())
+            if cleaned_data:  # Only add if there's actual content after cleaning
+                if self.current_cell:  # Add space if we already have content
+                    self.current_cell += ' '
+                self.current_cell += cleaned_data
+
+def html_table_to_markdown(html_table):
+    """
+    Convert HTML table to Markdown format.
+    Handle rowspan and colspan by filling merged cells with parent value.
+    Take first row as header, combining split cells if header has rowspan.
+    Split tables when rows span all columns (section headers).
+    """
+    parser = TableParser()
+    parser.feed(html_table)
+    
+    if not parser.rows:
+        return html_table  # Return original if parsing failed
+    
+    # Create a grid to handle rowspan/colspan
+    # First, determine the actual grid size
+    max_cols = 0
+    for row in parser.rows:
+        col_count = sum(cell['colspan'] for cell in row)
+        max_cols = max(max_cols, col_count)
+    
+    # Check if first row is a table caption (spans all columns)
+    table_caption = None
+    has_caption = False
+    if parser.rows and len(parser.rows[0]) == 1 and parser.rows[0][0]['colspan'] == max_cols:
+        table_caption = parser.rows[0][0]['content']
+        has_caption = True
+    
+    # Work with rows excluding caption
+    data_rows = parser.rows[1:] if has_caption else parser.rows
+    
+    # Create the grid with None values (for data rows only)
+    grid = [[None for _ in range(max_cols)] for _ in range(len(data_rows))]
+    
+    # Track which rows are section headers (span all columns)
+    section_header_rows = []
+    
+    # Fill the grid and identify section headers
+    for row_idx, row in enumerate(data_rows):
+        col_idx = 0
+        
+        # Check if this row is a section header (single cell spanning all columns)
+        if len(row) == 1 and row[0]['colspan'] == max_cols:
+            section_header_rows.append(row_idx)
+        
+        for cell in row:
+            # Find the next empty cell in this row
+            while col_idx < max_cols and grid[row_idx][col_idx] is not None:
+                col_idx += 1
+            
+            if col_idx >= max_cols:
+                break
+            
+            # Fill the cell and handle spans
+            content = cell['content']
+            rowspan = cell['rowspan']
+            colspan = cell['colspan']
+            
+            for r in range(rowspan):
+                for c in range(colspan):
+                    if row_idx + r < len(grid) and col_idx + c < max_cols:
+                        grid[row_idx + r][col_idx + c] = content
+            
+            col_idx += colspan
+    
+    # Determine header rows (based on data_rows, not original parser.rows)
+    # Special case: if we extracted a caption AND there are section headers,
+    # then there's no shared header - each section will use its own first row
+    if has_caption and section_header_rows:
+        header_rows = 0
+    else:
+        # Check if first row has cells with colspan > 1 AND subsequent rows have cells that fill those columns
+        # This indicates a multi-row header structure
+        header_rows = 1
+        
+        first_row_cells = data_rows[0] if data_rows else []
+        
+        # Check if any cell in first row has colspan > 1
+        # AND there are cells in row 2 that appear to be sub-headers for those colspan cells
+        has_colspan_in_first_row = any(cell['colspan'] > 1 for cell in first_row_cells)
+        
+        if has_colspan_in_first_row and len(data_rows) > 1:
+            # Check if second row appears to be a sub-header row
+            # It should have rowspan == 1 AND should NOT have the same colspan pattern as first row
+            # (if it has the same pattern, it's likely a data row, not a sub-header)
+            second_row_cells = data_rows[1]
+            second_row_colspan_pattern = [cell['colspan'] for cell in second_row_cells]
+            first_row_colspan_pattern = [cell['colspan'] for cell in first_row_cells]
+            
+            if (all(cell['rowspan'] == 1 for cell in second_row_cells) and 
+                second_row_colspan_pattern != first_row_colspan_pattern):
+                # This looks like a two-row header structure
+                header_rows = 2
+    
+    # Split tables at section header rows
+    if section_header_rows:
+        tables = []
+        current_start = header_rows  # Start after the header rows
+        
+        for section_row_idx in section_header_rows:
+            # Skip if section header is in the header rows
+            if section_row_idx < header_rows:
+                continue
+            
+            # Add table before this section header (only if there are data rows)
+            if section_row_idx > current_start:
+                table_data = {
+                    'grid': grid,
+                    'start_row': current_start,
+                    'end_row': section_row_idx,
+                    'max_cols': max_cols
+                }
+                tables.append(('table', table_data))
+            
+            # Add section header as text
+            section_text = grid[section_row_idx][0] or ''
+            tables.append(('section', section_text))
+            
+            current_start = section_row_idx + 1
+        
+        # Add remaining table after last section header
+        if current_start < len(grid):
+            table_data = {
+                'grid': grid,
+                'start_row': current_start,
+                'end_row': len(grid),
+                'max_cols': max_cols
+            }
+            tables.append(('table', table_data))
+        
+        # Build output for split tables
+        markdown_parts = []
+        
+        # Add table caption if present
+        if table_caption:
+            markdown_parts.append(f"**{table_caption}**\n")
+        
+        # Determine shared header:
+        # - If first row spans all columns (header_rows == 0), there's NO shared header
+        # - Otherwise, the header is shared across all sub-tables
+        shared_header = None
+        if header_rows > 0:
+            if header_rows > 1:
+                shared_header = []
+                for col_idx in range(max_cols):
+                    combined_content = []
+                    for row_idx in range(header_rows):
+                        if row_idx == 0 or grid[row_idx][col_idx] != grid[row_idx - 1][col_idx]:
+                            content = grid[row_idx][col_idx] or ''
+                            if content:
+                                combined_content.append(content)
+                    shared_header.append(' '.join(combined_content))
+            else:
+                # Deduplicate consecutive values for single header row
+                raw_header = [grid[0][col_idx] or '' for col_idx in range(max_cols)]
+                shared_header = []
+                prev_value = None
+                for value in raw_header:
+                    if value == prev_value and value != '':
+                        shared_header.append('')
+                    else:
+                        shared_header.append(value)
+                    prev_value = value
+        
+        for item_type, item_data in tables:
+            if item_type == 'section':
+                # Add section header as bold text
+                markdown_parts.append(f"\n**{item_data}**\n")
+            else:
+                # Add table
+                table_lines = []
+                
+                start_row = item_data['start_row']
+                end_row = item_data['end_row']
+                
+                # Determine header for this sub-table
+                if shared_header is not None:
+                    # Use shared header
+                    header = shared_header
+                else:
+                    # No shared header - extract from first row of this sub-table
+                    if start_row < end_row:
+                        raw_header = [item_data['grid'][start_row][col_idx] or '' for col_idx in range(item_data['max_cols'])]
+                        # Deduplicate consecutive values (from colspan)
+                        header = []
+                        prev_value = None
+                        for value in raw_header:
+                            if value == prev_value and value != '':
+                                header.append('')
+                            else:
+                                header.append(value)
+                            prev_value = value
+                        start_row += 1  # Skip this row when outputting data
+                    else:
+                        header = [''] * item_data['max_cols']
+                
+                table_lines.append('| ' + ' | '.join(header) + ' |')
+                table_lines.append('| ' + ' | '.join(['---'] * item_data['max_cols']) + ' |')
+                
+                # Add data rows with deduplication
+                for row_idx in range(start_row, end_row):
+                    raw_row = [item_data['grid'][row_idx][col_idx] or '' for col_idx in range(item_data['max_cols'])]
+                    # Deduplicate consecutive values (from colspan)
+                    row = []
+                    prev_value = None
+                    for value in raw_row:
+                        if value == prev_value and value != '':
+                            row.append('')
+                        else:
+                            row.append(value)
+                        prev_value = value
+                    table_lines.append('| ' + ' | '.join(row) + ' |')
+                
+                markdown_parts.append('\n'.join(table_lines))
+        
+        return '\n'.join(markdown_parts)
+    
+    # No section headers - build as single table
+    markdown_lines = []
+    
+    # Add table caption if present
+    if table_caption:
+        markdown_lines.append(f"**{table_caption}**\n")
+    
+    # Header row(s) - combine if multiple header rows exist
+    if header_rows > 1:
+        # Combine header cells vertically for cells that span multiple header rows
+        header = []
+        for col_idx in range(max_cols):
+            combined_content = []
+            for row_idx in range(header_rows):
+                if row_idx == 0 or grid[row_idx][col_idx] != grid[row_idx - 1][col_idx]:
+                    content = grid[row_idx][col_idx] or ''
+                    if content:
+                        combined_content.append(content)
+            header.append(' '.join(combined_content))
+        markdown_lines.append('| ' + ' | '.join(header) + ' |')
+    else:
+        # Single header row
+        header = [grid[0][col_idx] or '' for col_idx in range(max_cols)]
+        markdown_lines.append('| ' + ' | '.join(header) + ' |')
+    
+    # Separator row
+    markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
+    
+    # Data rows
+    for row_idx in range(header_rows, len(grid)):
+        row = [grid[row_idx][col_idx] or '' for col_idx in range(max_cols)]
+        markdown_lines.append('| ' + ' | '.join(row) + ' |')
+    
+    return '\n'.join(markdown_lines)
+
+def convert_html_tables_in_content(content):
+    """
+    Find all HTML tables in content and convert them to Markdown format.
+    """
+    # Pattern to match complete HTML tables
+    table_pattern = r'<table>.*?</table>'
+    
+    def replace_table(match):
+        html_table = match.group(0)
+        return html_table_to_markdown(html_table)
+    
+    # Replace all tables
+    converted = re.sub(table_pattern, replace_table, content, flags=re.DOTALL)
+    
+    return converted
 
 def extract_toc_section(content):
     """
@@ -319,8 +642,8 @@ def process_markdown_content(content: str) -> str:
     toc_entries, trailing_content, start_pos, end_pos = extract_toc_section(content)
     
     if toc_entries is None:
-        # No TOC found, return content unchanged
-        return content
+        # No TOC found, just convert HTML tables and return
+        return convert_html_tables_in_content(content)
     
     # Convert TOC to table
     toc_table = create_toc_table(toc_entries)
@@ -336,6 +659,9 @@ def process_markdown_content(content: str) -> str:
     
     # Ensure tables stay together for better chunking
     new_content = ensure_table_integrity(new_content)
+    
+    # Convert all HTML tables to Markdown format
+    new_content = convert_html_tables_in_content(new_content)
     
     return new_content
 
