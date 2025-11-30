@@ -2,6 +2,9 @@ import re
 from pathlib import Path
 from html.parser import HTMLParser
 
+# Configuration
+MAX_ROWS_PER_CHUNK = 20  # Maximum number of rows per table chunk before splitting with repeated headers
+
 class TableParser(HTMLParser):
     """Parse HTML table and extract cell data with rowspan/colspan information."""
     
@@ -121,34 +124,72 @@ def html_table_to_markdown(html_table):
             
             col_idx += colspan
     
+    # Helper function to detect if a row contains data-like patterns
+    def is_data_row(row_cells):
+        """Check if row cells contain patterns typical of data rather than headers"""
+        if not row_cells:
+            return False
+        
+        import re
+        
+        for cell in row_cells:
+            content = cell['content'].strip()
+            if not content:
+                continue
+            
+            # Pattern 1: Starts with (a), (b), (i), (ii), etc. - labeled items
+            if re.match(r'^\([a-z]+\)', content, re.IGNORECASE):
+                return True
+            
+            # Pattern 2: Course codes (e.g., EE502, EIE3129, CSE40408)
+            if re.match(r'^[A-Z]{2,5}\d{4,5}[A-Z]?$', content):
+                return True
+            
+            # Pattern 3: Contains course code at start followed by space and title
+            if re.match(r'^[A-Z]{2,5}\d{4,5}[A-Z]?\s+', content):
+                return True
+        
+        return False
+    
     # Determine header rows (based on data_rows, not original parser.rows)
     # Special case: if we extracted a caption AND there are section headers,
     # then there's no shared header - each section will use its own first row
     if has_caption and section_header_rows:
         header_rows = 0
     else:
-        # Check if first row has cells with colspan > 1 AND subsequent rows have cells that fill those columns
-        # This indicates a multi-row header structure
-        header_rows = 1
-        
+        # Check if first row looks like data rather than a header
         first_row_cells = data_rows[0] if data_rows else []
+        second_row_cells = data_rows[1] if len(data_rows) > 1 else []
         
-        # Check if any cell in first row has colspan > 1
-        # AND there are cells in row 2 that appear to be sub-headers for those colspan cells
-        has_colspan_in_first_row = any(cell['colspan'] > 1 for cell in first_row_cells)
-        
-        if has_colspan_in_first_row and len(data_rows) > 1:
-            # Check if second row appears to be a sub-header row
-            # It should have rowspan == 1 AND should NOT have the same colspan pattern as first row
-            # (if it has the same pattern, it's likely a data row, not a sub-header)
-            second_row_cells = data_rows[1]
-            second_row_colspan_pattern = [cell['colspan'] for cell in second_row_cells]
-            first_row_colspan_pattern = [cell['colspan'] for cell in first_row_cells]
+        # If first row has data-like patterns, treat it as data (no header)
+        if is_data_row(first_row_cells):
+            # Verify by checking if second row also has similar patterns
+            if is_data_row(second_row_cells):
+                header_rows = 0
+            else:
+                # First row looks like data but second doesn't - might be a single-row header
+                # Default to treating first row as header
+                header_rows = 1
+        else:
+            # First row doesn't look like data - likely a header
+            header_rows = 1
             
-            if (all(cell['rowspan'] == 1 for cell in second_row_cells) and 
-                second_row_colspan_pattern != first_row_colspan_pattern):
-                # This looks like a two-row header structure
-                header_rows = 2
+            # Check if any cell in first row has colspan > 1
+            # AND there are cells in row 2 that appear to be sub-headers for those colspan cells
+            has_colspan_in_first_row = any(cell['colspan'] > 1 for cell in first_row_cells)
+            
+            if has_colspan_in_first_row and len(data_rows) > 1:
+                # Check if second row appears to be a sub-header row
+                # It should have rowspan == 1 AND should NOT have the same colspan pattern as first row
+                # (if it has the same pattern, it's likely a data row, not a sub-header)
+                second_row_colspan_pattern = [cell['colspan'] for cell in second_row_cells]
+                first_row_colspan_pattern = [cell['colspan'] for cell in first_row_cells]
+                
+                if (all(cell['rowspan'] == 1 for cell in second_row_cells) and 
+                    second_row_colspan_pattern != first_row_colspan_pattern and
+                    not is_data_row(second_row_cells)):
+                    # This looks like a two-row header structure
+                    header_rows = 2
     
     # Split tables at section header rows
     if section_header_rows:
@@ -194,7 +235,7 @@ def html_table_to_markdown(html_table):
             markdown_parts.append(f"**{table_caption}**\n")
         
         # Determine shared header:
-        # - If first row spans all columns (header_rows == 0), there's NO shared header
+        # - If header_rows == 0, there's NO shared header (either caption exists or first row is data)
         # - Otherwise, the header is shared across all sub-tables
         shared_header = None
         if header_rows > 0:
@@ -236,19 +277,30 @@ def html_table_to_markdown(html_table):
                     # Use shared header
                     header = shared_header
                 else:
-                    # No shared header - extract from first row of this sub-table
+                    # No shared header - need to check if first row of this sub-table is data or header
                     if start_row < end_row:
-                        raw_header = [item_data['grid'][start_row][col_idx] or '' for col_idx in range(item_data['max_cols'])]
-                        # Deduplicate consecutive values (from colspan)
-                        header = []
-                        prev_value = None
-                        for value in raw_header:
-                            if value == prev_value and value != '':
-                                header.append('')
-                            else:
-                                header.append(value)
-                            prev_value = value
-                        start_row += 1  # Skip this row when outputting data
+                        # Check if first row looks like data
+                        first_row_cells = []
+                        for col_idx in range(item_data['max_cols']):
+                            content = item_data['grid'][start_row][col_idx] or ''
+                            first_row_cells.append({'content': content, 'rowspan': 1, 'colspan': 1})
+                        
+                        if is_data_row(first_row_cells):
+                            # First row is data - use empty header
+                            header = [''] * item_data['max_cols']
+                        else:
+                            # First row is a header - extract it
+                            raw_header = [item_data['grid'][start_row][col_idx] or '' for col_idx in range(item_data['max_cols'])]
+                            # Deduplicate consecutive values (from colspan)
+                            header = []
+                            prev_value = None
+                            for value in raw_header:
+                                if value == prev_value and value != '':
+                                    header.append('')
+                                else:
+                                    header.append(value)
+                                prev_value = value
+                            start_row += 1  # Skip this row when outputting data
                     else:
                         header = [''] * item_data['max_cols']
                 
@@ -256,18 +308,32 @@ def html_table_to_markdown(html_table):
                 table_lines.append('| ' + ' | '.join(['---'] * item_data['max_cols']) + ' |')
                 
                 # Add data rows with deduplication
-                for row_idx in range(start_row, end_row):
-                    raw_row = [item_data['grid'][row_idx][col_idx] or '' for col_idx in range(item_data['max_cols'])]
-                    # Deduplicate consecutive values (from colspan)
-                    row = []
-                    prev_value = None
-                    for value in raw_row:
-                        if value == prev_value and value != '':
-                            row.append('')
-                        else:
-                            row.append(value)
-                        prev_value = value
-                    table_lines.append('| ' + ' | '.join(row) + ' |')
+                # If table has more than 20 rows, split it into chunks with repeated headers
+                data_rows_range = list(range(start_row, end_row))
+                
+                for chunk_start_idx in range(0, len(data_rows_range), MAX_ROWS_PER_CHUNK):
+                    chunk_end_idx = min(chunk_start_idx + MAX_ROWS_PER_CHUNK, len(data_rows_range))
+                    
+                    # If this is not the first chunk, add header again
+                    if chunk_start_idx > 0:
+                        table_lines.append('')  # Empty line for separation
+                        table_lines.append('| ' + ' | '.join(header) + ' |')
+                        table_lines.append('| ' + ' | '.join(['---'] * item_data['max_cols']) + ' |')
+                    
+                    # Add data rows for this chunk
+                    for idx in range(chunk_start_idx, chunk_end_idx):
+                        row_idx = data_rows_range[idx]
+                        raw_row = [item_data['grid'][row_idx][col_idx] or '' for col_idx in range(item_data['max_cols'])]
+                        # Deduplicate consecutive values (from colspan)
+                        row = []
+                        prev_value = None
+                        for value in raw_row:
+                            if value == prev_value and value != '':
+                                row.append('')
+                            else:
+                                row.append(value)
+                            prev_value = value
+                        table_lines.append('| ' + ' | '.join(row) + ' |')
                 
                 markdown_parts.append('\n'.join(table_lines))
         
@@ -280,8 +346,14 @@ def html_table_to_markdown(html_table):
     if table_caption:
         markdown_lines.append(f"**{table_caption}**\n")
     
-    # Header row(s) - combine if multiple header rows exist
-    if header_rows > 1:
+    # If header_rows == 0, create a generic header or treat all rows as data
+    if header_rows == 0:
+        # No header detected - create empty headers
+        header = [''] * max_cols
+        markdown_lines.append('| ' + ' | '.join(header) + ' |')
+        markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
+        data_start_row = 0
+    elif header_rows > 1:
         # Combine header cells vertically for cells that span multiple header rows
         header = []
         for col_idx in range(max_cols):
@@ -293,18 +365,69 @@ def html_table_to_markdown(html_table):
                         combined_content.append(content)
             header.append(' '.join(combined_content))
         markdown_lines.append('| ' + ' | '.join(header) + ' |')
+        markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
+        data_start_row = header_rows
     else:
         # Single header row
         header = [grid[0][col_idx] or '' for col_idx in range(max_cols)]
         markdown_lines.append('| ' + ' | '.join(header) + ' |')
+        markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
+        data_start_row = header_rows
     
-    # Separator row
-    markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
+    # Data rows with chunking
+    # If table has more than 20 rows, split it into chunks with repeated headers
+    data_rows_range = list(range(data_start_row, len(grid)))
     
-    # Data rows
-    for row_idx in range(header_rows, len(grid)):
-        row = [grid[row_idx][col_idx] or '' for col_idx in range(max_cols)]
-        markdown_lines.append('| ' + ' | '.join(row) + ' |')
+    for chunk_start_idx in range(0, len(data_rows_range), MAX_ROWS_PER_CHUNK):
+        chunk_end_idx = min(chunk_start_idx + MAX_ROWS_PER_CHUNK, len(data_rows_range))
+        
+        # If this is not the first chunk, add header again
+        if chunk_start_idx > 0:
+            markdown_lines.append('')  # Empty line for separation
+            # Re-add header
+            if header_rows == 0:
+                # No header - just add empty header for consistency
+                header = [''] * max_cols
+                markdown_lines.append('| ' + ' | '.join(header) + ' |')
+            elif header_rows > 1:
+                header = []
+                for col_idx in range(max_cols):
+                    combined_content = []
+                    for row_idx in range(header_rows):
+                        if row_idx == 0 or grid[row_idx][col_idx] != grid[row_idx - 1][col_idx]:
+                            content = grid[row_idx][col_idx] or ''
+                            if content:
+                                combined_content.append(content)
+                    header.append(' '.join(combined_content))
+                markdown_lines.append('| ' + ' | '.join(header) + ' |')
+            else:
+                # Single header row - deduplicate consecutive values
+                raw_header = [grid[0][col_idx] or '' for col_idx in range(max_cols)]
+                header = []
+                prev_value = None
+                for value in raw_header:
+                    if value == prev_value and value != '':
+                        header.append('')
+                    else:
+                        header.append(value)
+                    prev_value = value
+                markdown_lines.append('| ' + ' | '.join(header) + ' |')
+            markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
+        
+        # Add data rows for this chunk with deduplication
+        for idx in range(chunk_start_idx, chunk_end_idx):
+            row_idx = data_rows_range[idx]
+            raw_row = [grid[row_idx][col_idx] or '' for col_idx in range(max_cols)]
+            # Deduplicate consecutive values (from colspan)
+            row = []
+            prev_value = None
+            for value in raw_row:
+                if value == prev_value and value != '':
+                    row.append('')
+                else:
+                    row.append(value)
+                prev_value = value
+            markdown_lines.append('| ' + ' | '.join(row) + ' |')
     
     return '\n'.join(markdown_lines)
 
