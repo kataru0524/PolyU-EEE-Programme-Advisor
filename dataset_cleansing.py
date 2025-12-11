@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 
 # Configuration
 MAX_ROWS_PER_CHUNK = 20  # Maximum number of rows per table chunk before splitting with repeated headers
+MAX_H2_CHARS = 2000  # Maximum characters per H2 section before splitting into parts
 
 class TableParser(HTMLParser):
     """Parse HTML table and extract cell data with rowspan/colspan information."""
@@ -308,20 +309,25 @@ def html_table_to_markdown(html_table):
                 table_lines.append('| ' + ' | '.join(['---'] * item_data['max_cols']) + ' |')
                 
                 # Add data rows with deduplication
-                # If table has more than 20 rows, split it into chunks with repeated headers
+                # Split table if exceeds MAX_ROWS_PER_CHUNK rows OR MAX_H2_CHARS characters
                 data_rows_range = list(range(start_row, end_row))
                 
-                for chunk_start_idx in range(0, len(data_rows_range), MAX_ROWS_PER_CHUNK):
-                    chunk_end_idx = min(chunk_start_idx + MAX_ROWS_PER_CHUNK, len(data_rows_range))
-                    
-                    # If this is not the first chunk, add header again
+                # Smart chunking: split by row count or character count
+                chunk_start_idx = 0
+                while chunk_start_idx < len(data_rows_range):
+                    # Start new chunk
                     if chunk_start_idx > 0:
                         table_lines.append('')  # Empty line for separation
                         table_lines.append('| ' + ' | '.join(header) + ' |')
                         table_lines.append('| ' + ' | '.join(['---'] * item_data['max_cols']) + ' |')
                     
-                    # Add data rows for this chunk
-                    for idx in range(chunk_start_idx, chunk_end_idx):
+                    # Calculate header size for this chunk
+                    header_text = '| ' + ' | '.join(header) + ' |\n| ' + ' | '.join(['---'] * item_data['max_cols']) + ' |\n'
+                    current_chunk_chars = len(header_text)
+                    chunk_end_idx = chunk_start_idx
+                    
+                    # Add rows until we hit row limit or character limit
+                    for idx in range(chunk_start_idx, min(chunk_start_idx + MAX_ROWS_PER_CHUNK, len(data_rows_range))):
                         row_idx = data_rows_range[idx]
                         raw_row = [item_data['grid'][row_idx][col_idx] or '' for col_idx in range(item_data['max_cols'])]
                         # Deduplicate consecutive values (from colspan)
@@ -333,7 +339,29 @@ def html_table_to_markdown(html_table):
                             else:
                                 row.append(value)
                             prev_value = value
+                        
+                        row_text = '| ' + ' | '.join(row) + ' |\n'
+                        row_chars = len(row_text)
+                        
+                        # Check if adding this row would exceed character limit
+                        if chunk_end_idx > chunk_start_idx and current_chunk_chars + row_chars > MAX_H2_CHARS:
+                            # Would exceed limit, stop here
+                            break
+                        
+                        # Check if single row exceeds limit (don't split in this case)
+                        if chunk_end_idx == chunk_start_idx and row_chars > MAX_H2_CHARS:
+                            # Single row is too large, include it anyway and move on
+                            table_lines.append('| ' + ' | '.join(row) + ' |')
+                            chunk_end_idx = idx + 1
+                            break
+                        
+                        # Add the row
                         table_lines.append('| ' + ' | '.join(row) + ' |')
+                        current_chunk_chars += row_chars
+                        chunk_end_idx = idx + 1
+                    
+                    # Move to next chunk
+                    chunk_start_idx = chunk_end_idx
                 
                 markdown_parts.append('\n'.join(table_lines))
         
@@ -375,13 +403,13 @@ def html_table_to_markdown(html_table):
         data_start_row = header_rows
     
     # Data rows with chunking
-    # If table has more than 20 rows, split it into chunks with repeated headers
+    # Split table if exceeds MAX_ROWS_PER_CHUNK rows OR MAX_H2_CHARS characters
     data_rows_range = list(range(data_start_row, len(grid)))
     
-    for chunk_start_idx in range(0, len(data_rows_range), MAX_ROWS_PER_CHUNK):
-        chunk_end_idx = min(chunk_start_idx + MAX_ROWS_PER_CHUNK, len(data_rows_range))
-        
-        # If this is not the first chunk, add header again
+    # Smart chunking: split by row count or character count
+    chunk_start_idx = 0
+    while chunk_start_idx < len(data_rows_range):
+        # Start new chunk
         if chunk_start_idx > 0:
             markdown_lines.append('')  # Empty line for separation
             # Re-add header
@@ -414,8 +442,13 @@ def html_table_to_markdown(html_table):
                 markdown_lines.append('| ' + ' | '.join(header) + ' |')
             markdown_lines.append('| ' + ' | '.join(['---'] * max_cols) + ' |')
         
-        # Add data rows for this chunk with deduplication
-        for idx in range(chunk_start_idx, chunk_end_idx):
+        # Calculate header size for this chunk
+        header_text = '\n'.join(markdown_lines[-2:]) if chunk_start_idx > 0 else '\n'.join(markdown_lines)
+        current_chunk_chars = len(header_text) + 1  # +1 for newline
+        chunk_end_idx = chunk_start_idx
+        
+        # Add rows until we hit row limit or character limit
+        for idx in range(chunk_start_idx, min(chunk_start_idx + MAX_ROWS_PER_CHUNK, len(data_rows_range))):
             row_idx = data_rows_range[idx]
             raw_row = [grid[row_idx][col_idx] or '' for col_idx in range(max_cols)]
             # Deduplicate consecutive values (from colspan)
@@ -427,7 +460,29 @@ def html_table_to_markdown(html_table):
                 else:
                     row.append(value)
                 prev_value = value
+            
+            row_text = '| ' + ' | '.join(row) + ' |\n'
+            row_chars = len(row_text)
+            
+            # Check if adding this row would exceed character limit
+            if chunk_end_idx > chunk_start_idx and current_chunk_chars + row_chars > MAX_H2_CHARS:
+                # Would exceed limit, stop here
+                break
+            
+            # Check if single row exceeds limit (don't split in this case)
+            if chunk_end_idx == chunk_start_idx and row_chars > MAX_H2_CHARS:
+                # Single row is too large, include it anyway and move on
+                markdown_lines.append('| ' + ' | '.join(row) + ' |')
+                chunk_end_idx = idx + 1
+                break
+            
+            # Add the row
             markdown_lines.append('| ' + ' | '.join(row) + ' |')
+            current_chunk_chars += row_chars
+            chunk_end_idx = idx + 1
+        
+        # Move to next chunk
+        chunk_start_idx = chunk_end_idx
     
     return '\n'.join(markdown_lines)
 
@@ -751,6 +806,147 @@ def ensure_table_integrity(content: str) -> str:
     content = re.sub(r'(</table>)', r'\1\n\n', content)
     return content
 
+def split_h2_sections(content: str) -> str:
+    """
+    Split H2 sections that exceed MAX_H2_CHARS into multiple parts.
+    Splits by paragraph when possible, otherwise by sentence.
+    Adds (Part 1), (Part 2), etc. to the H2 heading.
+    
+    Args:
+        content: Markdown content with H2 sections
+        
+    Returns:
+        Content with split H2 sections
+    """
+    lines = content.split('\n')
+    result_lines = []
+    
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        
+        # Check if this is an H2 heading
+        h2_match = re.match(r'^##\s+(.+)$', line)
+        
+        if h2_match:
+            h2_heading = h2_match.group(1).strip()
+            h2_start = i
+            
+            # Collect all content until next H1 or H2
+            h2_content_lines = []
+            i += 1
+            while i < len(lines):
+                next_line = lines[i]
+                # Check if we hit another heading
+                if re.match(r'^#{1,2}\s+', next_line):
+                    break
+                h2_content_lines.append(next_line)
+                i += 1
+            
+            # Calculate total character count (including heading)
+            h2_content = '\n'.join(h2_content_lines)
+            total_chars = len(f"## {h2_heading}\n{h2_content}")
+            
+            if total_chars <= MAX_H2_CHARS:
+                # No split needed
+                result_lines.append(f"## {h2_heading}")
+                result_lines.extend(h2_content_lines)
+            else:
+                # Need to split - separate content into paragraphs
+                paragraphs = []
+                current_para = []
+                
+                for content_line in h2_content_lines:
+                    if content_line.strip() == '':
+                        # Empty line marks paragraph boundary
+                        if current_para:
+                            paragraphs.append('\n'.join(current_para))
+                            current_para = []
+                        paragraphs.append('')  # Keep empty line
+                    else:
+                        current_para.append(content_line)
+                
+                # Don't forget last paragraph
+                if current_para:
+                    paragraphs.append('\n'.join(current_para))
+                
+                # Now split paragraphs into parts
+                parts = []
+                current_part = []
+                current_part_size = len(f"## {h2_heading} (Part 1)\n")
+                
+                for para in paragraphs:
+                    para_size = len(para) + 1  # +1 for newline
+                    
+                    # If adding this paragraph would exceed limit
+                    if current_part and current_part_size + para_size > MAX_H2_CHARS:
+                        # Save current part
+                        parts.append('\n'.join(current_part))
+                        current_part = [para]
+                        current_part_size = len(f"## {h2_heading} (Part {len(parts) + 1})\n") + para_size
+                    else:
+                        # Add to current part
+                        current_part.append(para)
+                        current_part_size += para_size
+                
+                # Don't forget last part
+                if current_part:
+                    parts.append('\n'.join(current_part))
+                
+                # If still only one part (single huge paragraph), split by sentences
+                if len(parts) == 1 and len(parts[0]) + len(f"## {h2_heading}\n") > MAX_H2_CHARS:
+                    # Split by sentences
+                    text = parts[0]
+                    # Simple sentence split by ., !, ? followed by space or newline
+                    sentences = re.split(r'([.!?](?:\s+|\n+|$))', text)
+                    
+                    # Reconstruct sentences with punctuation
+                    reconstructed = []
+                    for j in range(0, len(sentences)-1, 2):
+                        if j+1 < len(sentences):
+                            reconstructed.append(sentences[j] + sentences[j+1])
+                    if len(sentences) % 2 == 1:
+                        reconstructed.append(sentences[-1])
+                    
+                    parts = []
+                    current_part = []
+                    current_part_size = len(f"## {h2_heading} (Part 1)\n")
+                    
+                    for sentence in reconstructed:
+                        sentence = sentence.strip()
+                        if not sentence:
+                            continue
+                        
+                        sentence_size = len(sentence) + 1
+                        
+                        if current_part and current_part_size + sentence_size > MAX_H2_CHARS:
+                            parts.append(' '.join(current_part))
+                            current_part = [sentence]
+                            current_part_size = len(f"## {h2_heading} (Part {len(parts) + 1})\n") + sentence_size
+                        else:
+                            current_part.append(sentence)
+                            current_part_size += sentence_size
+                    
+                    if current_part:
+                        parts.append(' '.join(current_part))
+                
+                # Output parts with numbered headings
+                for part_num, part_content in enumerate(parts, 1):
+                    if len(parts) > 1:
+                        result_lines.append(f"## {h2_heading} (Part {part_num})")
+                    else:
+                        result_lines.append(f"## {h2_heading}")
+                    
+                    # Add the content
+                    for part_line in part_content.split('\n'):
+                        result_lines.append(part_line)
+        else:
+            # Not an H2 heading, just copy the line
+            result_lines.append(line)
+            i += 1
+    
+    return '\n'.join(result_lines)
+
 def process_markdown_content(content: str) -> str:
     """
     Process markdown content string and return the processed string with fixed TOC and heading levels.
@@ -785,6 +981,9 @@ def process_markdown_content(content: str) -> str:
     
     # Convert all HTML tables to Markdown format
     new_content = convert_html_tables_in_content(new_content)
+    
+    # Split H2 sections that exceed MAX_H2_CHARS
+    new_content = split_h2_sections(new_content)
     
     return new_content
 
