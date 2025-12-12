@@ -832,6 +832,17 @@ def split_h2_sections(content: str) -> str:
             h2_heading = h2_match.group(1).strip()
             h2_start = i
             
+            # Skip CONTENTS section entirely - don't include it in output
+            if h2_heading == 'CONTENTS':
+                i += 1
+                # Skip all content until next heading
+                while i < len(lines):
+                    next_line = lines[i]
+                    if re.match(r'^#{1,2}\s+', next_line):
+                        break
+                    i += 1
+                continue
+            
             # Collect all content until next H1 or H2
             h2_content_lines = []
             i += 1
@@ -947,12 +958,113 @@ def split_h2_sections(content: str) -> str:
     
     return '\n'.join(result_lines)
 
-def process_markdown_content(content: str) -> str:
+def remove_h1_and_promote_h2(content: str) -> str:
+    """
+    Remove H1 headings and promote H2 headings to include H1 prefix.
+    For orphaned content between H1 and first H2, create H2 with 'Introduction' suffix.
+    Also adds '## Basic Information' heading at the beginning before any content.
+    
+    Examples:
+        # 1 General Information
+        ## 1.1 Programme Title
+        
+        Becomes:
+        ## 1 General Information > 1.1 Programme Title
+        
+        # 7 Academic Regulations
+        Some orphaned content
+        ## 7.1 First Section
+        
+        Becomes:
+        ## 7 Academic Regulations > Introduction
+        Some orphaned content
+        ## 7 Academic Regulations > 7.1 First Section
+    """
+    lines = content.split('\n')
+    result_lines = []
+    current_h1 = None
+    orphaned_content = []
+    seen_h2_under_h1 = False
+    first_content_index = -1
+    i = 0
+    
+    while i < len(lines):
+        line = lines[i]
+        h1_match = re.match(r'^#\s+(.+)$', line)
+        h2_match = re.match(r'^##\s+(.+)$', line)
+        
+        # Track where to insert Basic Information heading (before first non-empty, non-heading line)
+        if first_content_index == -1 and line.strip() and not h1_match and not h2_match:
+            first_content_index = len(result_lines)
+        
+        if h1_match:
+            # Found H1 - remove it and save for H2 promotion
+            current_h1 = h1_match.group(1).strip()
+            orphaned_content = []
+            seen_h2_under_h1 = False
+            i += 1
+        elif h2_match:
+            # Found H2 - promote it with H1 prefix
+            h2_text = h2_match.group(1).strip()
+            
+            # Skip CONTENTS section entirely
+            if h2_text == 'CONTENTS':
+                i += 1
+                # Skip all content until next heading
+                while i < len(lines):
+                    next_line = lines[i]
+                    if re.match(r'^#{1,2}\s+', next_line):
+                        break
+                    i += 1
+                continue
+            
+            if current_h1:
+                # Check if there's actual non-empty orphaned content before this H2
+                has_content = any(line.strip() for line in orphaned_content)
+                if has_content and not seen_h2_under_h1:
+                    # Output H2 for orphaned content with Introduction
+                    result_lines.append(f"## {current_h1} > Introduction")
+                    result_lines.extend(orphaned_content)
+                    orphaned_content = []
+                
+                # Output promoted H2
+                result_lines.append(f"## {current_h1} > {h2_text}")
+                seen_h2_under_h1 = True
+            else:
+                # No H1 context, keep H2 as is
+                result_lines.append(line)
+            i += 1
+        else:
+            # Regular content
+            if current_h1 and not seen_h2_under_h1:
+                # We're collecting potential orphaned content under H1 before first H2
+                orphaned_content.append(line)
+            else:
+                result_lines.append(line)
+            i += 1
+    
+    # Handle any remaining orphaned content at the end
+    has_content = any(line.strip() for line in orphaned_content)
+    if has_content and current_h1 and not seen_h2_under_h1:
+        result_lines.append(f"## {current_h1} > Introduction")
+        result_lines.extend(orphaned_content)
+    
+    # Insert Basic Information heading at the beginning
+    if first_content_index != -1:
+        result_lines.insert(first_content_index, '## Basic Information\n')
+    else:
+        # If no content found, add at the very beginning
+        result_lines.insert(0, '## Basic Information\n')
+    
+    return '\n'.join(result_lines)
+
+def process_markdown_content(content: str, keep_h1: bool = False) -> str:
     """
     Process markdown content string and return the processed string with fixed TOC and heading levels.
     
     Args:
         content: Original markdown content as string
+        keep_h1: If True, keep H1 headings (for statistics). If False, remove them.
         
     Returns:
         Processed markdown content as string
@@ -964,14 +1076,8 @@ def process_markdown_content(content: str) -> str:
         # No TOC found, just convert HTML tables and return
         return convert_html_tables_in_content(content)
     
-    # Convert TOC to table
-    toc_table = create_toc_table(toc_entries)
-    
-    # Add headers before table and preserve trailing content after table
-    new_toc = '# CONTENTS\n\n' + toc_table + '\n' + trailing_content
-    
-    # Replace old TOC with new table
-    new_content = content[:start_pos] + new_toc + content[end_pos:]
+    # Remove the entire TOC section - keep only trailing content and skip the table
+    new_content = content[:start_pos] + trailing_content + content[end_pos:]
     
     # Fix heading levels based on TOC structure
     new_content = fix_heading_levels(new_content, toc_entries)
@@ -1245,8 +1351,14 @@ def process_file(file_path):
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # Process content using the new function
-        processed_content = process_markdown_content(content)
+        # Process content using the new function (but keep H1s for statistics)
+        processed_content_with_h1 = process_markdown_content(content, keep_h1=True)
+        
+        # Count characters in headings BEFORE removing H1s
+        stats = count_heading_characters(processed_content_with_h1)
+        
+        # Now remove H1s from the content
+        processed_content = remove_h1_and_promote_h2(processed_content_with_h1)
         
         # Generate new filename with _processed suffix
         output_path = file_path.with_stem(f"{file_path.stem}_processed")
@@ -1256,9 +1368,6 @@ def process_file(file_path):
             f.write(processed_content)
         
         print(f"  ✓ Processed file saved: {output_path.name}")
-        
-        # Count characters in headings
-        stats = count_heading_characters(processed_content)
         
         # Generate statistics file
         generate_stats_file(stats, output_path)
