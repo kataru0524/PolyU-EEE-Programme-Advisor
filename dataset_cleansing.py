@@ -994,10 +994,10 @@ def main(content: str):
 
 def count_heading_characters(content: str) -> dict:
     """
-    Count characters in each Heading 1 and Heading 2 section.
+    Count characters in each Heading 1 and Heading 2 section, and analyze paragraph lengths.
     H2 sections are included within their parent H1 section.
     Heading text itself is also counted.
-    Returns a dictionary with heading information and character counts.
+    Returns a dictionary with heading information, character counts, and paragraph statistics.
     """
     lines = content.split('\n')
     stats = []
@@ -1007,6 +1007,10 @@ def count_heading_characters(content: str) -> dict:
     current_h2_line = None
     h1_all_content = []  # All content under H1 including H2s
     h2_content = []  # Content under current H2 only
+    
+    # Track paragraph lengths (paragraphs separated by \n\n) and line lengths (separated by \n)
+    paragraph_lengths = []
+    line_lengths = []
     
     for i, line in enumerate(lines):
         # Check if this is a heading
@@ -1097,13 +1101,35 @@ def count_heading_characters(content: str) -> dict:
             'char_count': char_count
         })
     
-    return stats
+    # Calculate paragraph statistics from the entire content
+    # Split by double newline to get paragraphs
+    paragraphs = content.split('\n\n')
+    for para in paragraphs:
+        para = para.strip()
+        if para:  # Skip empty paragraphs
+            paragraph_lengths.append(len(para))
+    
+    # Calculate line statistics (split by single newline)
+    lines_list = content.split('\n')
+    for line in lines_list:
+        line = line.strip()
+        if line:  # Skip empty lines
+            line_lengths.append(len(line))
+    
+    return {
+        'sections': stats,
+        'paragraph_lengths': paragraph_lengths,
+        'line_lengths': line_lengths
+    }
 
-def generate_stats_file(stats: list, output_path: Path):
+def generate_stats_file(stats_data: dict, output_path: Path):
     """
-    Generate a statistics text file with heading information and character counts.
+    Generate a statistics text file with heading information, character counts, paragraph and line statistics.
     """
     stats_path = output_path.with_suffix('.txt')
+    stats = stats_data['sections']
+    paragraph_lengths = stats_data['paragraph_lengths']
+    line_lengths = stats_data['line_lengths']
     
     with open(stats_path, 'w', encoding='utf-8') as f:
         f.write("=" * 80 + "\n")
@@ -1129,6 +1155,52 @@ def generate_stats_file(stats: list, output_path: Path):
         if h2_count > 0:
             max_h2_chars = max(s['char_count'] for s in stats if s['type'] == 'H2')
             f.write(f"Maximum H2 content characters: {max_h2_chars:,}\n")
+        
+        # Paragraph statistics
+        f.write("\n" + "-" * 80 + "\n")
+        f.write("PARAGRAPH STATISTICS (delimited by \\n\\n)\n")
+        f.write("-" * 80 + "\n\n")
+        
+        if paragraph_lengths:
+            f.write(f"Total paragraphs: {len(paragraph_lengths):,}\n")
+            f.write(f"Maximum paragraph length: {max(paragraph_lengths):,} characters\n")
+            f.write(f"Average paragraph length: {sum(paragraph_lengths) / len(paragraph_lengths):.1f} characters\n")
+            f.write(f"Minimum paragraph length: {min(paragraph_lengths):,} characters\n\n")
+            
+            # Distribution statistics
+            para_over_600 = sum(1 for p in paragraph_lengths if p > 600)
+            para_over_800 = sum(1 for p in paragraph_lengths if p > 800)
+            para_over_1000 = sum(1 for p in paragraph_lengths if p > 1000)
+            para_over_2000 = sum(1 for p in paragraph_lengths if p > 2000)
+            
+            f.write("Paragraph length distribution:\n")
+            f.write(f"  Paragraphs > 600 chars: {para_over_600:,} ({para_over_600 / len(paragraph_lengths) * 100:.1f}%)\n")
+            f.write(f"  Paragraphs > 800 chars: {para_over_800:,} ({para_over_800 / len(paragraph_lengths) * 100:.1f}%)\n")
+            f.write(f"  Paragraphs > 1000 chars: {para_over_1000:,} ({para_over_1000 / len(paragraph_lengths) * 100:.1f}%)\n")
+            f.write(f"  Paragraphs > 2000 chars: {para_over_2000:,} ({para_over_2000 / len(paragraph_lengths) * 100:.1f}%)\n")
+        
+        # Line statistics
+        f.write("\n" + "-" * 80 + "\n")
+        f.write("LINE STATISTICS (delimited by \\n)\n")
+        f.write("-" * 80 + "\n\n")
+        
+        if line_lengths:
+            f.write(f"Total lines: {len(line_lengths):,}\n")
+            f.write(f"Maximum line length: {max(line_lengths):,} characters\n")
+            f.write(f"Average line length: {sum(line_lengths) / len(line_lengths):.1f} characters\n")
+            f.write(f"Minimum line length: {min(line_lengths):,} characters\n\n")
+            
+            # Distribution statistics
+            line_over_100 = sum(1 for l in line_lengths if l > 100)
+            line_over_200 = sum(1 for l in line_lengths if l > 200)
+            line_over_500 = sum(1 for l in line_lengths if l > 500)
+            line_over_1000 = sum(1 for l in line_lengths if l > 1000)
+            
+            f.write("Line length distribution:\n")
+            f.write(f"  Lines > 100 chars: {line_over_100:,} ({line_over_100 / len(line_lengths) * 100:.1f}%)\n")
+            f.write(f"  Lines > 200 chars: {line_over_200:,} ({line_over_200 / len(line_lengths) * 100:.1f}%)\n")
+            f.write(f"  Lines > 500 chars: {line_over_500:,} ({line_over_500 / len(line_lengths) * 100:.1f}%)\n")
+            f.write(f"  Lines > 1000 chars: {line_over_1000:,} ({line_over_1000 / len(line_lengths) * 100:.1f}%)\n")
         
         f.write("\n" + "=" * 80 + "\n")
         f.write("DETAILED BREAKDOWN\n")
