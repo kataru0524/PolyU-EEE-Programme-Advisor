@@ -1,0 +1,537 @@
+================================================================================
+MARKDOWN HEADING STATISTICS
+================================================================================
+
+File: 46409_PRD_2526_processed.md
+Total sections analyzed: 159
+
+Heading 1 (H1) sections: 9
+Heading 2 (H2) sections: 150
+Total H1 content characters: 203,634
+Total H2 content characters: 202,775
+Maximum H1 content characters: 105,927
+Maximum H2 content characters: 1,997
+
+--------------------------------------------------------------------------------
+PARAGRAPH STATISTICS (delimited by \n\n)
+--------------------------------------------------------------------------------
+
+Total paragraphs: 755
+Maximum paragraph length: 1,967 characters
+Average paragraph length: 268.4 characters
+Minimum paragraph length: 6 characters
+
+Paragraph length distribution:
+  Paragraphs > 600 chars: 99 (13.1%)
+  Paragraphs > 800 chars: 49 (6.5%)
+  Paragraphs > 1000 chars: 30 (4.0%)
+  Paragraphs > 2000 chars: 0 (0.0%)
+
+--------------------------------------------------------------------------------
+LINE STATISTICS (delimited by \n)
+--------------------------------------------------------------------------------
+
+Total lines: 1,795
+Maximum line length: 1,434 characters
+Average line length: 112.2 characters
+Minimum line length: 2 characters
+
+Line length distribution:
+  Lines > 100 chars: 499 (27.8%)
+  Lines > 200 chars: 263 (14.7%)
+  Lines > 500 chars: 53 (3.0%)
+  Lines > 1000 chars: 2 (0.1%)
+
+================================================================================
+DETAILED BREAKDOWN
+================================================================================
+
+--- HEADING 1 (H1) SECTIONS ---
+(Sorted by character count: largest to smallest)
+
+1. 6 Curriculum
+   Content characters: 105,927
+
+2. 8 Academic Regulations on Admission, Registration and Assessment
+   Content characters: 48,850
+
+3. Appendix II
+   Content characters: 16,543
+
+4. 1 General Information
+   Content characters: 11,615
+
+5. 4 BSc (Hons) in Artificial Intelligence and Information Engineering
+   Content characters: 4,622
+
+6. 3 BEng (Hons) in Electronic Systems and Internet-of-Things
+   Content characters: 4,602
+
+7. 2 BEng (Hons) / BSc (Hons) Scheme in Information and Artificial Intelligence Engineering
+   Content characters: 4,551
+
+8. 5 BSc (Hons) in Information Security
+   Content characters: 4,498
+
+9. 7 Management and Operation
+   Content characters: 2,426
+
+
+--------------------------------------------------------------------------------
+
+--- HEADING 2 (H2) SECTIONS ---
+(Sorted by character count: largest to smallest)
+
+1. 2.3 Institutional Learning Outcomes
+   Content characters: 1,997
+
+2. 6.5 Progression Pattern for Normal Study Duration (Part 5)
+   Content characters: 1,995
+
+3. 6.9 Work-Integrated Education (Part 4)
+   Content characters: 1,995
+
+4. 8.11 Credit Transfer (Part 1)
+   Content characters: 1,994
+
+5. 6.2 General University Requirements (GUR) (Part 3)
+   Content characters: 1,991
+
+6. 6.5 Progression Pattern for Normal Study Duration (Part 1)
+   Content characters: 1,989
+
+7. 6.3 Specific Graduation Requirements (Part 1)
+   Content characters: 1,984
+
+8. 4.3 Programme Outcomes (Part 1)
+   Content characters: 1,983
+
+9. 6.6 Progression Pattern for Senior Year Students (Part 7)
+   Content characters: 1,983
+
+10. 6.6 Progression Pattern for Senior Year Students (Part 1)
+   Content characters: 1,978
+
+11. 6.4 Programme Specified Subjects (Part 11)
+   Content characters: 1,968
+
+12. 6.5 Progression Pattern for Normal Study Duration (Part 7)
+   Content characters: 1,964
+
+13. 6.2 General University Requirements (GUR) (Part 2)
+   Content characters: 1,955
+
+14. 6.4 Programme Specified Subjects (Part 1)
+   Content characters: 1,953
+
+15. 6.2 General University Requirements (GUR) (Part 6)
+   Content characters: 1,947
+
+16. 8.22 Guidelines for Award Classification (Part 1)
+   Content characters: 1,940
+
+17. 6.4 Programme Specified Subjects (Part 4)
+   Content characters: 1,937
+
+18. 3.3 Programme Outcomes (Part 1)
+   Content characters: 1,936
+
+19. 6.6 Progression Pattern for Senior Year Students (Part 15)
+   Content characters: 1,935
+
+20. 5 Programme Structure and Curriculum (Part 6)
+   Content characters: 1,935
+
+21. 8.23 Classification of Awards (Part 1)
+   Content characters: 1,933
+
+22. 5 Programme Structure and Curriculum (Part 2)
+   Content characters: 1,924
+
+23. 6.6 Progression Pattern for Senior Year Students (Part 10)
+   Content characters: 1,918
+
+24. 6.6 Progression Pattern for Senior Year Students (Part 6)
+   Content characters: 1,914
+
+25. 5.3 Programme Outcomes (Part 1)
+   Content characters: 1,913
+
+26. 8.20 Grading (Part 3)
+   Content characters: 1,900
+
+27. 5 Programme Structure and Curriculum (Part 5)
+   Content characters: 1,896
+
+28. 6.6 Progression Pattern for Senior Year Students (Part 8)
+   Content characters: 1,893
+
+29. 6.6 Progression Pattern for Senior Year Students (Part 9)
+   Content characters: 1,890
+
+30. 8.24 Examination result announcements, transcripts, testimonials and references (Part 1)
+   Content characters: 1,888
+
+31. 6.4 Programme Specified Subjects (Part 7)
+   Content characters: 1,887
+
+32. 6.2 General University Requirements (GUR) (Part 1)
+   Content characters: 1,885
+
+33. 8.20 Grading (Part 4)
+   Content characters: 1,877
+
+34. 8.20 Grading (Part 2)
+   Content characters: 1,872
+
+35. 6.3 Specific Graduation Requirements (Part 2)
+   Content characters: 1,862
+
+36. 6.6 Progression Pattern for Senior Year Students (Part 19)
+   Content characters: 1,858
+
+37. 1.8 Study Options (Part 2)
+   Content characters: 1,848
+
+38. 1.8 Study Options (Part 4)
+   Content characters: 1,844
+
+39. 6.5 Progression Pattern for Normal Study Duration (Part 4)
+   Content characters: 1,836
+
+40. 2 Aims and Objectives for AIDA
+   Content characters: 1,820
+
+41. 5 Programme Structure and Curriculum (Part 3)
+   Content characters: 1,814
+
+42. 8.16 Progression / Academic Probation / Deregistration (Part 1)
+   Content characters: 1,809
+
+43. 6.9 Work-Integrated Education (Part 2)
+   Content characters: 1,799
+
+44. 6.6 Progression Pattern for Senior Year Students (Part 14)
+   Content characters: 1,798
+
+45. 6.1 Summary of University Graduation Requirements (Part 3)
+   Content characters: 1,793
+
+46. 6.6 Progression Pattern for Senior Year Students (Part 20)
+   Content characters: 1,766
+
+47. 8.22 Guidelines for Award Classification (Part 2)
+   Content characters: 1,764
+
+48. 6.4 Programme Specified Subjects (Part 5)
+   Content characters: 1,763
+
+49. 6.6 Progression Pattern for Senior Year Students (Part 13)
+   Content characters: 1,763
+
+50. 6.4 Programme Specified Subjects (Part 12)
+   Content characters: 1,761
+
+51. 6.2 General University Requirements (GUR) (Part 5)
+   Content characters: 1,759
+
+52. 6.4 Programme Specified Subjects (Part 8)
+   Content characters: 1,751
+
+53. 7 Award Classification
+   Content characters: 1,737
+
+54. 8.20 Grading (Part 5)
+   Content characters: 1,735
+
+55. 8.9 Study Load (Part 1)
+   Content characters: 1,733
+
+56. 6.4 Programme Specified Subjects (Part 9)
+   Content characters: 1,732
+
+57. 8.21 Different types of GPA (Part 1)
+   Content characters: 1,700
+
+58. 6.5 Progression Pattern for Normal Study Duration (Part 11)
+   Content characters: 1,697
+
+59. 6.5 Progression Pattern for Normal Study Duration (Part 3)
+   Content characters: 1,696
+
+60. 6.4 Programme Specified Subjects (Part 6)
+   Content characters: 1,695
+
+61. 1.7 Minimum Entrance Requirements
+   Content characters: 1,694
+
+62. 5 Programme Structure and Curriculum (Part 1)
+   Content characters: 1,690
+
+63. 6.6 Progression Pattern for Senior Year Students (Part 16)
+   Content characters: 1,684
+
+64. 8.21 Different types of GPA (Part 3)
+   Content characters: 1,682
+
+65. 8.8 Subject Registration and Withdrawal (Part 1)
+   Content characters: 1,675
+
+66. 8.14 Principles of Assessment
+   Content characters: 1,673
+
+67. 6.5 Progression Pattern for Normal Study Duration (Part 9)
+   Content characters: 1,663
+
+68. 6.7 Capstone Project (Part 1)
+   Content characters: 1,663
+
+69. 6.2 General University Requirements (GUR) (Part 4)
+   Content characters: 1,661
+
+70. 5.1 Rationale
+   Content characters: 1,649
+
+71. 6.1 Summary of University Graduation Requirements (Part 1)
+   Content characters: 1,648
+
+72. 6.6 Progression Pattern for Senior Year Students (Part 18)
+   Content characters: 1,646
+
+73. 8.11 Credit Transfer (Part 2)
+   Content characters: 1,641
+
+74. 6.6 Progression Pattern for Senior Year Students (Part 2)
+   Content characters: 1,639
+
+75. 8.15 Assessment Methods
+   Content characters: 1,639
+
+76. 6.9 Work-Integrated Education (Part 1)
+   Content characters: 1,616
+
+77. 8.21 Different types of GPA (Part 2)
+   Content characters: 1,594
+
+78. 6.6 Progression Pattern for Senior Year Students (Part 3)
+   Content characters: 1,588
+
+79. 8.5 Normal Duration for Completion of the Programme
+   Content characters: 1,560
+
+80. 6.6 Progression Pattern for Senior Year Students (Part 5)
+   Content characters: 1,544
+
+81. 6.1 Summary of University Graduation Requirements (Part 2)
+   Content characters: 1,540
+
+82. 6.6 Progression Pattern for Senior Year Students (Part 11)
+   Content characters: 1,539
+
+83. 8.17 Retaking of Subjects (Part 1)
+   Content characters: 1,532
+
+84. 3.1 Rationale
+   Content characters: 1,496
+
+85. 2.1 Background and Rationale
+   Content characters: 1,468
+
+86. 6.2 General University Requirements (GUR) (Part 7)
+   Content characters: 1,467
+
+87. 8.18 Absence from an assessment component
+   Content characters: 1,464
+
+88. 6.9 Work-Integrated Education (Part 3)
+   Content characters: 1,463
+
+89. 6.6 Progression Pattern for Senior Year Students (Part 4)
+   Content characters: 1,458
+
+90. 6.5 Progression Pattern for Normal Study Duration (Part 2)
+   Content characters: 1,437
+
+91. 6.5 Progression Pattern for Normal Study Duration (Part 12)
+   Content characters: 1,391
+
+92. 8.25 Recording of disciplinary actions in students' records
+   Content characters: 1,372
+
+93. 6.4 Programme Specified Subjects (Part 10)
+   Content characters: 1,370
+
+94. 6.4 Programme Specified Subjects (Part 3)
+   Content characters: 1,362
+
+95. 6.5 Progression Pattern for Normal Study Duration (Part 10)
+   Content characters: 1,328
+
+96. 4.1 Rationale
+   Content characters: 1,318
+
+97. 5 Programme Structure and Curriculum (Part 4)
+   Content characters: 1,315
+
+98. 6.9 Work-Integrated Education (Part 5)
+   Content characters: 1,302
+
+99. 6.5 Progression Pattern for Normal Study Duration (Part 8)
+   Content characters: 1,265
+
+100. 6.5 Progression Pattern for Normal Study Duration (Part 6)
+   Content characters: 1,221
+
+101. 1 Rationale for AIDA
+   Content characters: 1,124
+
+102. 7.1 Administration
+   Content characters: 1,113
+
+103. 8.19 Aegrotat Award
+   Content characters: 1,113
+
+104. 1.8 Study Options (Part 3)
+   Content characters: 1,089
+
+105. 6.8 Industrial Centre (IC) Training
+   Content characters: 1,072
+
+106. 1.8 Study Options (Part 5)
+   Content characters: 1,015
+
+107. 8.23 Classification of Awards (Part 2)
+   Content characters: 1,005
+
+108. 2.2 Relationship of Programme Aims to University Missions
+   Content characters: 992
+
+109. 8.16 Progression / Academic Probation / Deregistration (Part 2)
+   Content characters: 986
+
+110. 8.10 Subject Exemption
+   Content characters: 982
+
+111. 8.3 Transfer of study within the University
+   Content characters: 939
+
+112. 8.13 General Assessment Regulations
+   Content characters: 870
+
+113. 7.3 Academic Advising
+   Content characters: 853
+
+114. 1.6 Credits Required for Graduation
+   Content characters: 800
+
+115. 6.4 Programme Specified Subjects (Part 2)
+   Content characters: 746
+
+116. 8.12 Deferment of Study
+   Content characters: 734
+
+117. 6.6 Progression Pattern for Senior Year Students (Part 17)
+   Content characters: 692
+
+118. 8.8 Subject Registration and Withdrawal (Part 2)
+   Content characters: 686
+
+119. 6.6 Progression Pattern for Senior Year Students (Part 12)
+   Content characters: 678
+
+120. 4.2 Programme Aims
+   Content characters: 627
+
+121. 8.17 Retaking of Subjects (Part 2)
+   Content characters: 621
+
+122. 3.3 Programme Outcomes (Part 2)
+   Content characters: 620
+
+123. 4.3 Programme Outcomes (Part 2)
+   Content characters: 620
+
+124. 5.3 Programme Outcomes (Part 2)
+   Content characters: 620
+
+125. 1.8 Study Options (Part 1)
+   Content characters: 595
+
+126. 1.9 Student Exchange Programme
+   Content characters: 592
+
+127. 1.4 Award Title
+   Content characters: 586
+
+128. 6.7 Capstone Project (Part 2)
+   Content characters: 584
+
+129. 8.7 Residential Requirement
+   Content characters: 552
+
+130. 3 Programme's Intended Learning Outcomes (PILOs)
+   Content characters: 541
+
+131. 3.2 Programme Aims
+   Content characters: 485
+
+132. 8.4 Concurrent Enrolment
+   Content characters: 483
+
+133. 7.2 Student-Staff Consultative Group (SSCG)
+   Content characters: 428
+
+134. 4 Selection Mechanism
+   Content characters: 387
+
+135. 1.12 Medium of Instruction
+   Content characters: 371
+
+136. 1.5 External Recognition
+   Content characters: 344
+
+137. 8.2 Re-admission
+   Content characters: 344
+
+138. 8.24 Examination result announcements, transcripts, testimonials and references (Part 2)
+   Content characters: 333
+
+139. 8.9 Study Load (Part 2)
+   Content characters: 308
+
+140. 8.6 Validity Period of Subject Credits
+   Content characters: 296
+
+141. 6.4 Programme Specified Subjects (Part 13)
+   Content characters: 290
+
+142. 5.2 Programme Aims
+   Content characters: 273
+
+143. 6 Subject Description Forms
+   Content characters: 264
+
+144. 1.11 Daytime and Evening Teaching
+   Content characters: 213
+
+145. 8.20 Grading (Part 1)
+   Content characters: 190
+
+146. 1.10 Summer Term Teaching
+   Content characters: 187
+
+147. 1.1 Programme Title
+   Content characters: 179
+
+148. 1.3 Duration and Mode of Attendance
+   Content characters: 142
+
+149. 8.1 Admission
+   Content characters: 96
+
+150. 1.2 Host Department
+   Content characters: 76
+
+================================================================================
+END OF STATISTICS
+================================================================================
