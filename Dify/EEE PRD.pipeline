@@ -1,0 +1,844 @@
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/dify_extractor:0.0.6@8ad436fdbc96f3a33325b0a5baf310295b8345317933db49a20c2dabd0ffb977
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/jina:0.0.12@7cd9aa4be97066f5b4ddd517ad7c5e2bd761dcb805fe3397fdacbcc67b25e700
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/parentchild_chunker:0.0.7@ee9c253e7942436b4de0318200af97d98d094262f3c1a56edbe29dcb01fbc158
+    version: null
+kind: rag_pipeline
+rag_pipeline:
+  description: ''
+  icon: ecd50a24-9bc9-4c69-b862-5a3e33242a66
+  icon_background: null
+  icon_type: image
+  icon_url: data:image/png;base64,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
+  name: EEE PRD
+version: 0.1.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features: {}
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: datasource
+        targetType: if-else
+      id: 1752479895761-source-1752481129417-target
+      source: '1752479895761'
+      sourceHandle: source
+      target: '1752481129417'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1752481129417-24e47cad-f1e2-4f74-9884-3f49d5bb37b7-1752480460682-target
+      source: '1752481129417'
+      sourceHandle: 24e47cad-f1e2-4f74-9884-3f49d5bb37b7
+      target: '1752480460682'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: document-extractor
+      id: 1752481129417-false-1752481112180-target
+      source: '1752481129417'
+      sourceHandle: 'false'
+      target: '1752481112180'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: variable-aggregator
+      id: 1752480460682-source-1752482022496-target
+      source: '1752480460682'
+      sourceHandle: source
+      target: '1752482022496'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: variable-aggregator
+      id: 1752481112180-source-1752482022496-target
+      source: '1752481112180'
+      sourceHandle: source
+      target: '1752482022496'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: tool
+      id: 1752482022496-source-1752575473519-target
+      source: '1752482022496'
+      sourceHandle: source
+      target: '1752575473519'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: knowledge-index
+      id: 1752575473519-source-1752477924228-target
+      source: '1752575473519'
+      sourceHandle: source
+      target: '1752477924228'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        chunk_structure: hierarchical_model
+        embedding_model: text-embedding-3-large
+        embedding_model_provider: langgenius/openai/openai
+        index_chunk_variable_selector:
+        - '1752575473519'
+        - result
+        indexing_technique: high_quality
+        keyword_number: 10
+        retrieval_model:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            reranking_model_name: jina-reranker-m0
+            reranking_provider_name: langgenius/jina/jina
+          score_threshold: 0.5
+          score_threshold_enabled: true
+          search_method: hybrid_search
+          top_k: 5
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-3-large
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 0.7
+            weight_type: customized
+        selected: false
+        title: Knowledge Base
+        type: knowledge-index
+      height: 114
+      id: '1752477924228'
+      position:
+        x: 994.3774545394483
+        y: 281.3910724383104
+      positionAbsolute:
+        x: 994.3774545394483
+        y: 281.3910724383104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        datasource_configurations: {}
+        datasource_label: File
+        datasource_name: upload-file
+        datasource_parameters: {}
+        fileExtensions:
+        - txt
+        - markdown
+        - mdx
+        - pdf
+        - html
+        - xlsx
+        - xls
+        - vtt
+        - properties
+        - doc
+        - docx
+        - csv
+        - eml
+        - msg
+        - pptx
+        - xml
+        - epub
+        - ppt
+        - md
+        plugin_id: langgenius/file
+        provider_name: file
+        provider_type: local_file
+        selected: false
+        title: File
+        type: datasource
+      height: 52
+      id: '1752479895761'
+      position:
+        x: -839.8603427660498
+        y: 251.3910724383104
+      positionAbsolute:
+        x: -839.8603427660498
+        y: 251.3910724383104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        output_schema:
+          properties:
+            documents:
+              description: the documents extracted from the file
+              items:
+                type: object
+              type: array
+            images:
+              description: The images extracted from the file
+              items:
+                type: object
+              type: array
+          type: object
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: the file to be parsed(support pdf, ppt, pptx, doc, docx, png, jpg,
+              jpeg)
+            ja_JP: 解析するファイル(pdf, ppt, pptx, doc, docx, png, jpg, jpegをサポート)
+            pt_BR: o arquivo a ser analisado (suporta pdf, ppt, pptx, doc, docx, png,
+              jpg, jpeg)
+            zh_Hans: 用于解析的文件(支持 pdf, ppt, pptx, doc, docx, png, jpg, jpeg)
+          label:
+            en_US: file
+            ja_JP: ファイル
+            pt_BR: arquivo
+            zh_Hans: file
+          llm_description: the file to be parsed (support pdf, ppt, pptx, doc, docx,
+            png, jpg, jpeg)
+          max: null
+          min: null
+          name: file
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        params:
+          file: ''
+        provider_id: langgenius/dify_extractor/dify_extractor
+        provider_name: langgenius/dify_extractor/dify_extractor
+        provider_type: builtin
+        selected: false
+        title: Dify Extractor
+        tool_configurations: {}
+        tool_description: Dify Extractor
+        tool_label: Dify Extractor
+        tool_name: dify_extractor
+        tool_node_version: '2'
+        tool_parameters:
+          file:
+            type: variable
+            value:
+            - '1752479895761'
+            - file
+        type: tool
+      height: 52
+      id: '1752480460682'
+      position:
+        x: -108.28652292656551
+        y: 281.3910724383104
+      positionAbsolute:
+        x: -108.28652292656551
+        y: 281.3910724383104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_array_file: false
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1752479895761'
+        - file
+      height: 104
+      id: '1752481112180'
+      position:
+        x: -108.28652292656551
+        y: 390.6576481692478
+      positionAbsolute:
+        x: -108.28652292656551
+        y: 390.6576481692478
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 24e47cad-f1e2-4f74-9884-3f49d5bb37b7
+          conditions:
+          - comparison_operator: is
+            id: 9da88d93-3ff6-463f-abfd-6bcafbf2554d
+            value: .xlsx
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: d0e88f5e-dfe3-4bae-af0c-dbec267500de
+            value: .xls
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: a957e91e-1ed7-4c6b-9c80-2f0948858f1d
+            value: .md
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: 870c3c39-8d3f-474a-ab8b-9c0ccf53db73
+            value: .markdown
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: f9541513-1e71-4dc1-9db5-35dc84a39e3c
+            value: .mdx
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: 4c7f455b-ac20-40ca-9495-6cc44ffcb35d
+            value: .html
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: 2e12d9c7-8057-4a09-8851-f9fd1d0718d1
+            value: .htm
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: 73a995a9-d8b9-4aef-89f7-306e2ddcbce2
+            value: .docx
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: 8a2e8772-0426-458b-a1f9-9eaaec0f27c8
+            value: .csv
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          - comparison_operator: is
+            id: aa2cb6b6-a2fc-462a-a9f5-c9c3f33a1602
+            value: .txt
+            varType: file
+            variable_selector:
+            - '1752479895761'
+            - file
+            - extension
+          id: 24e47cad-f1e2-4f74-9884-3f49d5bb37b7
+          logical_operator: or
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 358
+      id: '1752481129417'
+      position:
+        x: -512.2335487893622
+        y: 251.3910724383104
+      positionAbsolute:
+        x: -512.2335487893622
+        y: 251.3910724383104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        advanced_settings:
+          group_enabled: false
+          groups:
+          - groupId: f4cf07b4-914d-4544-8ef8-0c5d9e4f21a7
+            group_name: Group1
+            output_type: string
+            variables:
+            - - '1752481112180'
+              - text
+            - - '1752480460682'
+              - text
+        output_type: string
+        selected: false
+        title: Variable Aggregator
+        type: variable-aggregator
+        variables:
+        - - '1752481112180'
+          - text
+        - - '1752480460682'
+          - text
+      height: 135
+      id: '1752482022496'
+      position:
+        x: 319.441649575055
+        y: 281.3910724383104
+      positionAbsolute:
+        x: 319.441649575055
+        y: 281.3910724383104
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        output_schema:
+          properties:
+            result:
+              description: Parent child chunks result
+              items:
+                type: object
+              type: array
+          type: object
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The text you want to chunk.
+            ja_JP: チャンク化したいテキスト。
+            pt_BR: O texto que você deseja dividir.
+            zh_Hans: 你想要分块的文本。
+          label:
+            en_US: Input text
+            ja_JP: 入力テキスト
+            pt_BR: Texto de entrada
+            zh_Hans: 输入文本
+          llm_description: The text you want to chunk.
+          max: null
+          min: null
+          name: input_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 1024
+          form: llm
+          human_description:
+            en_US: Maximum length for chunking
+            ja_JP: チャンク分割の最大長
+            pt_BR: Comprimento máximo para divisão
+            zh_Hans: 用于分块的最大长度
+          label:
+            en_US: Maximum Length
+            ja_JP: 最大長
+            pt_BR: Comprimento Máximo
+            zh_Hans: 最大长度
+          llm_description: Maximum length allowed per chunk
+          max: null
+          min: null
+          name: max_length
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: '
+
+
+            '
+          form: llm
+          human_description:
+            en_US: Separator used for chunking
+            ja_JP: チャンク分割に使用する区切り文字
+            pt_BR: Separador usado para divisão
+            zh_Hans: 用于分块的分隔符
+          label:
+            en_US: Chunk Separator
+            ja_JP: チャンク区切り文字
+            pt_BR: Separador de Divisão
+            zh_Hans: 分块分隔符
+          llm_description: The separator used to split chunks
+          max: null
+          min: null
+          name: separator
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: 512
+          form: llm
+          human_description:
+            en_US: Maximum length for subchunking
+            ja_JP: サブチャンク分割の最大長
+            pt_BR: Comprimento máximo para subdivisão
+            zh_Hans: 用于子分块的最大长度
+          label:
+            en_US: Subchunk Maximum Length
+            ja_JP: サブチャンク最大長
+            pt_BR: Comprimento Máximo de Subdivisão
+            zh_Hans: 子分块最大长度
+          llm_description: Maximum length allowed per subchunk
+          max: null
+          min: null
+          name: subchunk_max_length
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: '. '
+          form: llm
+          human_description:
+            en_US: Separator used for subchunking
+            ja_JP: サブチャンク分割に使用する区切り文字
+            pt_BR: Separador usado para subdivisão
+            zh_Hans: 用于子分块的分隔符
+          label:
+            en_US: Subchunk Separator
+            ja_JP: サブチャンキング用セパレーター
+            pt_BR: Separador de Subdivisão
+            zh_Hans: 子分块分隔符
+          llm_description: The separator used to split subchunks
+          max: null
+          min: null
+          name: subchunk_separator
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: paragraph
+          form: llm
+          human_description:
+            en_US: Split text into paragraphs based on separator and maximum chunk
+              length, using split text as parent block or entire document as parent
+              block and directly retrieve.
+            ja_JP: セパレーターと最大チャンク長に基づいてテキストを段落に分割し、分割されたテキスト を親ブロックとして使用するか、文書全体を親ブロックとして使用して直接取得します。
+            pt_BR: Dividir texto em parágrafos com base no separador e no comprimento
+              máximo do bloco, usando o texto dividido como bloco pai ou documento
+              completo como bloco pai e diretamente recuperá-lo.
+            zh_Hans: 根据分隔符和最大块长度将文本拆分为段落，使用拆分文本作为检索的父块或整个文档用作父块并直接检索。
+          label:
+            en_US: Parent Mode
+            ja_JP: 親子モード
+            pt_BR: Modo Pai
+            zh_Hans: 父块模式
+          llm_description: Split text into paragraphs based on separator and maximum
+            chunk length, using split text as parent block or entire document as parent
+            block and directly retrieve.
+          max: null
+          min: null
+          name: parent_mode
+          options:
+          - icon: ''
+            label:
+              en_US: Paragraph
+              ja_JP: 段落
+              pt_BR: Parágrafo
+              zh_Hans: 段落
+            value: paragraph
+          - icon: ''
+            label:
+              en_US: Full Document
+              ja_JP: 全文
+              pt_BR: Documento Completo
+              zh_Hans: 全文
+            value: full_doc
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: 0
+          form: llm
+          human_description:
+            en_US: Whether to remove extra spaces in the text
+            ja_JP: テキスト内の余分なスペースを削除するかどうか
+            pt_BR: Se deve remover espaços extras no texto
+            zh_Hans: 是否移除文本中的多余空格
+          label:
+            en_US: Remove Extra Spaces
+            ja_JP: 余分なスペースを削除
+            pt_BR: Remover Espaços Extras
+            zh_Hans: 移除多余空格
+          llm_description: Whether to remove extra spaces in the text
+          max: null
+          min: null
+          name: remove_extra_spaces
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: 0
+          form: llm
+          human_description:
+            en_US: Whether to remove URLs and emails in the text
+            ja_JP: テキスト内のURLやメールアドレスを削除するかどうか
+            pt_BR: Se deve remover URLs e e-mails no texto
+            zh_Hans: 是否移除文本中的URL和电子邮件地址
+          label:
+            en_US: Remove URLs and Emails
+            ja_JP: URLとメールアドレスを削除
+            pt_BR: Remover URLs e E-mails
+            zh_Hans: 移除URL和电子邮件地址
+          llm_description: Whether to remove URLs and emails in the text
+          max: null
+          min: null
+          name: remove_urls_emails
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        params:
+          input_text: ''
+          max_length: ''
+          parent_mode: ''
+          remove_extra_spaces: ''
+          remove_urls_emails: ''
+          separator: ''
+          subchunk_max_length: ''
+          subchunk_separator: ''
+        provider_id: langgenius/parentchild_chunker/parentchild_chunker
+        provider_name: langgenius/parentchild_chunker/parentchild_chunker
+        provider_type: builtin
+        selected: true
+        title: Parent-child Chunker
+        tool_configurations: {}
+        tool_description: Parent-child Chunk Structure
+        tool_label: Parent-child Chunker
+        tool_name: parentchild_chunker
+        tool_node_version: '2'
+        tool_parameters:
+          input_text:
+            type: mixed
+            value: '{{#1752482022496.output#}}'
+          max_length:
+            type: variable
+            value:
+            - rag
+            - shared
+            - max_chunk_length
+          parent_mode:
+            type: variable
+            value:
+            - rag
+            - shared
+            - parent_mode
+          remove_extra_spaces:
+            type: variable
+            value:
+            - rag
+            - shared
+            - replace_consecutive_spaces
+          remove_urls_emails:
+            type: variable
+            value:
+            - rag
+            - shared
+            - delete_urls_email
+          separator:
+            type: mixed
+            value: '{{#rag.shared.delimiter#}}'
+          subchunk_max_length:
+            type: variable
+            value:
+            - rag
+            - shared
+            - child_max_chunk_length
+          subchunk_separator:
+            type: mixed
+            value: '{{#rag.shared.child_delimiter#}}'
+        type: tool
+      height: 52
+      id: '1752575473519'
+      position:
+        x: 636.9874309083057
+        y: 281.3910724383104
+      positionAbsolute:
+        x: 636.9874309083057
+        y: 281.3910724383104
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -619.8547342220135
+      y: 458.4041245281578
+      zoom: 1.0675432499631416
+  rag_pipeline_variables:
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: \n\n
+    label: Delimiter
+    max_length: 256
+    options: []
+    placeholder: null
+    required: true
+    tooltips: A delimiter is the character used to separate text. \n\n is recommended
+      for splitting the original document into large parent chunks. You can also use
+      special delimiters defined by yourself.
+    type: text-input
+    unit: null
+    variable: delimiter
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: 1024
+    label: Maximum chunk length
+    max_length: 48
+    options: []
+    placeholder: null
+    required: true
+    tooltips: null
+    type: number
+    unit: characters
+    variable: max_chunk_length
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: \n
+    label: Child delimiter
+    max_length: 256
+    options: []
+    placeholder: null
+    required: true
+    tooltips: A delimiter is the character used to separate text. \n\n is recommended
+      for splitting the original document into large parent chunks. You can also use
+      special delimiters defined by yourself.
+    type: text-input
+    unit: null
+    variable: child_delimiter
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: 512
+    label: Child max chunk length
+    max_length: 48
+    options: []
+    placeholder: null
+    required: true
+    tooltips: null
+    type: number
+    unit: characters
+    variable: child_max_chunk_length
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: paragraph
+    label: Parent mode
+    max_length: 48
+    options:
+    - full_doc
+    - paragraph
+    placeholder: null
+    required: true
+    tooltips: null
+    type: select
+    unit: null
+    variable: parent_mode
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: null
+    label: Replace consecutive spaces, newlines and tabs
+    max_length: 48
+    options: []
+    placeholder: null
+    required: false
+    tooltips: null
+    type: checkbox
+    unit: null
+    variable: replace_consecutive_spaces
+  - allow_file_extension: null
+    allow_file_upload_methods: null
+    allowed_file_types: null
+    belong_to_node_id: shared
+    default_value: null
+    label: Delete all URLs and email addresses
+    max_length: 48
+    options: []
+    placeholder: null
+    required: false
+    tooltips: null
+    type: checkbox
+    unit: null
+    variable: delete_urls_email

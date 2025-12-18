@@ -1,0 +1,257 @@
+app:
+  description: ''
+  icon: 7f93614a-b3c0-4711-af18-36f82fe36863
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: Intelligent Programme Advisor Chatbot
+  use_icon_as_answer_icon: true
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: true
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1711528768556-1711528802931
+      source: '1711528768556'
+      sourceHandle: source
+      target: '1711528802931'
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: 1711528802931-1711528833796
+      source: '1711528802931'
+      sourceHandle: source
+      target: '1711528833796'
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1711528708197-source-1711528768556-target
+      source: '1711528708197'
+      sourceHandle: source
+      target: '1711528768556'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: Define the initial parameters for launching a workflow
+        selected: false
+        title: Start
+        type: start
+        variables: []
+      height: 117
+      id: '1711528708197'
+      position:
+        x: 77.32840525337781
+        y: 693.5
+      positionAbsolute:
+        x: 77.32840525337781
+        y: 693.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - /Nvb23R2ltpQrmQ3pCrjyLyCjfn2TTfsJ/wKnc1aWNaSYulcV3G+FKRDzkK+Hjtl
+        desc: 'Retrieve knowledge on after sales SOP. '
+        metadata_filtering_mode: disabled
+        metadata_model_config:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-5.1
+          provider: langgenius/openai/openai
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1711528708197'
+        - sys.query
+        retrieval_mode: single
+        selected: false
+        single_retrieval_config:
+          model:
+            completion_params: {}
+            mode: chat
+            name: gpt-3.5-turbo
+            provider: openai
+        title: 'Knowledge Retrieval '
+        type: knowledge-retrieval
+      dragging: false
+      height: 134
+      id: '1711528768556'
+      position:
+        x: 395.8696808629305
+        y: 714.5
+      positionAbsolute:
+        x: 395.8696808629305
+        y: 714.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1711528768556'
+          - result
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params:
+            frequency_penalty: 0.3
+            max_tokens: 512
+            presence_penalty: 0.2
+            temperature: 0.5
+            top_p: 0.85
+          mode: chat
+          name: gpt-5.1
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: dd32aaf5-476a-43b9-9bca-7dec29db18d1
+          role: system
+          text: "### Role\nYou are the Intelligent Programme Advisor for the Department\
+            \ of Electrical and Electronic Engineering (EEE) at The Hong Kong Polytechnic\
+            \ University (PolyU).\nYour job is to answer student inquiries about programme\
+            \ requirements, curriculum, and academic regulations strictly based on\
+            \ the retrieved context.\n\n### Context Knowledge\nYou have access to\
+            \ the official Programme Requirement Documents (PRDs) for:\n1. **Electrical\
+            \ Engineering** (Code: 46408)\n2. **Information and Artificial Intelligence\
+            \ Engineering** (Code: 46409)\n\n<context>\n{{#context#}}\n</context>\n\
+            \n### Critical Instructions\n1. **Identify the Programme (Intent Classification):**\n\
+            \   - If user implies \"AI\", \"AIIE\", \"Information\", or \"46409\"\
+            \ -> Use **46409** context.\n   - If user implies \"Electrical\", \"EE\"\
+            , or \"46408\" -> Use **46408** context.\n   - If unspecified -> Provide\
+            \ answers for **BOTH** and label clearly. Use a **Markdown Table** for\
+            \ comparisons.\n\n2. **Handle Retrieval Rankings (Anti-Dilution):**\n\
+            \   - **Assess the Source:** Before answering, distinguish between \"\
+            General University Requirements\" (GUR) and \"Specific Programme Requirements\"\
+            .\n   - **Prioritize Tables:** Always prioritize specific programme tables\
+            \ over generic university text.\n\n3. **Data Precision:**\n   - Quote\
+            \ exact numbers (Credits, GPA) from the text. Do not approximate.\n\n\
+            4. **Verification & Citations (Debugging):**\n   - End every answer by\
+            \ citing the specific Section Number (e.g., *\"Source: 46409 - Section\
+            \ 1 General Information > 1.1 Programme Title\"*).\n   - *Note:* This\
+            \ ensures the retrieved chunk is from the correct document during system\
+            \ validation.\n\n### Fallback\nIf the information is not in the context,\
+            \ state: \"I cannot find that specific detail in the Programme Requirement\
+            \ Document. Please contact the EEE General Office for confirmation.\""
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      dragging: false
+      height: 88
+      id: '1711528802931'
+      position:
+        x: 714.0383307767796
+        y: 714.5
+      positionAbsolute:
+        x: 714.0383307767796
+        y: 714.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1711528802931.text#}}'
+        desc: ''
+        selected: false
+        title: Answer
+        type: answer
+        variables:
+        - value_selector:
+          - '1711528802931'
+          - text
+          variable: text
+      dragging: false
+      height: 103
+      id: '1711528833796'
+      position:
+        x: 1039.2575703047498
+        y: 714.5
+      positionAbsolute:
+        x: 1039.2575703047498
+        y: 714.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -362.84237280262687
+      y: -473.9229289015002
+      zoom: 1.2010360930000368
+  rag_pipeline_variables: []
