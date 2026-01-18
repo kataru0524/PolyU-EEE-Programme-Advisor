@@ -1,5 +1,8 @@
+'use client'
 import type { FC } from 'react'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from './language-selector'
 import {
   Bars3Icon,
   PencilSquareIcon,
@@ -17,28 +20,30 @@ const Header: FC<IHeaderProps> = ({
   onShowSideBar,
   onCreateNewChat,
 }) => {
+  const { t } = useTranslation()
+  const translatedTitle = t('questions.title', { defaultValue: title })
+  const translatedTitleShort = t('questions.titleShort', { defaultValue: translatedTitle })
+  
   return (
-    <div className="shrink-0 flex items-center justify-between h-12 px-3 bg-gray-100">
-      {isMobile
-        ? (
-          <div
-            className='flex items-center justify-center h-8 w-8 cursor-pointer'
-            onClick={() => onShowSideBar?.()}
+    <div className='flex items-center justify-between px-6 h-12 bg-white border-b border-gray-200'>
+      <div className='flex items-center gap-3'>
+        {isMobile && onShowSideBar && (
+          <button
+            onClick={onShowSideBar}
+            className='p-2 rounded-lg hover:bg-gray-100'
           >
-            <Bars3Icon className="h-4 w-4 text-gray-500" />
-          </div>
-        )
-        : <div></div>}
-      <div className='flex items-center space-x-2'>
-        <AppIcon size="small" />
-        <div className=" text-sm text-gray-800 font-bold">{title}</div>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        )}
+        <h1 className='text-lg font-semibold text-gray-900'>
+          <span className='mobile:hidden tablet:inline'>{translatedTitle}</span>
+          <span className='mobile:inline tablet:hidden'>{translatedTitleShort}</span>
+        </h1>
       </div>
-      {isMobile
-        ? (
-          <div className='flex items-center justify-center h-8 w-8 cursor-pointer' onClick={() => onCreateNewChat?.()} >
-            <PencilSquareIcon className="h-4 w-4 text-gray-500" />
-          </div>)
-        : <div></div>}
+
+      <LanguageSelector />
     </div>
   )
 }

@@ -90,23 +90,49 @@ const Welcome: FC<IWelcomeProps> = ({
   const renderInputs = () => {
     return (
       <div className='space-y-3'>
-        {promptConfig.prompt_variables.map(item => (
-          <div className='tablet:flex items-start mobile:space-y-2 tablet:space-y-0 mobile:text-xs tablet:text-sm' key={item.key}>
-            <label className={`flex-shrink-0 flex items-center tablet:leading-9 mobile:text-gray-700 tablet:text-gray-900 mobile:font-medium pc:font-normal ${s.formLabel}`}>{item.name}</label>
-            {item.type === 'select'
-              && (
-                <Select
-                  className='w-full'
-                  defaultValue={inputs?.[item.key]}
-                  onSelect={(i) => { setInputs({ ...inputs, [item.key]: i.value }) }}
-                  items={(item.options || []).map(i => ({ name: i, value: i }))}
-                  allowSearch={false}
-                  bgClassName='bg-gray-50'
-                />
-              )}
+        {promptConfig.prompt_variables.map(item => {
+          // Get translated label and options
+          const translatedLabel = t(`questions.user_input_form.${item.key}.label`, { defaultValue: item.name })
+          const originalOptions = item.options || []
+          const translatedOptions = item.type === 'select' 
+            ? t(`questions.user_input_form.${item.key}.options`, { returnObjects: true, defaultValue: originalOptions }) as string[]
+            : originalOptions
+
+          // For select, find the current translated value based on the stored original value
+          const currentSelectValue = item.type === 'select' && inputs?.[item.key]
+            ? (() => {
+                const originalIndex = originalOptions.indexOf(inputs[item.key])
+                return originalIndex >= 0 ? translatedOptions[originalIndex] : inputs[item.key]
+              })()
+            : inputs?.[item.key]
+
+          return (
+            <div className='space-y-2 mobile:text-xs tablet:text-sm' key={item.key}>
+              <label className='block text-gray-900 font-medium'>{translatedLabel}</label>
+              {item.type === 'select'
+                && (
+                  <Select
+                    className='w-full'
+                    defaultValue={currentSelectValue}
+                    onSelect={(i) => { 
+                      // Store the original (English) value instead of translated
+                      const selectedIndex = translatedOptions.indexOf(i.value as string)
+                      const originalValue = originalOptions[selectedIndex] || i.value
+                      setInputs({ ...inputs, [item.key]: originalValue })
+                    }}
+                    items={translatedOptions.map((translated, idx) => ({ 
+                      name: translated, 
+                      value: translated 
+                    }))}
+                    allowSearch={false}
+                    bgClassName='bg-gray-50'
+                  />
+                )}
             {item.type === 'string' && (
               <input
-                placeholder={`${item.name}${!item.required ? `(${t('app.variableTable.optional')})` : ''}`}
+                placeholder={t(`questions.user_input_form.${item.key}.placeholder`, { 
+                  defaultValue: !item.required ? `${translatedLabel} (${t('app.variableTable.optional')})` : translatedLabel 
+                })}
                 value={inputs?.[item.key] || ''}
                 onChange={(e) => { setInputs({ ...inputs, [item.key]: e.target.value }) }}
                 className={'w-full flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50'}
@@ -116,7 +142,7 @@ const Welcome: FC<IWelcomeProps> = ({
             {item.type === 'paragraph' && (
               <textarea
                 className="w-full h-[104px] flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50"
-                placeholder={`${item.name}${!item.required ? `(${t('app.variableTable.optional')})` : ''}`}
+                placeholder={`${translatedLabel}${!item.required ? `(${t('app.variableTable.optional')})` : ''}`}
                 value={inputs?.[item.key] || ''}
                 onChange={(e) => { setInputs({ ...inputs, [item.key]: e.target.value }) }}
               />
@@ -125,7 +151,7 @@ const Welcome: FC<IWelcomeProps> = ({
               <input
                 type="number"
                 className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 "
-                placeholder={`${item.name}${!item.required ? `(${t('appDebug.variableTable.optional')})` : ''}`}
+                placeholder={`${translatedLabel}${!item.required ? `(${t('appDebug.variableTable.optional')})` : ''}`}
                 value={inputs[item.key]}
                 onChange={(e) => { onInputsChange({ ...inputs, [item.key]: e.target.value }) }}
               />
@@ -166,7 +192,8 @@ const Welcome: FC<IWelcomeProps> = ({
               )
             }
           </div>
-        ))}
+          )
+        })}
       </div>
     )
   }
@@ -178,15 +205,14 @@ const Welcome: FC<IWelcomeProps> = ({
       const isRequired = promptConfig.prompt_variables.find(item => item.key === k)?.required ?? true
       return isRequired && v === ''
     }).length > 0
-    if (emptyInput) {
-      logError(t('app.errorMessage.valueOfVarRequired'))
-      return false
-    }
-    return true
+    return !emptyInput
   }
 
   const handleChat = () => {
-    if (!canChat()) { return }
+    if (!canChat()) {
+      logError(t('app.errorMessage.valueOfVarRequired'))
+      return
+    }
 
     onStartChat(inputs)
   }
@@ -227,6 +253,8 @@ const Welcome: FC<IWelcomeProps> = ({
   }
 
   const renderVarPanel = () => {
+    const isFormComplete = canChat()
+    
     return (
       <TemplateVarPanel
         isFold={false}
@@ -236,8 +264,9 @@ const Welcome: FC<IWelcomeProps> = ({
       >
         {renderInputs()}
         <ChatBtn
-          className='mt-3 mobile:ml-0 tablet:ml-[128px]'
+          className='mt-6'
           onClick={handleChat}
+          disabled={!isFormComplete}
         />
       </TemplateVarPanel>
     )
