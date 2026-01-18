@@ -17,6 +17,8 @@ const translation = {
     like: '赞同',
     dislike: '反对',
     ok: '好的',
+    voiceInput: '语音输入',
+    stopRecording: '停止录音',
   },
   imageUploader: {
     uploadFromComputer: '从本地上传',

@@ -17,6 +17,8 @@ const translation = {
     like: 'like',
     dislike: 'dislike',
     ok: 'OK',
+    voiceInput: 'Voice input',
+    stopRecording: 'Stop recording',
   },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',

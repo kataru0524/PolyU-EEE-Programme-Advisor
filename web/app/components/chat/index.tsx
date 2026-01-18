@@ -1,6 +1,6 @@
 'use client'
 import type { FC } from 'react'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import Textarea from 'rc-textarea'
@@ -18,6 +18,7 @@ import { useImageFiles } from '@/app/components/base/image-uploader/hooks'
 import FileUploaderInAttachmentWrapper from '@/app/components/base/file-uploader-in-attachment'
 import type { FileEntity, FileUpload } from '@/app/components/base/file-uploader-in-attachment/types'
 import { getProcessedFiles } from '@/app/components/base/file-uploader-in-attachment/utils'
+import { MicrophoneIcon } from '@heroicons/react/24/solid'
 
 export interface IChatProps {
   chatList: ChatItem[]
@@ -52,12 +53,128 @@ const Chat: FC<IChatProps> = ({
   visionConfig,
   fileConfig,
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { notify } = Toast
   const isUseInputMethod = useRef(false)
 
   const [query, setQuery] = React.useState('')
   const queryRef = useRef('')
+  const [isListening, setIsListening] = useState(false)
+  const [recordingDuration, setRecordingDuration] = useState(0)
+  const recognitionRef = useRef<any>(null)
+  const timerRef = useRef<any>(null)
+
+  // Detect iOS devices
+  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent)
+
+  // Track recording duration
+  useEffect(() => {
+    if (isListening) {
+      setRecordingDuration(0)
+      timerRef.current = setInterval(() => {
+        setRecordingDuration(prev => prev + 1)
+      }, 1000)
+    } else {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+        timerRef.current = null
+      }
+      setRecordingDuration(0)
+    }
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+      }
+    }
+  }, [isListening])
+
+  // Format duration as MM:SS
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+  }
+
+  // Map i18n locale to speech recognition language codes
+  const getRecognitionLang = (locale: string) => {
+    const langMap: Record<string, string> = {
+      'en': 'en-US',
+      'zh-Hans': 'zh-CN',
+      'zh-Hant': 'zh-HK',
+    }
+    return langMap[locale] || 'en-US'
+  }
+
+  const startVoiceRecognition = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      notify({ type: 'error', message: 'Speech recognition is not supported in this browser.', duration: 3000 })
+      return
+    }
+
+    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
+    const recognition = new SpeechRecognition()
+    
+    recognition.lang = getRecognitionLang(i18n.language)
+    recognition.continuous = true
+    recognition.interimResults = true
+
+    recognition.onstart = () => {
+      setIsListening(true)
+    }
+
+    recognition.onresult = (event: any) => {
+      let interimTranscript = ''
+      let finalTranscript = ''
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + ' '
+        } else {
+          interimTranscript += transcript
+        }
+      }
+
+      if (finalTranscript) {
+        const newQuery = queryRef.current + (queryRef.current ? ' ' : '') + finalTranscript
+        setQuery(newQuery)
+        queryRef.current = newQuery
+      }
+    }
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error)
+      if (event.error !== 'no-speech' && event.error !== 'aborted') {
+        setIsListening(false)
+        notify({ type: 'error', message: `Voice input error: ${event.error}`, duration: 3000 })
+      }
+    }
+
+    recognition.onend = () => {
+      // Don't auto-restart, user must manually stop
+      if (recognitionRef.current) {
+        setIsListening(false)
+      }
+    }
+
+    recognitionRef.current = recognition
+    recognition.start()
+  }
+
+  const stopVoiceRecognition = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop()
+      setIsListening(false)
+    }
+  }
+
+  const handleVoiceButtonClick = () => {
+    if (isListening) {
+      stopVoiceRecognition()
+    } else {
+      startVoiceRecognition()
+    }
+  }
 
   const handleContentChange = (e: any) => {
     const value = e.target.value
@@ -171,7 +288,9 @@ const Chat: FC<IChatProps> = ({
       {
         !isHideSendInput && (
           <div className='fixed z-10 bottom-4 left-1/2 -translate-x-1/2 pc:ml-[122px] tablet:ml-[96px] mobile:ml-0 pc:w-[794px] tablet:w-[794px] mobile:w-[calc(100vw-28px)] max-w-[794px]'>
-            <div className='p-[5.5px] max-h-[150px] bg-white border-[1.5px] border-gray-200 rounded-xl overflow-y-auto shadow-lg'>
+            <div className={`p-[5.5px] max-h-[150px] bg-white rounded-xl overflow-y-auto shadow-lg transition-colors ${
+              isListening ? 'border-[2px] border-red-400' : 'border-[1.5px] border-gray-200'
+            }`}>
               {
                 visionConfig?.enabled && (
                   <>
@@ -206,30 +325,65 @@ const Chat: FC<IChatProps> = ({
                   </div>
                 )
               }
-              <Textarea
-                className={`
-                  block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-base text-gray-700 outline-none appearance-none resize-none
-                  ${visionConfig?.enabled && 'pl-12'}
-                `}
-                value={query}
-                onChange={handleContentChange}
-                onKeyUp={handleKeyUp}
-                onKeyDown={handleKeyDown}
-                autoSize
-              />
-              <div className="absolute bottom-2 right-6 flex items-center h-8">
-                <div className={`${s.count} mr-3 h-5 leading-5 text-sm bg-gray-50 text-gray-500 px-2 rounded`}>{query.trim().length}</div>
-                <Tooltip
-                  selector='send-tip'
-                  htmlContent={
-                    <div>
-                      <div>{t('common.operation.send')} Enter</div>
-                      <div>{t('common.operation.lineBreak')} Shift Enter</div>
-                    </div>
-                  }
-                >
-                  <div className={`${s.sendBtn} w-8 h-8 cursor-pointer rounded-md`} onClick={handleSend}></div>
-                </Tooltip>
+              <div className="relative">
+                <Textarea
+                  className={`
+                    block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-base outline-none appearance-none resize-none transition-colors
+                    ${visionConfig?.enabled && 'pl-12'}
+                    ${isListening ? 'bg-red-50 border-red-300 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700'}
+                  `}
+                  value={query}
+                  onChange={handleContentChange}
+                  onKeyUp={handleKeyUp}
+                  onKeyDown={handleKeyDown}
+                  autoSize
+                  disabled={isListening}
+                />
+                {isListening && (
+                  <div className="absolute top-1/2 -translate-y-1/2 left-2 flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <span className="leading-none">{t('common.operation.voiceInput')} {formatDuration(recordingDuration)}</span>
+                  </div>
+                )}
+              </div>
+              <div className="absolute bottom-2 right-6 flex items-center h-8 gap-2">
+                {!isIOS && (
+                  <Tooltip
+                    selector='voice-input-tip'
+                    content={isListening ? t('common.operation.stopRecording') : t('common.operation.voiceInput')}
+                  >
+                    <button
+                      onClick={handleVoiceButtonClick}
+                      className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
+                        isListening 
+                          ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+                          : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                      }`}
+                    >
+                      <MicrophoneIcon className="w-5 h-5" />
+                    </button>
+                  </Tooltip>
+                )}
+                {isListening ? (
+                  <div 
+                    className={`${s.sendBtn} w-8 h-8 rounded-md opacity-40 cursor-not-allowed pointer-events-none`} 
+                  ></div>
+                ) : (
+                  <Tooltip
+                    selector='send-tip'
+                    htmlContent={
+                      <div>
+                        <div>{t('common.operation.send')} Enter</div>
+                        <div>{t('common.operation.lineBreak')} Shift Enter</div>
+                      </div>
+                    }
+                  >
+                    <div 
+                      className={`${s.sendBtn} w-8 h-8 rounded-md cursor-pointer`} 
+                      onClick={handleSend}
+                    ></div>
+                  </Tooltip>
+                )}
               </div>
             </div>
           </div>
