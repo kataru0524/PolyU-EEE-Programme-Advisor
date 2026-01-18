@@ -37,22 +37,29 @@ export const StarIcon = () => (
   </svg>
 )
 
-export const ChatBtn: FC<{ onClick: () => void, className?: string }> = ({
+export const ChatBtn: FC<{ onClick: () => void, className?: string, disabled?: boolean }> = ({
   className,
   onClick,
+  disabled = false,
 }) => {
   const { t } = useTranslation()
   return (
-    <Button
-      type='primary'
-      className={cn(className, `space-x-2 flex items-center ${s.customBtn}`)}
-      onClick={onClick}
-    >
-      <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd" d="M18 10.5C18 14.366 14.418 17.5 10 17.5C8.58005 17.506 7.17955 17.1698 5.917 16.52L2 17.5L3.338 14.377C2.493 13.267 2 11.934 2 10.5C2 6.634 5.582 3.5 10 3.5C14.418 3.5 18 6.634 18 10.5ZM7 9.5H5V11.5H7V9.5ZM15 9.5H13V11.5H15V9.5ZM9 9.5H11V11.5H9V9.5Z" fill="white" />
-      </svg>
-      {t('app.chat.startChat')}
-    </Button>
+    <div className={cn('flex items-center gap-3', className)}>
+      <Button
+        type='primary'
+        className={cn(`flex items-center ${s.customBtn}`, disabled && 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400')}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
+          <path fillRule="evenodd" clipRule="evenodd" d="M18 10.5C18 14.366 14.418 17.5 10 17.5C8.58005 17.506 7.17955 17.1698 5.917 16.52L2 17.5L3.338 14.377C2.493 13.267 2 11.934 2 10.5C2 6.634 5.582 3.5 10 3.5C14.418 3.5 18 6.634 18 10.5ZM7 9.5H5V11.5H7V9.5ZM15 9.5H13V11.5H15V9.5ZM9 9.5H11V11.5H9V9.5Z" fill="white" />
+        </svg>
+        <span>{t('questions.actions.start_chat')}</span>
+      </Button>
+      {disabled && (
+        <span className="text-sm text-amber-600">{t('questions.actions.form_incomplete_hint')}</span>
+      )}
+    </div>
   )
 }
 
