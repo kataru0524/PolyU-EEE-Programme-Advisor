@@ -9,7 +9,7 @@ import Toast from '@/app/components/base/toast'
 import Sidebar from '@/app/components/sidebar'
 import ConfigSence from '@/app/components/config-scence'
 import Header from '@/app/components/header'
-import { fetchAppParams, fetchChatList, fetchConversations, generationConversationName, sendChatMessage, updateFeedback } from '@/service'
+import { fetchAppParams, fetchChatList, fetchConversations, generationConversationName, renameConversation, sendChatMessage, updateFeedback } from '@/service'
 import type { ChatItem, ConversationItem, Feedbacktype, PromptConfig, VisionFile, VisionSettings } from '@/types/app'
 import type { FileUpload } from '@/app/components/base/file-uploader-in-attachment/types'
 import { Resolution, TransferMethod, WorkflowRunningStatus } from '@/types/app'
@@ -118,6 +118,7 @@ const Main: FC<IMainProps> = () => {
         name: item?.name || '',
         introduction: notSyncToStateIntroduction,
         suggested_questions: suggestedQuestions,
+        is_pinned: item?.is_pinned,
       })
     }
     else {
@@ -167,6 +168,63 @@ const Main: FC<IMainProps> = () => {
     // trigger handleConversationSwitch
     setCurrConversationId(id, APP_ID)
     hideSidebar()
+  }
+
+  const handlePinConversation = (id: string) => {
+    const updatedList = conversationList.map(item => {
+      if (item.id === id) {
+        return { ...item, is_pinned: !item.is_pinned }
+      }
+      return item
+    })
+    // Sort: pinned items first, then by original order
+    const sortedList = updatedList.sort((a, b) => {
+      if (a.is_pinned && !b.is_pinned) return -1
+      if (!a.is_pinned && b.is_pinned) return 1
+      return 0
+    })
+    setConversationList(sortedList)
+    
+    // Update current conversation info if it's the one being pinned
+    if (id === currConversationId && currConversationInfo) {
+      setExistConversationInfo({
+        ...currConversationInfo,
+        is_pinned: !currConversationInfo.is_pinned,
+      })
+    }
+    
+    // Persist pinned status to localStorage
+    const pinnedIds = sortedList.filter(item => item.is_pinned).map(item => item.id)
+    localStorage.setItem(`pinned_conversations_${APP_ID}`, JSON.stringify(pinnedIds))
+  }
+
+  const handleRenameConversation = async (id: string, newName: string) => {
+    try {
+      // Call API to update on server
+      await renameConversation(id, newName)
+      
+      // Update local state
+      const updatedList = conversationList.map(item => {
+        if (item.id === id) {
+          return { ...item, name: newName }
+        }
+        return item
+      })
+      setConversationList(updatedList)
+      
+      // Update current conversation info if it's the one being renamed
+      if (id === currConversationId && currConversationInfo) {
+        setExistConversationInfo({
+          ...currConversationInfo,
+          name: newName,
+        })
+      }
+      
+      notify({ type: 'success', message: t('common.api.success') })
+    } catch (error) {
+      notify({ type: 'error', message: t('common.api.error') })
+      console.error('Failed to rename conversation:', error)
+    }
   }
 
   /*
@@ -237,8 +295,24 @@ const Main: FC<IMainProps> = () => {
           throw new Error(error)
           return
         }
+        
+        // Load pinned status from localStorage
+        const pinnedIdsStr = localStorage.getItem(`pinned_conversations_${APP_ID}`)
+        const pinnedIds = pinnedIdsStr ? JSON.parse(pinnedIdsStr) : []
+        
+        // Apply pinned status and sort
+        const conversationsWithPinned = conversations.map(item => ({
+          ...item,
+          is_pinned: pinnedIds.includes(item.id),
+        }))
+        const sortedConversations = conversationsWithPinned.sort((a, b) => {
+          if (a.is_pinned && !b.is_pinned) return -1
+          if (!a.is_pinned && b.is_pinned) return 1
+          return 0
+        })
+        
         const _conversationId = getConversationIdFromStorage(APP_ID)
-        const currentConversation = conversations.find(item => item.id === _conversationId)
+        const currentConversation = sortedConversations.find(item => item.id === _conversationId)
         const isNotNewConversation = !!currentConversation
 
         // fetch new conversation info
@@ -254,6 +328,7 @@ const Main: FC<IMainProps> = () => {
             name: currentConversation.name || t('app.chat.newChatDefaultName'),
             introduction,
             suggested_questions,
+            is_pinned: currentConversation.is_pinned,
           })
         }
         const prompt_variables = userInputsFormToPromptVariables(user_input_form)
@@ -275,7 +350,7 @@ const Main: FC<IMainProps> = () => {
           number_limits: file_upload?.number_limits,
           fileUploadConfig: file_upload?.fileUploadConfig,
         })
-        setConversationList(conversations as ConversationItem[])
+        setConversationList(sortedConversations as ConversationItem[])
 
         if (isNotNewConversation) { setCurrConversationId(_conversationId, APP_ID, false) }
 
@@ -643,6 +718,8 @@ const Main: FC<IMainProps> = () => {
         onCurrentIdChange={handleConversationIdChange}
         currentId={currConversationId}
         copyRight={APP_INFO.copyright || APP_INFO.title}
+        onPinConversation={handlePinConversation}
+        onRenameConversation={handleRenameConversation}
       />
     )
   }
@@ -659,7 +736,7 @@ const Main: FC<IMainProps> = () => {
         onShowSideBar={showSidebar}
         onCreateNewChat={() => handleConversationIdChange('-1')}
       />
-      <div className="flex rounded-t-2xl bg-white overflow-hidden">
+      <div className="flex rounded-t-2xl bg-white">
         {/* sidebar */}
         {!isMobile && renderSidebar()}
         {isMobile && isShowSidebar && (
@@ -670,9 +747,11 @@ const Main: FC<IMainProps> = () => {
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_3rem)] overflow-hidden'>
+        <div className='flex-grow flex flex-col h-[calc(100vh_-_3rem)]'>
           <ConfigSence
             conversationName={conversationName}
+            conversationId={currConversationId}
+            isPinned={currConversationInfo?.is_pinned}
             hasSetInputs={hasSetInputs}
             isPublicVersion={isShowPrompt}
             siteInfo={APP_INFO}
@@ -681,6 +760,8 @@ const Main: FC<IMainProps> = () => {
             canEditInputs={canEditInputs}
             savedInputs={currInputs as Record<string, any>}
             onInputsChange={setCurrInputs}
+            onPinConversation={() => handlePinConversation(currConversationId)}
+            onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
           ></ConfigSence>
 
           {

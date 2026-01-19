@@ -3,6 +3,7 @@ const translation = {
     success: '成功',
     saved: '已保存',
     create: '已创建',
+    error: '错误',
   },
   operation: {
     confirm: '确认',
@@ -19,6 +20,9 @@ const translation = {
     ok: '好的',
     voiceInput: '语音输入',
     stopRecording: '停止录音',
+    pin: '置顶',
+    unpin: '取消置顶',
+    rename: '重命名',
   },
   imageUploader: {
     uploadFromComputer: '从本地上传',

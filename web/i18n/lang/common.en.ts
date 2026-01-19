@@ -3,6 +3,7 @@ const translation = {
     success: 'Success',
     saved: 'Saved',
     create: 'Created',
+    error: 'Error',
   },
   operation: {
     confirm: 'Confirm',
@@ -19,6 +20,9 @@ const translation = {
     ok: 'OK',
     voiceInput: 'Voice input',
     stopRecording: 'Stop recording',
+    pin: 'Pin',
+    unpin: 'Unpin',
+    rename: 'Rename',
   },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',

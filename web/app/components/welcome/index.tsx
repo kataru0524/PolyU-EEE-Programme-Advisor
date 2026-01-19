@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TemplateVarPanel, { PanelTitle, VarOpBtnGroup } from '../value-panel'
 import FileUploaderInAttachmentWrapper from '../base/file-uploader-in-attachment'
+import ConversationMenu from '../base/conversation-menu'
+import RenameDialog from '../base/rename-dialog'
 import s from './style.module.css'
 import { AppInfoComp, ChatBtn, EditBtn, FootLogo, PromptTemplate } from './massive-component'
 import type { AppInfo, PromptConfig } from '@/types/app'
@@ -16,6 +18,8 @@ const regex = /\{\{([^}]+)\}\}/g
 
 export interface IWelcomeProps {
   conversationName: string
+  conversationId?: string
+  isPinned?: boolean
   hasSetInputs: boolean
   isPublicVersion: boolean
   siteInfo: AppInfo
@@ -24,10 +28,14 @@ export interface IWelcomeProps {
   canEditInputs: boolean
   savedInputs: Record<string, any>
   onInputsChange: (inputs: Record<string, any>) => void
+  onPinConversation?: () => void
+  onRenameConversation?: (name: string) => void
 }
 
 const Welcome: FC<IWelcomeProps> = ({
   conversationName,
+  conversationId,
+  isPinned = false,
   hasSetInputs,
   isPublicVersion,
   siteInfo,
@@ -36,8 +44,24 @@ const Welcome: FC<IWelcomeProps> = ({
   canEditInputs,
   savedInputs,
   onInputsChange,
+  onPinConversation,
+  onRenameConversation,
 }) => {
   const { t } = useTranslation()
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false)
+
+  const handleRename = () => {
+    setRenameDialogOpen(true)
+  }
+
+  const handleRenameConfirm = (newName: string) => {
+    onRenameConversation?.(newName)
+    setRenameDialogOpen(false)
+  }
+
+  const handleRenameCancel = () => {
+    setRenameDialogOpen(false)
+  }
   const hasVar = promptConfig.prompt_variables.length > 0
   const [isFold, setIsFold] = useState<boolean>(true)
   const [inputs, setInputs] = useState<Record<string, any>>((() => {
@@ -81,8 +105,17 @@ const Welcome: FC<IWelcomeProps> = ({
 
   const renderHeader = () => {
     return (
-      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 mobile:h-12 tablet:h-16 px-8 bg-white'>
-        <div className='text-gray-900'>{conversationName}</div>
+      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 mobile:h-12 tablet:h-16 px-8 bg-white group z-10 overflow-visible'>
+        <div className='flex items-center gap-2'>
+          <div className='text-gray-900'>{conversationName}</div>
+          {conversationId && conversationId !== '-1' && (
+            <ConversationMenu
+              isPinned={isPinned}
+              onPin={onPinConversation}
+              onRename={handleRename}
+            />
+          )}
+        </div>
       </div>
     )
   }
@@ -410,6 +443,13 @@ const Welcome: FC<IWelcomeProps> = ({
           </div>
         )}
       </div>
+      
+      <RenameDialog
+        isOpen={renameDialogOpen}
+        currentName={conversationName}
+        onConfirm={handleRenameConfirm}
+        onCancel={handleRenameCancel}
+      />
     </div >
   )
 }
