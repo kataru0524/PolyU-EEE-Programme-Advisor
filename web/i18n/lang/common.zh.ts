@@ -25,6 +25,8 @@ const translation = {
     resume: '继续',
     stop: '停止',
     loading: '加载中',
+    copy: '复制',
+    copied: '已复制到剪贴板',
     pin: '置顶',
     unpin: '取消置顶',
     rename: '重命名',    delete: '删除',

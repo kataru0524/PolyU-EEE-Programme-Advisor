@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import type { FeedbackFunc } from '../type'
 import type { ChatItem, MessageRating, VisionFile } from '@/types/app'
 import type { Emoji } from '@/types/tools'
-import { HandThumbDownIcon, HandThumbUpIcon, SpeakerWaveIcon, PauseIcon, StopIcon } from '@heroicons/react/24/outline'
+import { HandThumbDownIcon, HandThumbUpIcon, SpeakerWaveIcon, PauseIcon, StopIcon, ClipboardDocumentIcon, CheckIcon } from '@heroicons/react/24/outline'
 import React, { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '@/app/components/base/button'
@@ -89,6 +89,7 @@ const Answer: FC<IAnswerProps> = ({
   const [isPlayingAudio, setIsPlayingAudio] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [isLoadingAudio, setIsLoadingAudio] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioUrlRef = useRef<string | null>(null)
   const cachedAudioBlobRef = useRef<Blob | null>(null)
@@ -179,6 +180,20 @@ const Answer: FC<IAnswerProps> = ({
     setIsPaused(false)
   }
 
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(content)
+      setIsCopied(true)
+    } catch (error) {
+      notify({ type: 'error', message: t('common.api.error') })
+      console.error('Failed to copy to clipboard:', error)
+    }
+  }
+
+  const handleCopyMouseLeave = () => {
+    setIsCopied(false)
+  }
+
   /**
    * Render feedback results (distinguish between users and administrators)
    * User reviews cannot be cancelled in Console
@@ -267,6 +282,18 @@ const Answer: FC<IAnswerProps> = ({
                 })}
               </Tooltip>
             )}
+            <Tooltip selector={`user-copy-${randomString(16)}`} content={isCopied ? t('common.operation.copied') as string : t('common.operation.copy') as string}>
+              {OperationBtn({ 
+                innerContent: <IconWrapper>
+                  {isCopied ? (
+                    <CheckIcon className="w-4 h-4 text-green-600" />
+                  ) : (
+                    <ClipboardDocumentIcon className="w-4 h-4" />
+                  )}
+                </IconWrapper>, 
+                onClick: handleCopyToClipboard
+              })}
+            </Tooltip>
           </div>
         )
     }
@@ -319,7 +346,7 @@ const Answer: FC<IAnswerProps> = ({
               </div>
             )}
         </div>
-        <div className={`${s.answerWrap} max-w-[calc(100%-3rem)]`}>
+        <div className={`${s.answerWrap} max-w-[calc(100%-3rem)]`} onMouseLeave={handleCopyMouseLeave}>
           <div className={`${s.answer} relative text-sm text-gray-900`}>
             <div className={`ml-2 py-3 px-4 bg-gray-100 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'}`}>
               {workflowProcess && (

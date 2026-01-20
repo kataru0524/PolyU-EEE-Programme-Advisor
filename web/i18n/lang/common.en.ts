@@ -25,6 +25,8 @@ const translation = {
     resume: 'Resume',
     stop: 'Stop',
     loading: 'Loading',
+    copy: 'Copy',
+    copied: 'Copied to clipboard',
     pin: 'Pin',
     unpin: 'Unpin',
     rename: 'Rename',
