@@ -23,6 +23,9 @@ const translation = {
     pin: 'Pin',
     unpin: 'Unpin',
     rename: 'Rename',
+    delete: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this conversation?',
+    cannotUndo: 'This action cannot be undone.',
   },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',

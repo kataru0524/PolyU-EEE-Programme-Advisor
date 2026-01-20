@@ -6,7 +6,9 @@ const translation = {
   },
   chat: {
     newChat: '新对话',
-    newChatDefaultName: '新的对话',    renameConversation: '重命名对话',    openingStatementTitle: '对话开场白',
+    newChatDefaultName: '新的对话',    renameConversation: '重命名对话',
+    deleteConversation: '删除对话',
+    openingStatementTitle: '对话开场白',
     powerBy: 'Powered by',
     prompt: '提示词',
     privatePromptConfigTitle: '对话设置',

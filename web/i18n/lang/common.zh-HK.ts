@@ -22,7 +22,9 @@ const translation = {
     stopRecording: '停止錄音',
     pin: '置頂',
     unpin: '取消置頂',
-    rename: '改名',
+    rename: '改名',    delete: '刪除',
+    confirmDelete: '你確定要刪除呢個對話咩？',
+    cannotUndo: '呢個操作唔可以撤銷。',
   },
   imageUploader: {
     uploadFromComputer: '由電腦上載',

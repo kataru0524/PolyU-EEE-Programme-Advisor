@@ -25,6 +25,7 @@ export interface ISidebarProps {
   list: ConversationItem[]
   onPinConversation?: (id: string) => void
   onRenameConversation?: (id: string, name: string) => void
+  onDeleteConversation?: (id: string) => void
 }
 
 const Sidebar: FC<ISidebarProps> = ({
@@ -34,6 +35,7 @@ const Sidebar: FC<ISidebarProps> = ({
   list,
   onPinConversation,
   onRenameConversation,
+  onDeleteConversation,
 }) => {
   const { t } = useTranslation()
   const [renameDialogOpen, setRenameDialogOpen] = useState(false)
@@ -112,6 +114,7 @@ const Sidebar: FC<ISidebarProps> = ({
                   isPinned={item.is_pinned}
                   onPin={() => onPinConversation?.(item.id)}
                   onRename={() => handleRename(item.id)}
+                  onDelete={() => onDeleteConversation?.(item.id)}
                 />
               </div>
             </div>

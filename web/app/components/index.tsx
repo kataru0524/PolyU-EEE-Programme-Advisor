@@ -9,7 +9,8 @@ import Toast from '@/app/components/base/toast'
 import Sidebar from '@/app/components/sidebar'
 import ConfigSence from '@/app/components/config-scence'
 import Header from '@/app/components/header'
-import { fetchAppParams, fetchChatList, fetchConversations, generationConversationName, renameConversation, sendChatMessage, updateFeedback } from '@/service'
+import DeleteDialog from '@/app/components/base/delete-dialog'
+import { fetchAppParams, fetchChatList, fetchConversations, generationConversationName, renameConversation, sendChatMessage, updateFeedback, deleteConversation } from '@/service'
 import type { ChatItem, ConversationItem, Feedbacktype, PromptConfig, VisionFile, VisionSettings } from '@/types/app'
 import type { FileUpload } from '@/app/components/base/file-uploader-in-attachment/types'
 import { Resolution, TransferMethod, WorkflowRunningStatus } from '@/types/app'
@@ -51,6 +52,8 @@ const Main: FC<IMainProps> = () => {
     transfer_methods: [TransferMethod.local_file],
   })
   const [fileConfig, setFileConfig] = useState<FileUpload | undefined>()
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [deletingConversationId, setDeletingConversationId] = useState<string>('')
 
   // Initialize permanent browser session ID
   useEffect(() => {
@@ -249,6 +252,35 @@ const Main: FC<IMainProps> = () => {
     } catch (error) {
       notify({ type: 'error', message: t('common.api.error') })
       console.error('Failed to rename conversation:', error)
+    }
+  }
+
+  const handleDeleteConversation = async (id: string) => {
+    setDeletingConversationId(id)
+    setDeleteDialogOpen(true)
+  }
+
+  const confirmDeleteConversation = async () => {
+    if (!deletingConversationId) return
+    
+    try {
+      await deleteConversation(deletingConversationId)
+      
+      // Remove from conversation list
+      setConversationList(conversationList.filter(item => item.id !== deletingConversationId))
+      
+      // If deleted conversation is current, switch to new chat
+      if (deletingConversationId === currConversationId) {
+        handleConversationIdChange('-1')
+      }
+      
+      notify({ type: 'success', message: t('common.api.success') })
+    } catch (error) {
+      notify({ type: 'error', message: t('common.api.error') })
+      console.error('Failed to delete conversation:', error)
+    } finally {
+      setDeleteDialogOpen(false)
+      setDeletingConversationId('')
     }
   }
 
@@ -768,6 +800,7 @@ const Main: FC<IMainProps> = () => {
         copyRight={APP_INFO.copyright || APP_INFO.title}
         onPinConversation={handlePinConversation}
         onRenameConversation={handleRenameConversation}
+        onDeleteConversation={handleDeleteConversation}
       />
     )
   }
@@ -829,6 +862,17 @@ const Main: FC<IMainProps> = () => {
           }
         </div>
       </div>
+
+      <DeleteDialog
+        isOpen={deleteDialogOpen}
+        title={t('app.chat.deleteConversation')}
+        message={t('common.operation.confirmDelete')}
+        onConfirm={confirmDeleteConversation}
+        onCancel={() => {
+          setDeleteDialogOpen(false)
+          setDeletingConversationId('')
+        }}
+      />
     </div>
   )
 }

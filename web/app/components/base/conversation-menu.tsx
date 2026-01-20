@@ -6,6 +6,7 @@ import {
   EllipsisVerticalIcon,
   PencilIcon,
   StarIcon as StarOutlineIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarSolidIcon } from '@heroicons/react/24/solid'
 
@@ -13,6 +14,7 @@ export interface IConversationMenuProps {
   isPinned?: boolean
   onPin?: () => void
   onRename?: () => void
+  onDelete?: () => void
   className?: string
 }
 
@@ -20,6 +22,7 @@ const ConversationMenu: FC<IConversationMenuProps> = ({
   isPinned = false,
   onPin,
   onRename,
+  onDelete,
   className = '',
 }) => {
   const { t } = useTranslation()
@@ -87,6 +90,17 @@ const ConversationMenu: FC<IConversationMenuProps> = ({
           >
             <PencilIcon className="w-4 h-4" />
             {t('common.operation.rename')}
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete?.()
+              setIsOpen(false)
+            }}
+            className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+          >
+            <TrashIcon className="w-4 h-4" />
+            {t('common.operation.delete')}
           </button>
         </div>
       )}
