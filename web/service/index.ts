@@ -68,3 +68,27 @@ export const renameConversation = async (id: string, name: string) => {
 export const deleteConversation = async (id: string) => {
   return del(`conversations/${id}`)
 }
+
+export const textToAudio = async (messageId: string, text?: string) => {
+  const API_PREFIX = '/api'
+  const url = `${API_PREFIX}/text-to-audio`
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      message_id: messageId,
+      ...(text && { text }),
+    }),
+  })
+  
+  if (!response.ok) {
+    throw new Error(`Failed to generate audio: ${response.statusText}`)
+  }
+  
+  return response.blob()
+}
+

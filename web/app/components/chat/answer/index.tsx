@@ -3,8 +3,8 @@ import type { FC } from 'react'
 import type { FeedbackFunc } from '../type'
 import type { ChatItem, MessageRating, VisionFile } from '@/types/app'
 import type { Emoji } from '@/types/tools'
-import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import { HandThumbDownIcon, HandThumbUpIcon, SpeakerWaveIcon, PauseIcon, StopIcon } from '@heroicons/react/24/outline'
+import React, { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '@/app/components/base/button'
 import StreamdownMarkdown from '@/app/components/base/streamdown-markdown'
@@ -13,8 +13,11 @@ import WorkflowProcess from '@/app/components/workflow/workflow-process'
 import { randomString } from '@/utils/string'
 import ImageGallery from '../../base/image-gallery'
 import LoadingAnim from '../loading-anim'
+import Spinner from '@/app/components/base/spinner'
 import s from '../style.module.css'
 import Thought from '../thought'
+import { textToAudio } from '@/service'
+import Toast from '@/app/components/base/toast'
 
 function OperationBtn({ innerContent, onClick, className }: { innerContent: React.ReactNode, onClick?: () => void, className?: string }) {
   return (
@@ -83,8 +86,98 @@ const Answer: FC<IAnswerProps> = ({
 }) => {
   const { id, content, feedback, agent_thoughts, workflowProcess, suggestedQuestions = [] } = item
   const isAgentMode = !!agent_thoughts && agent_thoughts.length > 0
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const audioUrlRef = useRef<string | null>(null)
+  const cachedAudioBlobRef = useRef<Blob | null>(null)
+  const { notify } = Toast
 
   const { t } = useTranslation()
+
+  const handleTextToSpeech = async () => {
+    try {
+      // If audio is already playing and paused, resume it
+      if (audioRef.current && isPaused) {
+        audioRef.current.play()
+        setIsPaused(false)
+        return
+      }
+
+      // If audio is playing and not paused, pause it
+      if (audioRef.current && isPlayingAudio && !isPaused) {
+        audioRef.current.pause()
+        setIsPaused(true)
+        return
+      }
+
+      // Start playing audio
+      setIsPlayingAudio(true)
+      setIsPaused(false)
+      
+      let audioBlob: Blob
+      
+      // Check if we have cached audio
+      if (cachedAudioBlobRef.current) {
+        audioBlob = cachedAudioBlobRef.current
+      } else {
+        // Fetch audio from server and cache it
+        setIsLoadingAudio(true)
+        audioBlob = await textToAudio(id)
+        cachedAudioBlobRef.current = audioBlob
+        setIsLoadingAudio(false)
+      }
+      
+      // Create a blob URL from the cached or fetched audio
+      const audioUrl = URL.createObjectURL(audioBlob)
+      audioUrlRef.current = audioUrl
+      const audio = new Audio(audioUrl)
+      audioRef.current = audio
+      
+      audio.onended = () => {
+        setIsPlayingAudio(false)
+        setIsPaused(false)
+        if (audioUrlRef.current) {
+          URL.revokeObjectURL(audioUrlRef.current)
+          audioUrlRef.current = null
+        }
+        audioRef.current = null
+      }
+      audio.onerror = () => {
+        setIsPlayingAudio(false)
+        setIsPaused(false)
+        if (audioUrlRef.current) {
+          URL.revokeObjectURL(audioUrlRef.current)
+          audioUrlRef.current = null
+        }
+        audioRef.current = null
+        notify({ type: 'error', message: t('common.api.error') })
+      }
+      
+      await audio.play()
+    } catch (error) {
+      setIsLoadingAudio(false)
+      setIsPlayingAudio(false)
+      setIsPaused(false)
+      notify({ type: 'error', message: t('common.api.error') })
+      console.error('Failed to play audio:', error)
+    }
+  }
+
+  const handleStopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      audioRef.current = null
+    }
+    if (audioUrlRef.current) {
+      URL.revokeObjectURL(audioUrlRef.current)
+      audioUrlRef.current = null
+    }
+    setIsPlayingAudio(false)
+    setIsPaused(false)
+  }
 
   /**
    * Render feedback results (distinguish between users and administrators)
@@ -135,6 +228,45 @@ const Answer: FC<IAnswerProps> = ({
             <Tooltip selector={`user-feedback-${randomString(16)}`} content={t('common.operation.dislike') as string}>
               {OperationBtn({ innerContent: <IconWrapper><RatingIcon isLike={false} /></IconWrapper>, onClick: () => onFeedback?.(id, { rating: 'dislike' }) })}
             </Tooltip>
+            {/* Combined TTS button with pause/stop when playing */}
+            {isPlayingAudio && !isLoadingAudio ? (
+              <div className="relative box-border flex items-center h-7 rounded-lg bg-white cursor-pointer text-gray-500 hover:text-gray-800"
+                style={{ boxShadow: '0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.05)' }}>
+                <Tooltip selector={`user-pause-${randomString(16)}`} content={isPaused ? t('common.operation.resume') as string : t('common.operation.pause') as string}>
+                  <div className="flex items-center justify-center h-full w-7 p-0.5 rounded-l-lg hover:bg-gray-100" onClick={handleTextToSpeech}>
+                    <IconWrapper>
+                      {isPaused ? (
+                        <SpeakerWaveIcon className="w-4 h-4 text-primary-600" />
+                      ) : (
+                        <PauseIcon className="w-4 h-4 text-primary-600" />
+                      )}
+                    </IconWrapper>
+                  </div>
+                </Tooltip>
+                <div className="w-px h-5 bg-gray-300"></div>
+                <Tooltip selector={`user-stop-${randomString(16)}`} content={t('common.operation.stop') as string}>
+                  <div className="flex items-center justify-center h-full w-7 p-0.5 rounded-r-lg hover:bg-gray-100" onClick={handleStopAudio}>
+                    <IconWrapper>
+                      <StopIcon className="w-4 h-4 text-red-600" />
+                    </IconWrapper>
+                  </div>
+                </Tooltip>
+              </div>
+            ) : (
+              <Tooltip selector={`user-tts-${randomString(16)}`} content={isLoadingAudio ? t('common.operation.loading') as string : t('common.operation.textToSpeech') as string}>
+                {OperationBtn({ 
+                  innerContent: <IconWrapper>
+                    {isLoadingAudio ? (
+                      <Spinner loading={true} className="!h-4 !w-4 !border-2 !text-primary-600" />
+                    ) : (
+                      <SpeakerWaveIcon className="w-4 h-4" />
+                    )}
+                  </IconWrapper>, 
+                  onClick: handleTextToSpeech,
+                  className: isLoadingAudio ? 'pointer-events-none' : ''
+                })}
+              </Tooltip>
+            )}
           </div>
         )
     }
@@ -209,14 +341,14 @@ const Answer: FC<IAnswerProps> = ({
                   <div className="flex gap-1 mt-1 flex-wrap">
                     {suggestedQuestions.map((suggestion, index) => (
                       <div key={index} className="flex items-center gap-1">
-                        <Button className="text-sm" type="link" onClick={() => suggestionClick(suggestion)}>{suggestion}</Button>
+                        <Button classbottome="text-sm" type="link" onClick={() => suggestionClick(suggestion)}>{suggestion}</Button>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
             </div>
-            <div className="absolute top-[-14px] right-[-14px] flex flex-row justify-end gap-1">
+            <div className="absolute bottom-[-14px] right-[8px] flex flex-row justify-end gap-1">
               {!feedbackDisabled && !item.feedbackDisabled && renderItemOperation()}
               {/* User feedback must be displayed */}
               {!feedbackDisabled && renderFeedbackRating(feedback?.rating)}
