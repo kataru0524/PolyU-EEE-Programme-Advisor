@@ -13,11 +13,27 @@ interface Language {
 
 const languages: Language[] = [
   { code: 'en', name: 'English', shortName: 'Eng', flag: '🇬🇧' },
-  { code: 'zh-Hans', name: '简体中文', shortName: '简', flag: '🇨🇳' },
+  { code: 'zh-HK', name: '繁體廣東話', shortName: '粵', flag: '🇭🇰' },
   { code: 'zh-Hant', name: '繁體中文', shortName: '繁', flag: '🇭🇰' },
+  { code: 'zh-Hans', name: '简体中文', shortName: '简', flag: '🇨🇳' },
 ]
 
-const LanguageSelector: FC = () => {
+// Convert locale code to language name for API
+const getLanguageName = (locale: string) => {
+  const languageMap: Record<string, string> = {
+    'en': 'English',
+    'zh-HK': 'Cantonese',
+    'zh-Hant': 'Traditional Chinese (Mandarin)',
+    'zh-Hans': 'Simplified Chinese',
+  }
+  return languageMap[locale] || locale
+}
+
+interface LanguageSelectorProps {
+  onLanguageChange?: (languageName: string) => void
+}
+
+const LanguageSelector: FC<LanguageSelectorProps> = ({ onLanguageChange }) => {
   const { i18n } = useTranslation()
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -26,6 +42,10 @@ const LanguageSelector: FC = () => {
   const handleLanguageChange = (langCode: string) => {
     setLocaleOnClient(langCode, true)
     setIsOpen(false)
+    // Notify parent component of language change
+    if (onLanguageChange) {
+      onLanguageChange(getLanguageName(langCode))
+    }
   }
 
   return (

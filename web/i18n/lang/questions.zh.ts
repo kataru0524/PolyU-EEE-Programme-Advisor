@@ -1,7 +1,7 @@
 const translation = {
-  title: '智能课程顾问聊天机器人',
+  title: '智能课程顾问',
   titleShort: '课程顾问',
-  welcome: '欢迎使用智能课程顾问聊天机器人',
+  welcome: '欢迎使用智能课程顾问',
   user_input_form: {
     student_type: {
       label: '您的学术背景是什么？',
