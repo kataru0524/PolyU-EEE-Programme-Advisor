@@ -13,6 +13,7 @@ export interface PromptVariable {
   allowed_file_extensions?: string[]
   allowed_file_types?: string[]
   allowed_file_upload_methods?: TransferMethod[]
+  hide?: boolean
 }
 
 export interface PromptConfig {

@@ -11,6 +11,7 @@ export const getLocaleOnClient = (): Locale => {
 
 export const setLocaleOnClient = (locale: Locale, notReload?: boolean) => {
   Cookies.set(LOCALE_COOKIE_NAME, locale)
+  localStorage.setItem('user_language', locale)
   changeLanguage(locale)
   if (!notReload) { location.reload() }
 }

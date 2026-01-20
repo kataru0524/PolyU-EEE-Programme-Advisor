@@ -15,6 +15,7 @@ import type { FileUpload } from '@/app/components/base/file-uploader-in-attachme
 import { Resolution, TransferMethod, WorkflowRunningStatus } from '@/types/app'
 import Chat from '@/app/components/chat'
 import { setLocaleOnClient } from '@/i18n/client'
+import { getLocaleOnClient } from '@/i18n/client'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 import Loading from '@/app/components/base/loading'
 import { replaceVarWithValues, userInputsFormToPromptVariables } from '@/utils/prompt'
@@ -22,6 +23,7 @@ import AppUnavailable from '@/app/components/app-unavailable'
 import { API_KEY, APP_ID, APP_INFO, isShowPrompt, promptTemplate } from '@/config'
 import type { Annotation as AnnotationType } from '@/types/log'
 import { addFileInfos, sortAgentSorts } from '@/utils/tools'
+import { getBrowserSessionId } from '@/utils/session'
 
 export interface IMainProps {
   params: any
@@ -49,6 +51,11 @@ const Main: FC<IMainProps> = () => {
     transfer_methods: [TransferMethod.local_file],
   })
   const [fileConfig, setFileConfig] = useState<FileUpload | undefined>()
+
+  // Initialize permanent browser session ID
+  useEffect(() => {
+    getBrowserSessionId()
+  }, [])
 
   useEffect(() => {
     const translatedTitle = t('questions.title', { defaultValue: APP_INFO?.title })
@@ -120,6 +127,24 @@ const Main: FC<IMainProps> = () => {
         suggested_questions: suggestedQuestions,
         is_pinned: item?.is_pinned,
       })
+      
+      // Update language in inputs to match current UI language
+      const languageMap: Record<string, string> = {
+        'en': 'English',
+        'zh-HK': 'Traditional Chinese (Cantonese)',
+        'zh-Hant': 'Traditional Chinese (Mandarin)',
+        'zh-Hans': 'Simplified Chinese',
+      }
+      const currentLocale = getLocaleOnClient()
+      const languageName = languageMap[currentLocale] || currentLocale
+      
+      // Update the language in notSyncToStateInputs if it exists
+      if (notSyncToStateInputs && 'language' in notSyncToStateInputs) {
+        notSyncToStateInputs = {
+          ...notSyncToStateInputs,
+          language: languageName,
+        }
+      }
     }
     else {
       notSyncToStateInputs = newConversationInputs
@@ -227,6 +252,27 @@ const Main: FC<IMainProps> = () => {
     }
   }
 
+  const handleLanguageChange = async (languageName: string) => {
+    // Update currInputs for new conversations
+    if (currInputs && 'language' in currInputs) {
+      setCurrInputs({
+        ...currInputs,
+        language: languageName,
+      })
+    }
+    
+    // Update newConversationInputs as well
+    if (newConversationInputs && 'language' in newConversationInputs) {
+      resetNewConversationInputs({
+        ...newConversationInputs,
+        language: languageName,
+      })
+    }
+    
+    // Note: Language is sent with each message through the inputs field,
+    // so no need to update conversation variables separately
+  }
+
   /*
   * chat info. chat is under conversation.
   */
@@ -317,7 +363,9 @@ const Main: FC<IMainProps> = () => {
 
         // fetch new conversation info
         const { user_input_form, opening_statement: introduction, file_upload, system_parameters, suggested_questions = [] }: any = appParams
-        setLocaleOnClient(APP_INFO.default_language, true)
+        // Use saved language from localStorage, fallback to default
+        const savedLanguage = localStorage.getItem('user_language') || APP_INFO.default_language
+        setLocaleOnClient(savedLanguage, true)
         setNewConversationInfo({
           name: t('app.chat.newChatDefaultName'),
           introduction,
@@ -735,6 +783,7 @@ const Main: FC<IMainProps> = () => {
         isMobile={isMobile}
         onShowSideBar={showSidebar}
         onCreateNewChat={() => handleConversationIdChange('-1')}
+        onLanguageChange={handleLanguageChange}
       />
       <div className="flex rounded-t-2xl bg-white">
         {/* sidebar */}

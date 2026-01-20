@@ -22,7 +22,7 @@ const languages: Language[] = [
 const getLanguageName = (locale: string) => {
   const languageMap: Record<string, string> = {
     'en': 'English',
-    'zh-HK': 'Cantonese',
+    'zh-HK': 'Traditional Chinese (Cantonese)',
     'zh-Hant': 'Traditional Chinese (Mandarin)',
     'zh-Hans': 'Simplified Chinese',
   }

@@ -8,6 +8,7 @@ import ConversationMenu from '../base/conversation-menu'
 import RenameDialog from '../base/rename-dialog'
 import s from './style.module.css'
 import { AppInfoComp, ChatBtn, EditBtn, FootLogo, PromptTemplate } from './massive-component'
+import { getLocaleOnClient } from '@/i18n/client'
 import type { AppInfo, PromptConfig } from '@/types/app'
 import Toast from '@/app/components/base/toast'
 import Select from '@/app/components/base/select'
@@ -64,13 +65,30 @@ const Welcome: FC<IWelcomeProps> = ({
   }
   const hasVar = promptConfig.prompt_variables.length > 0
   const [isFold, setIsFold] = useState<boolean>(true)
+  
+  // Convert locale code to language name
+  const getLanguageName = (locale: string) => {
+    const languageMap: Record<string, string> = {
+      'en': 'English',
+      'zh-HK': 'Traditional Chinese (Cantonese)',
+      'zh-Hant': 'Traditional Chinese (Mandarin)',
+      'zh-Hans': 'Simplified Chinese',
+    }
+    return languageMap[locale] || locale
+  }
+  
   const [inputs, setInputs] = useState<Record<string, any>>((() => {
     if (hasSetInputs) { return savedInputs }
 
     const res: Record<string, any> = {}
     if (promptConfig) {
       promptConfig.prompt_variables.forEach((item) => {
-        res[item.key] = ''
+        // Auto-populate language field with current locale
+        if (item.key === 'language' && item.hide) {
+          res[item.key] = getLanguageName(getLocaleOnClient())
+        } else {
+          res[item.key] = ''
+        }
       })
     }
     return res
@@ -80,7 +98,12 @@ const Welcome: FC<IWelcomeProps> = ({
       const res: Record<string, any> = {}
       if (promptConfig) {
         promptConfig.prompt_variables.forEach((item) => {
-          res[item.key] = ''
+          // Auto-populate language field with current locale
+          if (item.key === 'language' && item.hide) {
+            res[item.key] = getLanguageName(getLocaleOnClient())
+          } else {
+            res[item.key] = ''
+          }
         })
       }
       setInputs(res)
@@ -123,7 +146,7 @@ const Welcome: FC<IWelcomeProps> = ({
   const renderInputs = () => {
     return (
       <div className='space-y-3'>
-        {promptConfig.prompt_variables.map(item => {
+        {promptConfig.prompt_variables.filter(item => !item.hide).map(item => {
           // Get translated label and options
           const translatedLabel = t(`questions.user_input_form.${item.key}.label`, { defaultValue: item.name })
           const originalOptions = item.options || []

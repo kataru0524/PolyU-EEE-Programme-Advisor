@@ -13,12 +13,14 @@ export interface IHeaderProps {
   isMobile?: boolean
   onShowSideBar?: () => void
   onCreateNewChat?: () => void
+  onLanguageChange?: (languageName: string) => void
 }
 const Header: FC<IHeaderProps> = ({
   title,
   isMobile,
   onShowSideBar,
   onCreateNewChat,
+  onLanguageChange,
 }) => {
   const { t } = useTranslation()
   const translatedTitle = t('questions.title', { defaultValue: title })
@@ -43,7 +45,7 @@ const Header: FC<IHeaderProps> = ({
         </h1>
       </div>
 
-      <LanguageSelector />
+      <LanguageSelector onLanguageChange={onLanguageChange} />
     </div>
   )
 }

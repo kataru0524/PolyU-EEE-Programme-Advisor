@@ -17,7 +17,7 @@ const translation = {
       options: [
         '電機工程',
         '資訊及人工智能工程',
-        '尚未決定／正在比較',
+        '還未確定／正在比較',
       ],
     },
     project_style: {
