@@ -39,6 +39,11 @@ const translation = {
     dark: 'Dark mode',
     system: 'Follow system',
   },
+  settings: {
+    title: 'Settings',
+    appearance: 'Appearance',
+    language: 'Language',
+  },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',
     uploadFromComputerReadError: 'Image reading failed, please try again.',

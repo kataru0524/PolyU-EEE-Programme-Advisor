@@ -37,8 +37,11 @@ const translation = {
     light: '浅色模式',
     dark: '深色模式',
     system: '跟随系统',
-  },
-  imageUploader: {
+  },  settings: {
+    title: '設定',
+    appearance: '外觀',
+    language: '語言',
+  },  imageUploader: {
     uploadFromComputer: '从本地上传',
     uploadFromComputerReadError: '图片读取失败，请重新选择。',
     uploadFromComputerUploadError: '图片上传失败，请重新上传。',

@@ -38,6 +38,11 @@ const translation = {
     dark: '深色模式',
     system: '跟隨系統',
   },
+  settings: {
+    title: '設定',
+    appearance: '外觀',
+    language: '語言',
+  },
   imageUploader: {
     uploadFromComputer: '由電腦上載',
     uploadFromComputerReadError: '圖片讀取失敗，請重試。',
