@@ -288,8 +288,8 @@ const Chat: FC<IChatProps> = ({
       {
         !isHideSendInput && (
           <div className='fixed z-10 bottom-4 left-1/2 -translate-x-1/2 pc:ml-[122px] tablet:ml-[96px] mobile:ml-0 pc:w-[794px] tablet:w-[794px] mobile:w-[calc(100vw-28px)] max-w-[794px]'>
-            <div className={`p-[5.5px] max-h-[150px] bg-white rounded-xl overflow-y-auto shadow-lg transition-colors ${
-              isListening ? 'border-[2px] border-red-400' : 'border-[1.5px] border-gray-200'
+            <div className={`p-[5.5px] max-h-[150px] bg-white dark:bg-gray-800 rounded-xl overflow-y-auto shadow-lg transition-colors ${
+              isListening ? 'border-[2px] border-red-400 dark:border-red-500' : 'border-[1.5px] border-gray-200 dark:border-gray-800'
             }`}>
               {
                 visionConfig?.enabled && (
@@ -330,7 +330,7 @@ const Chat: FC<IChatProps> = ({
                   className={`
                     block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-base outline-none appearance-none resize-none transition-colors
                     ${visionConfig?.enabled && 'pl-12'}
-                    ${isListening ? 'bg-red-50 border-red-300 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700'}
+                    ${isListening ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-200'}
                   `}
                   value={query}
                   onChange={handleContentChange}
@@ -341,7 +341,7 @@ const Chat: FC<IChatProps> = ({
                 />
                 {isListening && (
                   <div className="absolute top-1/2 -translate-y-1/2 left-2 flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-white dark:bg-gray-200 rounded-full animate-pulse"></div>
                     <span className="leading-none">{t('common.operation.voiceInput')} {formatDuration(recordingDuration)}</span>
                   </div>
                 )}
@@ -357,7 +357,7 @@ const Chat: FC<IChatProps> = ({
                       className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
                         isListening 
                           ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
-                          : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                          : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
                       }`}
                     >
                       <MicrophoneIcon className="w-5 h-5" />

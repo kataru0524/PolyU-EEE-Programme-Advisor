@@ -34,6 +34,11 @@ const translation = {
     confirmDelete: 'Are you sure you want to delete this conversation?',
     cannotUndo: 'This action cannot be undone.',
   },
+  theme: {
+    light: 'Light mode',
+    dark: 'Dark mode',
+    system: 'Follow system',
+  },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',
     uploadFromComputerReadError: 'Image reading failed, please try again.',

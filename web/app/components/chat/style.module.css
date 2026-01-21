@@ -17,6 +17,10 @@
   border-radius: 16px;
 }
 
+:global(.dark) .typeingIcon {
+  background: #030712;
+}
+
 
 .questionIcon {
   background: url(./icons/default-avatar.jpg);
@@ -38,6 +42,10 @@
   background: url(./icons/answer.svg) no-repeat;
 }
 
+:global(.dark) .answer::before {
+  background: url(./icons/answer-dark.svg) no-repeat;
+}
+
 .answerWrap .itemOperation {
   display: none;
 }
@@ -51,6 +59,10 @@
   background: url(./icons/question.svg) no-repeat;
 }
 
+:global(.dark) .question::before {
+  background: url(./icons/question-dark.svg) no-repeat;
+}
+
 .textArea {
   padding-top: 13px;
   padding-bottom: 13px;
@@ -60,8 +72,16 @@
   background-color: #fff;
 }
 
+:global(.dark) .textArea {
+  background-color: #374151;
+}
+
 .textArea:hover {
   background-color: #fff;
+}
+
+:global(.dark) .textArea:hover {
+  background-color: #374151;
 }
 
 /* .textArea:focus {
@@ -80,6 +100,10 @@
 .sendBtn:hover {
   background-image: url(./icons/send-active.svg);
   background-color: #EBF5FF;
+}
+
+:global(.dark) .sendBtn:hover {
+  background-color: #1e3a5f;
 }
 
 .textArea:focus+div .count {

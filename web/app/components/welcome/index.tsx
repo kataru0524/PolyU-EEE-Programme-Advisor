@@ -127,10 +127,13 @@ const Welcome: FC<IWelcomeProps> = ({
   }
 
   const renderHeader = () => {
+    // Use translated "New Chat" for new conversations
+    const displayName = conversationId === '-1' ? t('app.chat.newChat') : conversationName
+    
     return (
-      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 mobile:h-12 tablet:h-16 px-8 bg-white group z-10 overflow-visible'>
+      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:h-12 tablet:h-16 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible'>
         <div className='flex items-center gap-2'>
-          <div className='text-gray-900'>{conversationName}</div>
+          <div className='text-gray-900 dark:text-gray-100'>{displayName}</div>
           {conversationId && conversationId !== '-1' && (
             <ConversationMenu
               isPinned={isPinned}
@@ -164,7 +167,7 @@ const Welcome: FC<IWelcomeProps> = ({
 
           return (
             <div className='space-y-2 mobile:text-xs tablet:text-sm' key={item.key}>
-              <label className='block text-gray-900 font-medium'>{translatedLabel}</label>
+              <label className='block text-gray-900 dark:text-gray-100 font-medium'>{translatedLabel}</label>
               {item.type === 'select'
                 && (
                   <Select
@@ -191,13 +194,13 @@ const Welcome: FC<IWelcomeProps> = ({
                 })}
                 value={inputs?.[item.key] || ''}
                 onChange={(e) => { setInputs({ ...inputs, [item.key]: e.target.value }) }}
-                className={'w-full flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50'}
+                className={'w-full flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600'}
                 maxLength={item.max_length || DEFAULT_VALUE_MAX_LEN}
               />
             )}
             {item.type === 'paragraph' && (
               <textarea
-                className="w-full h-[104px] flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50"
+                className="w-full h-[104px] flex-grow py-2 pl-3 pr-3 box-border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600"
                 placeholder={`${translatedLabel}${!item.required ? `(${t('app.variableTable.optional')})` : ''}`}
                 value={inputs?.[item.key] || ''}
                 onChange={(e) => { setInputs({ ...inputs, [item.key]: e.target.value }) }}
@@ -206,7 +209,7 @@ const Welcome: FC<IWelcomeProps> = ({
             {item.type === 'number' && (
               <input
                 type="number"
-                className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 "
+                className="block w-full p-2 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 sm:text-xs focus:ring-blue-500 focus:border-blue-500 "
                 placeholder={`${translatedLabel}${!item.required ? `(${t('appDebug.variableTable.optional')})` : ''}`}
                 value={inputs[item.key]}
                 onChange={(e) => { onInputsChange({ ...inputs, [item.key]: e.target.value }) }}
@@ -375,7 +378,7 @@ const Welcome: FC<IWelcomeProps> = ({
             <PromptTemplate html={highLightPromoptTemplate} />
             {isFold && (
               <div className='flex items-center justify-between mt-3 border-t border-indigo-100 pt-4 text-xs text-indigo-600'>
-                <span className='text-gray-700'>{t('app.chat.configStatusDes')}</span>
+                <span className='text-gray-700 dark:text-gray-300'>{t('app.chat.configStatusDes')}</span>
                 <EditBtn onClick={() => setIsFold(false)} />
               </div>
             )}
@@ -459,7 +462,7 @@ const Welcome: FC<IWelcomeProps> = ({
               </div>
               : <div>
               </div>}
-            <a className='flex items-center pr-3 space-x-3' href="https://dify.ai/" target="_blank">
+            <a className='flex items-center pr-3 space-x-2' href="https://dify.ai/" target="_blank">
               <span className='uppercase'>{t('app.chat.powerBy')}</span>
               <FootLogo />
             </a>

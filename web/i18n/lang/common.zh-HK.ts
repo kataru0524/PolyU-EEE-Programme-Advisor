@@ -33,6 +33,11 @@ const translation = {
     confirmDelete: '你確定要刪除呢個對話咩？',
     cannotUndo: '呢個操作唔可以撤銷。',
   },
+  theme: {
+    light: '淺色模式',
+    dark: '深色模式',
+    system: '跟隨系統',
+  },
   imageUploader: {
     uploadFromComputer: '由電腦上載',
     uploadFromComputerReadError: '圖片讀取失敗，請重試。',

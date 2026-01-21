@@ -17,12 +17,12 @@ const AppUnavailable: FC<IAppUnavailableProps> = ({
   if (!errMessage) { message = (isUnknownReason ? t('app.common.appUnkonwError') : t('app.common.appUnavailable')) as string }
 
   return (
-    <div className='flex items-center justify-center w-screen h-screen'>
-      <h1 className='mr-5 h-[50px] leading-[50px] pr-5 text-[24px] font-medium'
+    <div className='flex items-center justify-center w-screen h-screen bg-white dark:bg-gray-900'>
+      <h1 className='mr-5 h-[50px] leading-[50px] pr-5 text-[24px] font-medium text-gray-900 dark:text-gray-100'
         style={{
           borderRight: '1px solid rgba(0,0,0,.3)',
         }}>{(errMessage || isUnknownReason) ? 500 : 404}</h1>
-      <div className='text-sm'>{message}</div>
+      <div className='text-sm text-gray-700 dark:text-gray-300'>{message}</div>
     </div>
   )
 }

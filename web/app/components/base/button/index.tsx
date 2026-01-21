@@ -22,13 +22,13 @@ const Button: FC<IButtonProps> = ({
   let style = 'cursor-pointer'
   switch (type) {
     case 'link':
-      style = disabled ? 'border-solid border border-gray-200 bg-gray-200 cursor-not-allowed text-gray-800' : 'border-solid border border-gray-200 cursor-pointer text-blue-600 bg-white hover:shadow-sm hover:border-gray-300'
+      style = disabled ? 'border-solid border border-gray-200 dark:border-gray-800 bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-800 dark:text-gray-400' : 'border-solid border border-gray-200 dark:border-gray-800 cursor-pointer text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600'
       break
     case 'primary':
       style = (disabled || loading) ? 'bg-primary-600/75 cursor-not-allowed text-white' : 'bg-primary-600 hover:bg-primary-600/75 hover:shadow-md cursor-pointer text-white hover:shadow-sm'
       break
     default:
-      style = disabled ? 'border-solid border border-gray-200 bg-gray-200 cursor-not-allowed text-gray-800' : 'border-solid border border-gray-200 cursor-pointer text-gray-500 hover:bg-white hover:shadow-sm hover:border-gray-300'
+      style = disabled ? 'border-solid border border-gray-200 dark:border-gray-800 bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-800 dark:text-gray-400' : 'border-solid border border-gray-200 dark:border-gray-800 cursor-pointer text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600'
       break
   }
 

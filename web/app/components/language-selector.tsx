@@ -52,7 +52,7 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ onLanguageChange }) => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors"
       >
         <span className="text-xl mobile:hidden tablet:inline">{currentLanguage.flag}</span>
         <span className="text-sm font-medium mobile:hidden tablet:inline">{currentLanguage.name}</span>
@@ -68,13 +68,13 @@ const LanguageSelector: FC<LanguageSelectorProps> = ({ onLanguageChange }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 py-1 z-50">
           {languages.map((lang) => (
             <button
               key={lang.code}
               onClick={() => handleLanguageChange(lang.code)}
-              className={`w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors ${
-                lang.code === i18n.language ? 'bg-blue-50 text-blue-600' : ''
+              className={`w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                lang.code === i18n.language ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'dark:text-gray-200'
               }`}
             >
               <span className="text-xl">{lang.flag}</span>

@@ -52,21 +52,21 @@ const ConversationMenu: FC<IConversationMenuProps> = ({
           e.stopPropagation()
           setIsOpen(!isOpen)
         }}
-        className="p-1 rounded hover:bg-gray-200 transition-colors"
+        className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         aria-label="Conversation menu"
       >
-        <EllipsisVerticalIcon className="w-4 h-4 text-gray-500" />
+        <EllipsisVerticalIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-8 z-[10000] w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+        <div className="absolute right-0 top-8 z-[10000] w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 py-1">
           <button
             onClick={(e) => {
               e.stopPropagation()
               onPin?.()
               setIsOpen(false)
             }}
-            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
           >
             {isPinned ? (
               <>
@@ -86,7 +86,7 @@ const ConversationMenu: FC<IConversationMenuProps> = ({
               onRename?.()
               setIsOpen(false)
             }}
-            className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
           >
             <PencilIcon className="w-4 h-4" />
             {t('common.operation.rename')}
@@ -97,7 +97,7 @@ const ConversationMenu: FC<IConversationMenuProps> = ({
               onDelete?.()
               setIsOpen(false)
             }}
-            className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+            className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-2"
           >
             <TrashIcon className="w-4 h-4" />
             {t('common.operation.delete')}

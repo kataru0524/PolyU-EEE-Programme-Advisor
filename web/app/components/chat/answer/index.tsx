@@ -22,7 +22,7 @@ import Toast from '@/app/components/base/toast'
 function OperationBtn({ innerContent, onClick, className }: { innerContent: React.ReactNode, onClick?: () => void, className?: string }) {
   return (
     <div
-      className={`relative box-border flex items-center justify-center h-7 w-7 p-0.5 rounded-lg bg-white cursor-pointer text-gray-500 hover:text-gray-800 ${className ?? ''}`}
+      className={`relative box-border flex items-center justify-center h-7 w-7 p-0.5 rounded-lg bg-white dark:bg-gray-800 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 ${className ?? ''}`}
       style={{ boxShadow: '0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.05)' }}
       onClick={onClick && onClick}
     >
@@ -60,7 +60,7 @@ export const EditIconSolid: FC<{ className?: string }> = ({ className }) => {
 
 const IconWrapper: FC<{ children: React.ReactNode | string }> = ({ children }) => {
   return (
-    <div className="rounded-lg h-6 w-6 flex items-center justify-center hover:bg-gray-100">
+    <div className="rounded-lg h-6 w-6 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700">
       {children}
     </div>
   )
@@ -205,7 +205,7 @@ const Answer: FC<IAnswerProps> = ({
     if (!rating) { return null }
 
     const isLike = rating === 'like'
-    const ratingIconClassname = isLike ? 'text-primary-600 bg-primary-100 hover:bg-primary-200' : 'text-red-600 bg-red-100 hover:bg-red-200'
+    const ratingIconClassname = isLike ? 'text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-900/50' : 'text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50'
     // The tooltip is always displayed, but the content is different for different scenarios.
     return (
       <Tooltip
@@ -213,7 +213,7 @@ const Answer: FC<IAnswerProps> = ({
         content={isLike ? '取消赞同' : '取消反对'}
       >
         <div
-          className="relative box-border flex items-center justify-center h-7 w-7 p-0.5 rounded-lg bg-white cursor-pointer text-gray-500 hover:text-gray-800"
+          className="relative box-border flex items-center justify-center h-7 w-7 p-0.5 rounded-lg bg-white dark:bg-gray-800 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
           style={{ boxShadow: '0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.05)' }}
           onClick={async () => {
             await onFeedback?.(id, { rating: null })
@@ -245,10 +245,10 @@ const Answer: FC<IAnswerProps> = ({
             </Tooltip>
             {/* Combined TTS button with pause/stop when playing */}
             {isPlayingAudio && !isLoadingAudio ? (
-              <div className="relative box-border flex items-center h-7 rounded-lg bg-white cursor-pointer text-gray-500 hover:text-gray-800"
+              <div className="relative box-border flex items-center h-7 rounded-lg bg-white dark:bg-gray-800 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 style={{ boxShadow: '0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.05)' }}>
                 <Tooltip selector={`user-pause-${randomString(16)}`} content={isPaused ? t('common.operation.resume') as string : t('common.operation.pause') as string}>
-                  <div className="flex items-center justify-center h-full w-7 p-0.5 rounded-l-lg hover:bg-gray-100" onClick={handleTextToSpeech}>
+                  <div className="flex items-center justify-center h-full w-7 p-0.5 rounded-l-lg hover:bg-gray-100 dark:hover:bg-gray-700" onClick={handleTextToSpeech}>
                     <IconWrapper>
                       {isPaused ? (
                         <SpeakerWaveIcon className="w-4 h-4 text-primary-600" />
@@ -258,9 +258,9 @@ const Answer: FC<IAnswerProps> = ({
                     </IconWrapper>
                   </div>
                 </Tooltip>
-                <div className="w-px h-5 bg-gray-300"></div>
+                <div className="w-px h-5 bg-gray-300 dark:bg-gray-600"></div>
                 <Tooltip selector={`user-stop-${randomString(16)}`} content={t('common.operation.stop') as string}>
-                  <div className="flex items-center justify-center h-full w-7 p-0.5 rounded-r-lg hover:bg-gray-100" onClick={handleStopAudio}>
+                  <div className="flex items-center justify-center h-full w-7 p-0.5 rounded-r-lg hover:bg-gray-100 dark:hover:bg-gray-700" onClick={handleStopAudio}>
                     <IconWrapper>
                       <StopIcon className="w-4 h-4 text-red-600" />
                     </IconWrapper>
@@ -347,8 +347,8 @@ const Answer: FC<IAnswerProps> = ({
             )}
         </div>
         <div className={`${s.answerWrap} max-w-[calc(100%-3rem)]`} onMouseLeave={handleCopyMouseLeave}>
-          <div className={`${s.answer} relative text-sm text-gray-900`}>
-            <div className={`ml-2 py-3 px-4 bg-gray-100 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'}`}>
+          <div className={`${s.answer} relative text-sm text-gray-900 dark:text-gray-100`}>
+            <div className={`ml-2 py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'}`}>
               {workflowProcess && (
                 <WorkflowProcess data={workflowProcess} hideInfo />
               )}

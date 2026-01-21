@@ -186,6 +186,12 @@ const Main: FC<IMainProps> = () => {
   useEffect(handleConversationSwitch, [currConversationId, inited])
 
   const handleConversationIdChange = (id: string) => {
+    // Remove the temporary "New Chat" item if switching away from it without starting
+    if (currConversationId === '-1' && id !== '-1' && !isChatStarted) {
+      setConversationList(conversationList.filter(item => item.id !== '-1'))
+      setChatNotStarted()
+    }
+    
     if (id === '-1') {
       createNewChat()
       setConversationIdChangeBecauseOfNew(true)
@@ -810,7 +816,7 @@ const Main: FC<IMainProps> = () => {
   if (!APP_ID || !APP_INFO || !promptConfig) { return <Loading type='app' /> }
 
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-100 dark:bg-gray-800'>
       <Header
         title={APP_INFO.title}
         isMobile={isMobile}
@@ -818,7 +824,7 @@ const Main: FC<IMainProps> = () => {
         onCreateNewChat={() => handleConversationIdChange('-1')}
         onLanguageChange={handleLanguageChange}
       />
-      <div className="flex rounded-t-2xl bg-white">
+      <div className="flex rounded-t-2xl bg-white dark:bg-gray-950">
         {/* sidebar */}
         {!isMobile && renderSidebar()}
         {isMobile && isShowSidebar && (

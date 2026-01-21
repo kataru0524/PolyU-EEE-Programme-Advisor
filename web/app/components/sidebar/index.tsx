@@ -65,32 +65,34 @@ const Sidebar: FC<ISidebarProps> = ({
   }
   return (
     <div
-      className="shrink-0 flex flex-col overflow-y-auto bg-white pc:w-[244px] tablet:w-[192px] mobile:w-[240px]  border-r border-gray-200 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
+      className="shrink-0 flex flex-col overflow-y-auto bg-white dark:bg-gray-900 pc:w-[244px] tablet:w-[192px] mobile:w-[240px]  border-r border-gray-200 dark:border-gray-800 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
     >
       {list.length < MAX_CONVERSATION_LENTH && (
         <div className="flex flex-shrink-0 p-4 !pb-0">
           <Button
             onClick={() => { onCurrentIdChange('-1') }}
-            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 items-center text-sm"
+            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 dark:text-white items-center text-sm border border-primary-200 dark:border-gray-600 hover:bg-primary-50 dark:hover:bg-gray-800"
           >
             <PencilSquareIcon className="mr-2 h-4 w-4" /> {t('app.chat.newChat')}
           </Button>
         </div>
       )}
 
-      <nav className="mt-4 flex-1 space-y-1 bg-white p-4 !pt-0">
+      <nav className="mt-4 flex-1 space-y-1 bg-white dark:bg-gray-900 p-4 !pt-0">
         {list.map((item) => {
           const isCurrent = item.id === currentId
           const ItemIcon
             = isCurrent ? ChatBubbleOvalLeftEllipsisSolidIcon : ChatBubbleOvalLeftEllipsisIcon
+          const isNewChat = item.id === '-1'
+          const displayName = isNewChat ? t('app.chat.newChat') : item.name
           return (
             <div
               onClick={() => onCurrentIdChange(item.id)}
               key={item.id}
               className={classNames(
                 isCurrent
-                  ? 'bg-primary-50 text-primary-600'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-700',
+                  ? 'bg-primary-50 dark:bg-gray-800 text-primary-600 dark:text-gray-100'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200',
                 'group flex items-center justify-between rounded-md px-2 py-2 text-sm font-medium cursor-pointer',
               )}
             >
@@ -98,18 +100,21 @@ const Sidebar: FC<ISidebarProps> = ({
                 <ItemIcon
                   className={classNames(
                     isCurrent
-                      ? 'text-primary-600'
-                      : 'text-gray-400 group-hover:text-gray-500',
+                      ? 'text-primary-600 dark:text-gray-100'
+                      : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400',
                     'h-5 w-5 flex-shrink-0',
                   )}
                   aria-hidden="true"
                 />
-                <span className="truncate">{item.name}</span>
+                <span className="truncate">{displayName}</span>
                 {item.is_pinned && (
                   <StarIcon className="h-4 w-4 text-yellow-500 flex-shrink-0" />
                 )}
               </div>
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+              <div className={classNames(
+                "transition-opacity flex-shrink-0 w-6 h-6",
+                isNewChat ? "invisible pointer-events-none" : "opacity-0 group-hover:opacity-100"
+              )}>
                 <ConversationMenu
                   isPinned={item.is_pinned}
                   onPin={() => onPinConversation?.(item.id)}

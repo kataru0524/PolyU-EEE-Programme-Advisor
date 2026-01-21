@@ -53,14 +53,14 @@ const RenameDialog: FC<IRenameDialogProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={onCancel}>
       <div 
-        className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">{t('app.chat.renameConversation')}</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{t('app.chat.renameConversation')}</h3>
           <button
             onClick={onCancel}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
@@ -73,15 +73,15 @@ const RenameDialog: FC<IRenameDialogProps> = ({
             value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={t('app.chat.renameConversation')}
           />
         </div>
 
-        <div className="flex justify-end gap-2 px-6 py-4 bg-gray-50">
+        <div className="flex justify-end gap-2 px-6 py-4 bg-gray-50 dark:bg-gray-900">
           <Button
             onClick={onCancel}
-            className="!h-9 !bg-white !text-gray-700 hover:!bg-gray-100 border border-gray-300"
+            className="!h-9 !bg-white dark:!bg-gray-700 !text-gray-700 dark:!text-gray-200 hover:!bg-gray-100 dark:hover:!bg-gray-600 border border-gray-300 dark:border-gray-600"
           >
             {t('common.operation.cancel')}
           </Button>
