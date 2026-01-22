@@ -31,6 +31,7 @@ export interface IWelcomeProps {
   onInputsChange: (inputs: Record<string, any>) => void
   onPinConversation?: () => void
   onRenameConversation?: (name: string) => void
+  isSidebarCollapsed?: boolean
 }
 
 const Welcome: FC<IWelcomeProps> = ({
@@ -47,6 +48,7 @@ const Welcome: FC<IWelcomeProps> = ({
   onInputsChange,
   onPinConversation,
   onRenameConversation,
+  isSidebarCollapsed = false,
 }) => {
   const { t } = useTranslation()
   const [renameDialogOpen, setRenameDialogOpen] = useState(false)
@@ -148,7 +150,7 @@ const Welcome: FC<IWelcomeProps> = ({
 
   const renderInputs = () => {
     return (
-      <div className='space-y-3'>
+      <div className='flex flex-col' style={{ gap: 'var(--field-spacing, 0.75rem)' }}>
         {promptConfig.prompt_variables.filter(item => !item.hide).map(item => {
           // Get translated label and options
           const translatedLabel = t(`questions.user_input_form.${item.key}.label`, { defaultValue: item.name })
@@ -166,7 +168,7 @@ const Welcome: FC<IWelcomeProps> = ({
             : inputs?.[item.key]
 
           return (
-            <div className='space-y-2 mobile:text-xs tablet:text-sm' key={item.key}>
+            <div className='flex flex-col text-base' key={item.key} style={{ gap: 'var(--field-label-spacing, 0.5rem)' }}>
               <label className='block text-gray-900 dark:text-gray-100 font-medium'>{translatedLabel}</label>
               {item.type === 'select'
                 && (
@@ -209,7 +211,7 @@ const Welcome: FC<IWelcomeProps> = ({
             {item.type === 'number' && (
               <input
                 type="number"
-                className="block w-full p-2 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 sm:text-xs focus:ring-blue-500 focus:border-blue-500 "
+                className="block w-full p-2 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-base focus:ring-blue-500 focus:border-blue-500 "
                 placeholder={`${translatedLabel}${!item.required ? `(${t('appDebug.variableTable.optional')})` : ''}`}
                 value={inputs[item.key]}
                 onChange={(e) => { onInputsChange({ ...inputs, [item.key]: e.target.value }) }}
@@ -428,7 +430,14 @@ const Welcome: FC<IWelcomeProps> = ({
   return (
     <div className='relative mobile:min-h-[48px] tablet:min-h-[64px]'>
       {hasSetInputs && renderHeader()}
-      <div className='mx-auto pc:w-[794px] max-w-full mobile:w-full px-3.5'>
+      <div 
+        className='mx-auto mobile:w-full px-3.5' 
+        style={{ 
+          maxWidth: isSidebarCollapsed 
+            ? 'calc(100vw - 48px)' 
+            : 'min(794px, calc(100vw - var(--sidebar-width-pc, 244px) - 48px))'
+        }}
+      >
         {/*  Has't set inputs  */}
         {
           !hasSetInputs && (

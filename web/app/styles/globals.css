@@ -159,3 +159,174 @@ a {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
+
+/* Font Size Settings */
+.font-size-xs {
+  font-size: 14px;
+  --sidebar-width-pc: 230px;
+  --sidebar-width-tablet: 180px;
+  --sidebar-width-mobile: 230px;
+  --chat-input-min-height: 32px;
+  --start-chat-btn-width: 140px;  --start-chat-icon-size: 18px;  --avatar-size: 36px;
+  --message-triangle-width: 7px;
+  --message-triangle-height: 11px;
+  --field-spacing: 0.5rem;
+  --field-label-spacing: 0.4rem;
+  --dropdown-item-padding: 0.4rem;
+  --chat-input-width: 731px;
+  --message-box-max-width: min(calc(100% - 3rem), calc(100vw - var(--sidebar-width-pc, 230px) - 100px));
+}
+
+.font-size-xs .text-sm {
+  font-size: 0.8125rem !important;
+}
+
+.font-size-xs .text-base {
+  font-size: 0.875rem !important;
+}
+
+.font-size-sm {
+  font-size: 15px;
+  --sidebar-width-pc: 238px;
+  --sidebar-width-tablet: 186px;
+  --sidebar-width-mobile: 238px;
+  --chat-input-min-height: 34px;
+  --start-chat-btn-width: 145px;  --start-chat-icon-size: 19px;  --avatar-size: 38px;
+  --message-triangle-width: 7.5px;
+  --message-triangle-height: 11.5px;
+  --field-spacing: 0.625rem;
+  --field-label-spacing: 0.45rem;
+  --dropdown-item-padding: 0.45rem;
+  --chat-input-width: 762px;
+  --message-box-max-width: min(calc(100% - 3.125rem), calc(100vw - var(--sidebar-width-pc, 238px) - 100px));
+}
+
+.font-size-sm .text-sm {
+  font-size: 0.875rem !important;
+}
+
+.font-size-sm .text-base {
+  font-size: 0.9375rem !important;
+}
+
+.font-size-md {
+  font-size: 16px;
+  --sidebar-width-pc: 244px;
+  --sidebar-width-tablet: 192px;
+  --sidebar-width-mobile: 240px;
+  --chat-input-min-height: 36px;
+  --start-chat-btn-width: 150px;
+  --start-chat-icon-size: 20px;
+  --avatar-size: 40px;
+  --message-triangle-width: 8px;
+  --message-triangle-height: 12px;
+  --field-spacing: 0.75rem;
+  --field-label-spacing: 0.5rem;
+  --dropdown-item-padding: 0.5rem;
+  --chat-input-width: 794px;
+  --message-box-max-width: min(calc(100% - 3.25rem), calc(100vw - var(--sidebar-width-pc, 244px) - 100px));
+}
+
+.font-size-lg {
+  font-size: 17px;
+  --sidebar-width-pc: 260px;
+  --sidebar-width-tablet: 204px;
+  --sidebar-width-mobile: 256px;
+  --chat-input-min-height: 38px;
+  --start-chat-btn-width: 170px;
+  --start-chat-icon-size: 22px;
+  --avatar-size: 44px;
+  --message-triangle-width: 9px;
+  --message-triangle-height: 13px;
+  --field-spacing: 0.875rem;
+  --field-label-spacing: 0.5625rem;
+  --dropdown-item-padding: 0.5625rem;
+  --chat-input-width: 826px;
+  --message-box-max-width: min(calc(100% - 3.5rem), calc(100vw - var(--sidebar-width-pc, 260px) - 100px));
+}
+
+.font-size-lg .text-sm {
+  font-size: 0.9375rem !important;
+}
+
+.font-size-lg .text-base {
+  font-size: 1.0625rem !important;
+}
+
+.font-size-xl {
+  font-size: 18px;
+  --sidebar-width-pc: 276px;
+  --sidebar-width-tablet: 216px;
+  --sidebar-width-mobile: 272px;
+  --chat-input-min-height: 40px;
+  --start-chat-btn-width: 180px;
+  --start-chat-icon-size: 24px;
+  --avatar-size: 48px;
+  --message-triangle-width: 10px;
+  --message-triangle-height: 14px;
+  --field-spacing: 1rem;
+  --field-label-spacing: 0.625rem;
+  --dropdown-item-padding: 0.625rem;
+  --chat-input-width: 858px;
+  --message-box-max-width: min(calc(100% - 3.75rem), calc(100vw - var(--sidebar-width-pc, 276px) - 100px));
+}
+
+.font-size-xl .text-sm {
+  font-size: 1rem !important;
+}
+
+.font-size-xl .text-base {
+  font-size: 1.125rem !important;
+}
+
+.font-size-2xl {
+  font-size: 19px;
+  --sidebar-width-pc: 292px;
+  --sidebar-width-tablet: 228px;
+  --sidebar-width-mobile: 288px;
+  --chat-input-min-height: 42px;
+  --start-chat-btn-width: 190px;
+  --start-chat-icon-size: 26px;
+  --avatar-size: 52px;
+  --message-triangle-width: 11px;
+  --message-triangle-height: 15px;
+  --field-spacing: 1.125rem;
+  --field-label-spacing: 0.6875rem;
+  --dropdown-item-padding: 0.6875rem;
+  --chat-input-width: 890px;
+  --message-box-max-width: min(calc(100% - 4rem), calc(100vw - var(--sidebar-width-pc, 292px) - 100px));
+}
+
+.font-size-2xl .text-sm {
+  font-size: 1rem !important;
+}
+
+.font-size-2xl .text-base {
+  font-size: 1.1875rem !important;
+}
+
+.font-size-3xl {
+  font-size: 20px;
+  --sidebar-width-pc: 308px;
+  --sidebar-width-tablet: 240px;
+  --sidebar-width-mobile: 304px;
+  --chat-input-min-height: 44px;
+  --start-chat-btn-width: 200px;
+  --start-chat-icon-size: 28px;
+  --avatar-size: 56px;
+  --message-triangle-width: 12px;
+  --message-triangle-height: 16px;
+  --field-spacing: 1.25rem;
+  --field-label-spacing: 0.75rem;
+  --dropdown-item-padding: 0.75rem;
+  --chat-input-width: 922px;
+  --message-box-max-width: min(calc(100% - 4.25rem), calc(100vw - var(--sidebar-width-pc, 308px) - 100px));
+}
+
+.font-size-3xl .text-sm {
+  font-size: 1.0625rem !important;
+}
+
+.font-size-3xl .text-base {
+  font-size: 1.25rem !important;
+}

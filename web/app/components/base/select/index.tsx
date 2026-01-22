@@ -102,9 +102,10 @@ const Select: FC<ISelectProps> = ({
               <Combobox.Option
                 key={item.value}
                 value={item}
+                style={{ paddingTop: 'var(--dropdown-item-padding, 0.5rem)', paddingBottom: 'var(--dropdown-item-padding, 0.5rem)' }}
                 className={({ active }: { active: boolean }) =>
                   classNames(
-                    'relative cursor-default select-none py-2 pl-3 pr-9 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200',
+                    'relative cursor-default select-none pl-3 pr-9 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200',
                     active ? 'bg-gray-100 dark:bg-gray-700' : '',
                   )
                 }

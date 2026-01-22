@@ -38,6 +38,7 @@ export interface IChatProps {
   controlClearQuery?: number
   visionConfig?: VisionSettings
   fileConfig?: FileUpload
+  isSidebarCollapsed?: boolean
 }
 
 const Chat: FC<IChatProps> = ({
@@ -48,6 +49,7 @@ const Chat: FC<IChatProps> = ({
   checkCanSend,
   onSend = () => { },
   useCurrentUserAvatar,
+  isSidebarCollapsed = false,
   isResponding,
   controlClearQuery,
   visionConfig,
@@ -259,7 +261,7 @@ const Chat: FC<IChatProps> = ({
   }
 
   return (
-    <div className={cn(!feedbackDisabled && 'px-3.5')}>
+    <div className={cn(!feedbackDisabled && 'px-3.5', 'pr-4 max-w-full overflow-x-hidden')}>
       {/* Chat List */}
       <div className="space-y-[30px]">
         {chatList.map((item) => {
@@ -272,6 +274,7 @@ const Chat: FC<IChatProps> = ({
               onFeedback={onFeedback}
               isResponding={isResponding && isLast}
               suggestionClick={suggestionClick}
+              isSidebarCollapsed={isSidebarCollapsed}
             />
           }
           return (
@@ -281,13 +284,18 @@ const Chat: FC<IChatProps> = ({
               content={item.content}
               useCurrentUserAvatar={useCurrentUserAvatar}
               imgSrcs={(item.message_files && item.message_files?.length > 0) ? item.message_files.map(item => item.url) : []}
+              isSidebarCollapsed={isSidebarCollapsed}
             />
           )
         })}
       </div>
       {
         !isHideSendInput && (
-          <div className='fixed z-10 bottom-4 left-1/2 -translate-x-1/2 pc:ml-[122px] tablet:ml-[96px] mobile:ml-0 pc:w-[794px] tablet:w-[794px] mobile:w-[calc(100vw-28px)] max-w-[794px]'>
+          <div className='fixed z-10 bottom-4 left-1/2 -translate-x-1/2 mobile:ml-0' style={{ 
+            marginLeft: isSidebarCollapsed ? '0' : 'calc(var(--sidebar-width-pc, 244px) / 2)', 
+            width: isSidebarCollapsed ? 'min(var(--chat-input-width, 794px), calc(100vw - 40px))' : 'min(var(--chat-input-width, 794px), calc(100vw - var(--sidebar-width-pc, 244px) - 40px))', 
+            maxWidth: 'calc(100vw - 28px)' 
+          }}>
             <div className={`p-[5.5px] max-h-[150px] bg-white dark:bg-gray-800 rounded-xl overflow-y-auto shadow-lg transition-colors ${
               isListening ? 'border-[2px] border-red-400 dark:border-red-500' : 'border-[1.5px] border-gray-200 dark:border-gray-800'
             }`}>
@@ -332,6 +340,7 @@ const Chat: FC<IChatProps> = ({
                     ${visionConfig?.enabled && 'pl-12'}
                     ${isListening ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-200'}
                   `}
+                  style={{ minHeight: 'var(--chat-input-min-height, 44px)' }}
                   value={query}
                   onChange={handleContentChange}
                   onKeyUp={handleKeyUp}
@@ -346,7 +355,7 @@ const Chat: FC<IChatProps> = ({
                   </div>
                 )}
               </div>
-              <div className="absolute bottom-2 right-6 flex items-center h-8 gap-2">
+              <div className="absolute bottom-0 right-6 h-full flex items-center gap-2">
                 {!isIOS && (
                   <Tooltip
                     selector='voice-input-tip'

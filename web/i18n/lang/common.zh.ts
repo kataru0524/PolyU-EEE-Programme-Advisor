@@ -37,10 +37,19 @@ const translation = {
     light: '浅色模式',
     dark: '深色模式',
     system: '跟随系统',
-  },  settings: {
-    title: '設定',
-    appearance: '外觀',
-    language: '語言',
+  },
+  settings: {
+    title: '设定',
+    appearance: '外观',
+    language: '语言',
+    fontSize: '字体大小',
+    fontSizeXs: '小',
+    fontSizeSm: '较小',
+    fontSizeMd: '默认',
+    fontSizeLg: '较大',
+    fontSizeXl: '特大',
+    fontSize2xl: '超大',
+    fontSize3xl: '大',
   },  imageUploader: {
     uploadFromComputer: '从本地上传',
     uploadFromComputerReadError: '图片读取失败，请重新选择。',

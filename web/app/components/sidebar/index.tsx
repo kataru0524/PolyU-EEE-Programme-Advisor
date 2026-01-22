@@ -65,7 +65,10 @@ const Sidebar: FC<ISidebarProps> = ({
   }
   return (
     <div
-      className="shrink-0 flex flex-col overflow-y-auto bg-white dark:bg-gray-900 pc:w-[244px] tablet:w-[192px] mobile:w-[240px]  border-r border-gray-200 dark:border-gray-800 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
+      className="shrink-0 flex flex-col overflow-y-auto bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
+      style={{
+        width: 'var(--sidebar-width-pc, 244px)',
+      }}
     >
       {list.length < MAX_CONVERSATION_LENTH && (
         <div className="flex flex-shrink-0 p-4 !pb-0">

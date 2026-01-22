@@ -18,7 +18,7 @@
 }
 
 .customBtn {
-  width: 136px;
+  width: var(--start-chat-btn-width, 136px);
 }
 
 .logo {

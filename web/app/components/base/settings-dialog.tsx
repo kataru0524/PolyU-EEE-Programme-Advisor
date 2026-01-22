@@ -6,6 +6,27 @@ import { XMarkIcon, SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/re
 import { getLocaleOnClient, setLocaleOnClient } from '@/i18n/client'
 
 type ThemeMode = 'light' | 'dark' | 'system'
+type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
+
+const fontSizeMap: Record<string, FontSize> = {
+  '1': 'xs',
+  '2': 'sm',
+  '3': 'md',
+  '4': 'lg',
+  '5': 'xl',
+  '6': '2xl',
+  '7': '3xl',
+}
+
+const reverseFontSizeMap: Record<FontSize, string> = {
+  'xs': '1',
+  'sm': '2',
+  'md': '3',
+  'lg': '4',
+  'xl': '5',
+  '2xl': '6',
+  '3xl': '7',
+}
 
 export interface ISettingsDialogProps {
   isOpen: boolean
@@ -13,7 +34,7 @@ export interface ISettingsDialogProps {
   onLanguageChange?: (languageName: string) => void
 }
 
-// Initialize theme on module load
+// Initialize theme and font size on module load
 if (typeof window !== 'undefined') {
   const applyThemeGlobal = (mode: ThemeMode) => {
     const root = document.documentElement
@@ -28,11 +49,24 @@ if (typeof window !== 'undefined') {
     }
   }
 
+  const applyFontSizeGlobal = (size: FontSize) => {
+    const root = document.documentElement
+    root.classList.remove('font-size-xs', 'font-size-sm', 'font-size-md', 'font-size-lg', 'font-size-xl', 'font-size-2xl', 'font-size-3xl')
+    root.classList.add(`font-size-${size}`)
+  }
+
   const savedTheme = localStorage.getItem('theme_mode') as ThemeMode | null
   if (savedTheme) {
     applyThemeGlobal(savedTheme)
   } else {
     applyThemeGlobal('system')
+  }
+
+  const savedFontSize = localStorage.getItem('font_size') as FontSize | null
+  if (savedFontSize) {
+    applyFontSizeGlobal(savedFontSize)
+  } else {
+    applyFontSizeGlobal('md')
   }
 }
 
@@ -43,6 +77,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
 }) => {
   const { t, i18n } = useTranslation()
   const [themeMode, setThemeMode] = useState<ThemeMode>('system')
+  const [fontSize, setFontSize] = useState<FontSize>('md')
   const [currentLanguage, setCurrentLanguage] = useState(getLocaleOnClient())
 
   useEffect(() => {
@@ -50,6 +85,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     const savedTheme = localStorage.getItem('theme_mode') as ThemeMode | null
     if (savedTheme) {
       setThemeMode(savedTheme)
+    }
+    
+    // Load font size preference from localStorage
+    const savedFontSize = localStorage.getItem('font_size') as FontSize | null
+    if (savedFontSize) {
+      setFontSize(savedFontSize)
     }
   }, [isOpen])
 
@@ -70,6 +111,18 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     setThemeMode(mode)
     localStorage.setItem('theme_mode', mode)
     applyTheme(mode)
+  }
+
+  const applyFontSize = (size: FontSize) => {
+    const root = document.documentElement
+    root.classList.remove('font-size-xs', 'font-size-sm', 'font-size-md', 'font-size-lg', 'font-size-xl', 'font-size-2xl', 'font-size-3xl')
+    root.classList.add(`font-size-${size}`)
+  }
+
+  const handleFontSizeChange = (size: FontSize) => {
+    setFontSize(size)
+    localStorage.setItem('font_size', size)
+    applyFontSize(size)
   }
 
   const handleLanguageChange = (locale: string) => {
@@ -123,7 +176,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
         <div className="p-6 space-y-6">
           {/* Theme Section */}
           <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
               {t('common.settings.appearance', { defaultValue: 'Appearance' })}
             </h3>
             <div className="grid grid-cols-3 gap-3">
@@ -171,9 +224,35 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
             </div>
           </div>
 
-          {/* Language Section */}
+          {/* Font Size Section */}
           <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
+              {t('common.settings.fontSize', { defaultValue: 'Font Size' })}
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-xs font-medium text-gray-700 dark:text-gray-400">A</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="7"
+                  value={reverseFontSizeMap[fontSize]}
+                  onChange={(e) => handleFontSizeChange(fontSizeMap[e.target.value])}
+                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300"
+                />
+                <span className="text-2xl font-medium text-gray-700 dark:text-gray-400">A</span>
+              </div>
+              <div className="relative flex text-xs text-gray-500 dark:text-gray-400">
+                <span className="absolute left-0">{t('common.settings.fontSizeXs', { defaultValue: 'Small' })}</span>
+                <span className="absolute left-[35.2%] -translate-x-1/2">{t('common.settings.fontSizeMd', { defaultValue: 'Default' })}</span>
+                <span className="absolute right-0">{t('common.settings.fontSize3xl', { defaultValue: 'Large' })}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Language Section */}
+          <div className="pt-3">
+            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
               {t('common.settings.language', { defaultValue: 'Language' })}
             </h3>
             <div className="space-y-2">

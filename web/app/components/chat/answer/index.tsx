@@ -73,6 +73,7 @@ interface IAnswerProps {
   isResponding?: boolean
   allToolIcons?: Record<string, string | Emoji>
   suggestionClick?: (suggestion: string) => void
+  isSidebarCollapsed?: boolean
 }
 
 // The component needs to maintain its own state to control whether to display input component
@@ -83,6 +84,7 @@ const Answer: FC<IAnswerProps> = ({
   isResponding,
   allToolIcons,
   suggestionClick = () => { },
+  isSidebarCollapsed = false,
 }) => {
   const { id, content, feedback, agent_thoughts, workflowProcess, suggestedQuestions = [] } = item
   const isAgentMode = !!agent_thoughts && agent_thoughts.length > 0
@@ -93,6 +95,14 @@ const Answer: FC<IAnswerProps> = ({
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioUrlRef = useRef<string | null>(null)
   const cachedAudioBlobRef = useRef<Blob | null>(null)
+
+  // Calculate max width based on sidebar state
+  const getMaxWidth = () => {
+    if (isSidebarCollapsed) {
+      return 'calc(100% - 3rem)'
+    }
+    return 'var(--message-box-max-width, calc(100% - 3rem))'
+  }
   const { notify } = Toast
 
   const { t } = useTranslation()
@@ -338,7 +348,7 @@ const Answer: FC<IAnswerProps> = ({
   return (
     <div key={id}>
       <div className="flex items-start">
-        <div className={`${s.answerIcon} w-10 h-10 shrink-0`}>
+        <div className={`${s.answerIcon} w-10 h-10 shrink-0`} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}>
           {isResponding
             && (
               <div className={s.typeingIcon}>
@@ -346,8 +356,8 @@ const Answer: FC<IAnswerProps> = ({
               </div>
             )}
         </div>
-        <div className={`${s.answerWrap} max-w-[calc(100%-3rem)]`} onMouseLeave={handleCopyMouseLeave}>
-          <div className={`${s.answer} relative text-sm text-gray-900 dark:text-gray-100`}>
+        <div className={`${s.answerWrap}`} style={{ maxWidth: getMaxWidth() }} onMouseLeave={handleCopyMouseLeave}>
+          <div className={`${s.answer} relative text-base text-gray-900 dark:text-gray-100`}>
             <div className={`ml-2 py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'}`}>
               {workflowProcess && (
                 <WorkflowProcess data={workflowProcess} hideInfo />

@@ -1,6 +1,8 @@
 .answerIcon {
   position: relative;
   background: url(./icons/robot.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .typeingIcon {
@@ -33,8 +35,9 @@
   content: '';
   position: absolute;
   top: 0;
-  width: 8px;
-  height: 12px;
+  width: var(--message-triangle-width, 8px);
+  height: var(--message-triangle-height, 12px);
+  background-size: contain !important;
 }
 
 .answer::before {

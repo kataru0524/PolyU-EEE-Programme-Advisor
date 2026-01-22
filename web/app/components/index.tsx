@@ -45,6 +45,7 @@ const Main: FC<IMainProps> = () => {
   const [inited, setInited] = useState<boolean>(false)
   // in mobile, show sidebar by click button
   const [isShowSidebar, { setTrue: showSidebar, setFalse: hideSidebar }] = useBoolean(false)
+  const [shouldAutoCollapse, setShouldAutoCollapse] = useState<boolean>(false)
   const [visionConfig, setVisionConfig] = useState<VisionSettings | undefined>({
     enabled: false,
     number_limits: 2,
@@ -54,6 +55,31 @@ const Main: FC<IMainProps> = () => {
   const [fileConfig, setFileConfig] = useState<FileUpload | undefined>()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deletingConversationId, setDeletingConversationId] = useState<string>('')
+
+  // Monitor sidebar width and auto-collapse if needed
+  useEffect(() => {
+    const checkSidebarWidth = () => {
+      const sidebarWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width-pc') || '244')
+      const viewportWidth = window.innerWidth
+      const sidebarPercentage = (sidebarWidth / viewportWidth) * 100
+      setShouldAutoCollapse(sidebarPercentage > 35 && !isMobile)
+    }
+
+    checkSidebarWidth()
+    window.addEventListener('resize', checkSidebarWidth)
+    
+    // Re-check when font size changes
+    const observer = new MutationObserver(checkSidebarWidth)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    return () => {
+      window.removeEventListener('resize', checkSidebarWidth)
+      observer.disconnect()
+    }
+  }, [isMobile])
 
   // Initialize permanent browser session ID
   useEffect(() => {
@@ -819,15 +845,15 @@ const Main: FC<IMainProps> = () => {
     <div className='bg-gray-100 dark:bg-gray-800'>
       <Header
         title={APP_INFO.title}
-        isMobile={isMobile}
+        isMobile={isMobile || shouldAutoCollapse}
         onShowSideBar={showSidebar}
         onCreateNewChat={() => handleConversationIdChange('-1')}
         onLanguageChange={handleLanguageChange}
       />
       <div className="flex rounded-t-2xl bg-white dark:bg-gray-950">
         {/* sidebar */}
-        {!isMobile && renderSidebar()}
-        {isMobile && isShowSidebar && (
+        {!isMobile && !shouldAutoCollapse && renderSidebar()}
+        {(isMobile || shouldAutoCollapse) && isShowSidebar && (
           <div className='fixed inset-0 z-50' style={{ backgroundColor: 'rgba(35, 56, 118, 0.2)' }} onClick={hideSidebar} >
             <div className='inline-block' onClick={e => e.stopPropagation()}>
               {renderSidebar()}
@@ -850,11 +876,20 @@ const Main: FC<IMainProps> = () => {
             onInputsChange={setCurrInputs}
             onPinConversation={() => handlePinConversation(currConversationId)}
             onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
+            isSidebarCollapsed={isMobile || shouldAutoCollapse}
           ></ConfigSence>
 
           {
             hasSetInputs && (
-              <div className='relative grow w-full pc:max-w-[794px] pb-[180px] mx-auto mb-3.5 overflow-y-auto' ref={chatListDomRef}>
+              <div 
+                className='relative grow w-full pb-[180px] mx-auto mb-3.5 overflow-y-auto' 
+                style={{ 
+                  maxWidth: (isMobile || shouldAutoCollapse) 
+                    ? 'calc(100vw - 48px)' 
+                    : 'min(794px, calc(100vw - var(--sidebar-width-pc, 244px) - 48px))'
+                }} 
+                ref={chatListDomRef}
+              >
                 <Chat
                   chatList={chatList}
                   onSend={handleSend}
@@ -863,6 +898,7 @@ const Main: FC<IMainProps> = () => {
                   checkCanSend={checkCanSend}
                   visionConfig={visionConfig}
                   fileConfig={fileConfig}
+                  isSidebarCollapsed={isMobile || shouldAutoCollapse}
                 />
               </div>)
           }
