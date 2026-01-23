@@ -1,8 +1,10 @@
 .answerIcon {
   position: relative;
-  background: url(./icons/robot.svg);
-  background-size: contain;
+  background: #DCF4F6 url(/eee-logo.png);
+  background-size: 85%;
   background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
 }
 
 .typeingIcon {

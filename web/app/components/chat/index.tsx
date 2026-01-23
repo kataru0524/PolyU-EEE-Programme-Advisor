@@ -261,9 +261,13 @@ const Chat: FC<IChatProps> = ({
   }
 
   return (
-    <div className={cn(!feedbackDisabled && 'px-3.5', 'pr-4 max-w-full overflow-x-hidden')}>
+    <div className={cn(
+      !feedbackDisabled && (isSidebarCollapsed ? 'px-1' : 'px-3.5'), 
+      isSidebarCollapsed ? '' : 'pr-4', 
+      'w-full'
+    )}>
       {/* Chat List */}
-      <div className="space-y-[30px]">
+      <div className="space-y-[30px] overflow-visible">
         {chatList.map((item) => {
           if (item.isAnswer) {
             const isLast = item.id === chatList[chatList.length - 1].id
@@ -291,11 +295,22 @@ const Chat: FC<IChatProps> = ({
       </div>
       {
         !isHideSendInput && (
-          <div className='fixed z-10 bottom-4 left-1/2 -translate-x-1/2 mobile:ml-0' style={{ 
-            marginLeft: isSidebarCollapsed ? '0' : 'calc(var(--sidebar-width-pc, 244px) / 2)', 
-            width: isSidebarCollapsed ? 'min(var(--chat-input-width, 794px), calc(100vw - 40px))' : 'min(var(--chat-input-width, 794px), calc(100vw - var(--sidebar-width-pc, 244px) - 40px))', 
-            maxWidth: 'calc(100vw - 28px)' 
-          }}>
+          <>
+            <div className='fixed bottom-0 right-0 h-32 pointer-events-none dark:hidden' style={{
+              background: 'linear-gradient(to top, rgb(255, 255, 255), transparent)',
+              zIndex: 9,
+              left: isSidebarCollapsed ? '0' : 'var(--sidebar-width-pc, 244px)'
+            }}></div>
+            <div className='fixed bottom-0 right-0 h-32 pointer-events-none hidden dark:block' style={{
+              background: 'linear-gradient(to top, rgb(3, 7, 18), transparent)',
+              zIndex: 9,
+              left: isSidebarCollapsed ? '0' : 'var(--sidebar-width-pc, 244px)'
+            }}></div>
+            <div className='fixed z-10 bottom-4 left-1/2 -translate-x-1/2 mobile:ml-0' style={{ 
+              marginLeft: isSidebarCollapsed ? '0' : 'calc(var(--sidebar-width-pc, 244px) / 2)', 
+              width: isSidebarCollapsed ? 'min(var(--chat-input-width, 794px), calc(100vw - 40px))' : 'min(var(--chat-input-width, 794px), calc(100vw - var(--sidebar-width-pc, 244px) - 40px))', 
+              maxWidth: 'calc(100vw - 28px)' 
+            }}>
             <div className={`p-[5.5px] max-h-[150px] bg-white dark:bg-gray-800 rounded-xl overflow-y-auto shadow-lg transition-colors ${
               isListening ? 'border-[2px] border-red-400 dark:border-red-500' : 'border-[1.5px] border-gray-200 dark:border-gray-800'
             }`}>
@@ -396,6 +411,7 @@ const Chat: FC<IChatProps> = ({
               </div>
             </div>
           </div>
+          </>
         )
       }
     </div>

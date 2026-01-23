@@ -882,24 +882,33 @@ const Main: FC<IMainProps> = () => {
           {
             hasSetInputs && (
               <div 
-                className='relative grow w-full pb-[180px] mx-auto mb-3.5 overflow-y-auto' 
+                className='relative grow pb-[180px] mb-3.5 overflow-y-auto chat-scrollbar' 
                 style={{ 
-                  maxWidth: (isMobile || shouldAutoCollapse) 
-                    ? 'calc(100vw - 48px)' 
-                    : 'min(794px, calc(100vw - var(--sidebar-width-pc, 244px) - 48px))'
+                  width: 'calc(100% - 6px)',
+                  marginLeft: 'auto',
+                  marginRight: '6px'
                 }} 
                 ref={chatListDomRef}
               >
-                <Chat
-                  chatList={chatList}
-                  onSend={handleSend}
-                  onFeedback={handleFeedback}
-                  isResponding={isResponding}
-                  checkCanSend={checkCanSend}
-                  visionConfig={visionConfig}
-                  fileConfig={fileConfig}
-                  isSidebarCollapsed={isMobile || shouldAutoCollapse}
-                />
+                <div 
+                  className='mx-auto'
+                  style={{
+                    maxWidth: (isMobile || shouldAutoCollapse) 
+                      ? 'calc(100vw - 48px)' 
+                      : 'min(794px, calc(100vw - var(--sidebar-width-pc, 244px) - 48px))'
+                  }}
+                >
+                  <Chat
+                    chatList={chatList}
+                    onSend={handleSend}
+                    onFeedback={handleFeedback}
+                    isResponding={isResponding}
+                    checkCanSend={checkCanSend}
+                    visionConfig={visionConfig}
+                    fileConfig={fileConfig}
+                    isSidebarCollapsed={isMobile || shouldAutoCollapse}
+                  />
+                </div>
               </div>)
           }
         </div>

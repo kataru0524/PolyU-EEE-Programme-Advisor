@@ -99,7 +99,7 @@ const Answer: FC<IAnswerProps> = ({
   // Calculate max width based on sidebar state
   const getMaxWidth = () => {
     if (isSidebarCollapsed) {
-      return 'calc(100% - 3rem)'
+      return 'calc(100% - 1rem)'
     }
     return 'var(--message-box-max-width, calc(100% - 3rem))'
   }
@@ -348,17 +348,19 @@ const Answer: FC<IAnswerProps> = ({
   return (
     <div key={id}>
       <div className="flex items-start">
-        <div className={`${s.answerIcon} w-10 h-10 shrink-0`} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}>
-          {isResponding
-            && (
-              <div className={s.typeingIcon}>
-                <LoadingAnim type="avatar" />
-              </div>
-            )}
-        </div>
+        {!isSidebarCollapsed && (
+          <div className={`${s.answerIcon} w-10 h-10 shrink-0`} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}>
+            {isResponding
+              && (
+                <div className={s.typeingIcon}>
+                  <LoadingAnim type="avatar" />
+                </div>
+              )}
+          </div>
+        )}
         <div className={`${s.answerWrap}`} style={{ maxWidth: getMaxWidth() }} onMouseLeave={handleCopyMouseLeave}>
-          <div className={`${s.answer} relative text-base text-gray-900 dark:text-gray-100`}>
-            <div className={`ml-2 py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'}`}>
+          <div className={`${s.answer} relative text-base text-gray-900 dark:text-gray-100 overflow-visible`}>
+            <div className={`py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'} ${!isSidebarCollapsed && 'ml-2'}`}>
               {workflowProcess && (
                 <WorkflowProcess data={workflowProcess} hideInfo />
               )}

@@ -18,8 +18,8 @@ const Question: FC<IQuestionProps> = ({ id, content, useCurrentUserAvatar, imgSr
   // Calculate max width based on sidebar state
   const getMaxWidth = () => {
     if (isSidebarCollapsed) {
-      // When sidebar collapsed, message box should account for avatar and margins
-      return 'calc(100% - var(--avatar-size, 40px) - 2rem)'
+      // When sidebar collapsed and avatar hidden, use more space
+      return 'calc(100% - 1rem)'
     }
     return 'var(--message-box-max-width, calc(100% - 3rem))'
   }
@@ -29,7 +29,7 @@ const Question: FC<IQuestionProps> = ({ id, content, useCurrentUserAvatar, imgSr
       <div style={{ maxWidth: getMaxWidth() }}>
         <div className={`${s.question} relative text-base`}>
           <div
-            className={'mr-2 py-3 px-4 bg-blue-500 dark:bg-blue-600 text-gray-900 dark:text-white rounded-tl-2xl rounded-b-2xl'}
+            className={`py-3 px-4 bg-blue-500 dark:bg-blue-600 text-gray-900 dark:text-white rounded-tl-2xl rounded-b-2xl ${!isSidebarCollapsed && 'mr-2'}`}
           >
             {imgSrcs && imgSrcs.length > 0 && (
               <ImageGallery srcs={imgSrcs} />
@@ -38,15 +38,19 @@ const Question: FC<IQuestionProps> = ({ id, content, useCurrentUserAvatar, imgSr
           </div>
         </div>
       </div>
-      {useCurrentUserAvatar
-        ? (
-          <div className='w-10 h-10 shrink-0 leading-10 text-center mr-2 rounded-full bg-primary-600 text-white' style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)', lineHeight: 'var(--avatar-size, 40px)' }}>
-            {userName?.[0].toLocaleUpperCase()}
-          </div>
-        )
-        : (
-          <div className={`${s.questionIcon} w-10 h-10 shrink-0 `} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}></div>
-        )}
+      {!isSidebarCollapsed && (
+        <>
+          {useCurrentUserAvatar
+            ? (
+              <div className='w-10 h-10 shrink-0 leading-10 text-center mr-2 rounded-full bg-primary-600 text-white' style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)', lineHeight: 'var(--avatar-size, 40px)' }}>
+                {userName?.[0].toLocaleUpperCase()}
+              </div>
+            )
+            : (
+              <div className={`${s.questionIcon} w-10 h-10 shrink-0 `} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}></div>
+            )}
+        </>
+      )}
     </div>
   )
 }
