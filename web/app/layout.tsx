@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { getLocaleOnServer } from '@/i18n/server'
 
 import './styles/globals.css'
@@ -15,6 +16,7 @@ const LocaleLayout = async ({
         <div className="w-full h-full min-w-[300px]">
           {children}
         </div>
+        <SpeedInsights />
       </body>
     </html>
   )
