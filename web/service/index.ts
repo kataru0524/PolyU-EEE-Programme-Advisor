@@ -92,3 +92,25 @@ export const textToAudio = async (messageId: string, text?: string) => {
   return response.blob()
 }
 
+export const audioToText = async (audioFile: File, user: string) => {
+  const API_PREFIX = '/api'
+  const url = `${API_PREFIX}/audio-to-text`
+  
+  const formData = new FormData()
+  formData.append('file', audioFile)
+  formData.append('user', user)
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    body: formData,
+  })
+  
+  if (!response.ok) {
+    throw new Error(`Failed to convert audio to text: ${response.statusText}`)
+  }
+  
+  const data = await response.json()
+  return data.text
+}
+

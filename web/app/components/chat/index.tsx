@@ -18,7 +18,9 @@ import { useImageFiles } from '@/app/components/base/image-uploader/hooks'
 import FileUploaderInAttachmentWrapper from '@/app/components/base/file-uploader-in-attachment'
 import type { FileEntity, FileUpload } from '@/app/components/base/file-uploader-in-attachment/types'
 import { getProcessedFiles } from '@/app/components/base/file-uploader-in-attachment/utils'
-import { MicrophoneIcon } from '@heroicons/react/24/solid'
+import { MicrophoneIcon, StopIcon } from '@heroicons/react/24/solid'
+import { audioToText } from '@/service'
+import { Mp3Encoder } from '@breezystack/lamejs'
 
 export interface IChatProps {
   chatList: ChatItem[]
@@ -62,8 +64,10 @@ const Chat: FC<IChatProps> = ({
   const [query, setQuery] = React.useState('')
   const queryRef = useRef('')
   const [isListening, setIsListening] = useState(false)
+  const [isTranscribing, setIsTranscribing] = useState(false)
   const [recordingDuration, setRecordingDuration] = useState(0)
-  const recognitionRef = useRef<any>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
   const timerRef = useRef<any>(null)
 
   // Detect iOS devices
@@ -97,84 +101,129 @@ const Chat: FC<IChatProps> = ({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
   }
 
-  // Map i18n locale to speech recognition language codes
-  const getRecognitionLang = (locale: string) => {
-    const langMap: Record<string, string> = {
-      'en': 'en-US',
-      'zh-Hans': 'zh-CN',
-      'zh-Hant': 'zh-HK',
-    }
-    return langMap[locale] || 'en-US'
-  }
+  const startVoiceRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      
+      // Try M4A/MP4 first (iOS native), then fall back to webm
+      let mimeType = 'audio/mp4'
+      if (!MediaRecorder.isTypeSupported('audio/mp4')) {
+        mimeType = 'audio/webm;codecs=opus'
+      }
+      
+      const mediaRecorder = new MediaRecorder(stream, { mimeType })
+      audioChunksRef.current = []
 
-  const startVoiceRecognition = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      notify({ type: 'error', message: 'Speech recognition is not supported in this browser.', duration: 3000 })
-      return
-    }
-
-    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
-    const recognition = new SpeechRecognition()
-    
-    recognition.lang = getRecognitionLang(i18n.language)
-    recognition.continuous = true
-    recognition.interimResults = true
-
-    recognition.onstart = () => {
-      setIsListening(true)
-    }
-
-    recognition.onresult = (event: any) => {
-      let interimTranscript = ''
-      let finalTranscript = ''
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript
-        if (event.results[i].isFinal) {
-          finalTranscript += transcript + ' '
-        } else {
-          interimTranscript += transcript
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data)
         }
       }
 
-      if (finalTranscript) {
-        const newQuery = queryRef.current + (queryRef.current ? ' ' : '') + finalTranscript
-        setQuery(newQuery)
-        queryRef.current = newQuery
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType })
+        // Stop all tracks
+        stream.getTracks().forEach(track => track.stop())
+        setIsTranscribing(true)
+        try {
+          // Convert to MP3
+          console.log('Converting to MP3...')
+          const audioContext = new AudioContext()
+          const arrayBuffer = await audioBlob.arrayBuffer()
+          const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+          const mp3Blob = convertToMp3(audioBuffer)
+          console.log('MP3 blob size:', mp3Blob.size)
+          // Send to API
+          const audioFile = new File([mp3Blob], 'recording.mp3', { type: 'audio/mp3' })
+          console.log('Sending audio file:', audioFile.name, audioFile.type, audioFile.size, 'bytes')
+          const transcribedText = await audioToText(audioFile, 'user')
+          console.log('Transcribed text:', transcribedText)
+          if (transcribedText) {
+            const newQuery = queryRef.current + (queryRef.current ? ' ' : '') + transcribedText
+            setQuery(newQuery)
+            queryRef.current = newQuery
+          }
+        } catch (error) {
+          console.error('Transcription error:', error)
+          notify({ type: 'error', message: t('app.errorMessage.speechToTextFailed') || 'Failed to convert speech to text', duration: 3000 })
+        } finally {
+          setIsTranscribing(false)
+        }
       }
-    }
 
-    recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error)
-      if (event.error !== 'no-speech' && event.error !== 'aborted') {
-        setIsListening(false)
-        notify({ type: 'error', message: `Voice input error: ${event.error}`, duration: 3000 })
-      }
+      mediaRecorder.start()
+      mediaRecorderRef.current = mediaRecorder
+      setIsListening(true)
+    } catch (error) {
+      console.error('Microphone access error:', error)
+      notify({ type: 'error', message: 'Could not access microphone. Please check permissions.', duration: 3000 })
     }
-
-    recognition.onend = () => {
-      // Don't auto-restart, user must manually stop
-      if (recognitionRef.current) {
-        setIsListening(false)
-      }
-    }
-
-    recognitionRef.current = recognition
-    recognition.start()
   }
 
-  const stopVoiceRecognition = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop()
+  const convertToMp3 = (audioBuffer: AudioBuffer): Blob => {
+    const channels = 1 // Mono
+    const sampleRate = 44100 // 44.1kHz for better quality
+    const kbps = 192 // Higher bitrate for better quality
+
+    // Get audio data and resample to 44.1kHz mono
+    const samples = audioBuffer.getChannelData(0)
+    const resampleRatio = audioBuffer.sampleRate / sampleRate
+    const resampledLength = Math.floor(samples.length / resampleRatio)
+    const resampledSamples = new Float32Array(resampledLength)
+
+    for (let i = 0; i < resampledLength; i++) {
+      resampledSamples[i] = samples[Math.floor(i * resampleRatio)]
+    }
+
+    // Convert to 16-bit PCM
+    const pcmSamples = new Int16Array(resampledLength)
+    for (let i = 0; i < resampledLength; i++) {
+      const s = Math.max(-1, Math.min(1, resampledSamples[i]))
+      pcmSamples[i] = s < 0 ? s * 0x8000 : s * 0x7FFF
+    }
+
+    // Encode to MP3
+    const mp3encoder = new Mp3Encoder(channels, sampleRate, kbps)
+    const mp3Data = []
+    const sampleBlockSize = 1152
+
+    for (let i = 0; i < pcmSamples.length; i += sampleBlockSize) {
+      const sampleChunk = pcmSamples.subarray(i, i + sampleBlockSize)
+      const mp3buf = mp3encoder.encodeBuffer(sampleChunk)
+      if (mp3buf.length > 0) {
+        mp3Data.push(new Uint8Array(mp3buf))
+      }
+    }
+
+    const mp3buf = mp3encoder.flush()
+    if (mp3buf.length > 0) {
+      mp3Data.push(new Uint8Array(mp3buf))
+    }
+
+    // Flatten mp3Data to a single Uint8Array
+    const totalLength = mp3Data.reduce((acc, arr) => acc + arr.length, 0)
+    const mergedArray = new Uint8Array(totalLength)
+    let offset = 0
+    for (const arr of mp3Data) {
+      mergedArray.set(arr, offset)
+      offset += arr.length
+    }
+    return new Blob([mergedArray], { type: 'audio/mp3' })
+  }
+
+  const stopVoiceRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop()
+      mediaRecorderRef.current = null
       setIsListening(false)
     }
   }
 
   const handleVoiceButtonClick = () => {
     if (isListening) {
-      stopVoiceRecognition()
+      stopVoiceRecording()
     } else {
-      startVoiceRecognition()
+      startVoiceRecording()
     }
   }
 
@@ -353,7 +402,7 @@ const Chat: FC<IChatProps> = ({
                   className={`
                     block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-base outline-none appearance-none resize-none transition-colors
                     ${visionConfig?.enabled && 'pl-12'}
-                    ${isListening ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-200'}
+                    ${(isListening || isTranscribing) ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-200'}
                   `}
                   style={{ minHeight: 'var(--chat-input-min-height, 44px)' }}
                   value={query}
@@ -361,33 +410,39 @@ const Chat: FC<IChatProps> = ({
                   onKeyUp={handleKeyUp}
                   onKeyDown={handleKeyDown}
                   autoSize
-                  disabled={isListening}
+                  disabled={isListening || isTranscribing}
                 />
-                {isListening && (
-                  <div className="absolute top-1/2 -translate-y-1/2 left-2 flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                {(isListening || isTranscribing) && (
+                  <div className="absolute top-1/2 -translate-y-1/2 left-2 flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium z-10">
                     <div className="w-2 h-2 bg-white dark:bg-gray-200 rounded-full animate-pulse"></div>
-                    <span className="leading-none">{t('common.operation.voiceInput')} {formatDuration(recordingDuration)}</span>
+                    <span className="leading-none">
+                      {isListening
+                        ? `${t('common.operation.voiceInput')} ${formatDuration(recordingDuration)}`
+                        : t('common.operation.voiceRecognitionInProgress') || 'Voice recognition in progress...'}
+                    </span>
                   </div>
                 )}
               </div>
               <div className="absolute bottom-0 right-6 h-full flex items-center gap-2">
-                {!isIOS && (
-                  <Tooltip
-                    selector='voice-input-tip'
-                    content={isListening ? t('common.operation.stopRecording') : t('common.operation.voiceInput')}
+                <Tooltip
+                  selector='voice-input-tip'
+                  content={isListening ? t('common.operation.stopRecording') : t('common.operation.voiceInput')}
+                >
+                  <button
+                    onClick={handleVoiceButtonClick}
+                    className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
+                      isListening 
+                        ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+                        : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
+                    }`}
                   >
-                    <button
-                      onClick={handleVoiceButtonClick}
-                      className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
-                        isListening 
-                          ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
-                          : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300'
-                      }`}
-                    >
+                    {isListening ? (
+                      <StopIcon className="w-5 h-5" />
+                    ) : (
                       <MicrophoneIcon className="w-5 h-5" />
-                    </button>
-                  </Tooltip>
-                )}
+                    )}
+                  </button>
+                </Tooltip>
                 {isListening ? (
                   <div 
                     className={`${s.sendBtn} w-8 h-8 rounded-md opacity-40 cursor-not-allowed pointer-events-none`} 

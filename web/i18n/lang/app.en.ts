@@ -29,6 +29,7 @@ const translation = {
     valueOfVarRequired: 'Variables value can not be empty',
     waitForResponse:
       'Please wait for the response to the previous message to complete.',
+    speechToTextFailed: 'Failed to convert speech to text',
   },
   variableTable: {
     optional: 'Optional',

@@ -23,6 +23,7 @@ const translation = {
   errorMessage: {
     valueOfVarRequired: '变量值必填',
     waitForResponse: '请等待上条信息响应完成',
+    speechToTextFailed: '语音转文字失败',
   },
   variableTable: {
     optional: '可选',

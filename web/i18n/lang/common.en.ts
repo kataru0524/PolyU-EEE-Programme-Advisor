@@ -20,6 +20,7 @@ const translation = {
     ok: 'OK',
     voiceInput: 'Voice input',
     stopRecording: 'Stop recording',
+    voiceRecognitionInProgress: 'Recognizing...',
     textToSpeech: 'Read aloud',
     pause: 'Pause',
     resume: 'Resume',

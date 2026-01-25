@@ -22,6 +22,7 @@ const translation = {
   errorMessage: {
     valueOfVarRequired: '變數值必須填寫',
     waitForResponse: '請等上一個訊息回應完',
+    speechToTextFailed: '語音轉文字失敗',
   },
   variableTable: {
     optional: '選填',

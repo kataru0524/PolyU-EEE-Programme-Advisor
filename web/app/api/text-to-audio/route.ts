@@ -9,8 +9,7 @@ export async function POST(request: NextRequest) {
   const { message_id, text } = body
 
   try {
-    const baseUrl = API_URL || 'https://api.dify.ai/v1'
-    const url = `${baseUrl}/text-to-audio`
+    const url = `${API_URL}/text-to-audio`
     
     const response = await fetch(url, {
       method: 'POST',
