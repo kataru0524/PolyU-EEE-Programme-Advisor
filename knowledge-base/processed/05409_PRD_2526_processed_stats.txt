@@ -1,0 +1,188 @@
+================================================================================
+MARKDOWN HEADING STATISTICS
+================================================================================
+
+File: 05409_PRD_2526_processed.md
+Total sections analyzed: 42
+
+Heading 1 (H1) sections: 6
+Heading 2 (H2) sections: 36
+Total H1 content characters: 78,525
+Total H2 content characters: 76,860
+Maximum H1 content characters: 58,079
+Maximum H2 content characters: 13,304
+
+Maximum H2 section length after processing: 2,464 characters
+
+--------------------------------------------------------------------------------
+PARAGRAPH STATISTICS (delimited by \n\n)
+--------------------------------------------------------------------------------
+
+Total paragraphs: 273
+Maximum paragraph length: 2,464 characters
+Average paragraph length: 286.1 characters
+Minimum paragraph length: 7 characters
+
+Paragraph length distribution:
+  Paragraphs > 600 chars: 33 (12.1%)
+  Paragraphs > 800 chars: 21 (7.7%)
+  Paragraphs > 1000 chars: 18 (6.6%)
+  Paragraphs > 2000 chars: 1 (0.4%)
+
+--------------------------------------------------------------------------------
+LINE STATISTICS (delimited by \n)
+--------------------------------------------------------------------------------
+
+Total lines: 529
+Maximum line length: 945 characters
+Average line length: 146.4 characters
+Minimum line length: 2 characters
+
+Line length distribution:
+  Lines > 100 chars: 221 (41.8%)
+  Lines > 200 chars: 134 (25.3%)
+  Lines > 500 chars: 25 (4.7%)
+  Lines > 1000 chars: 0 (0.0%)
+
+================================================================================
+DETAILED BREAKDOWN
+================================================================================
+
+--- HEADING 1 (H1) SECTIONS ---
+(Sorted by character count: largest to smallest)
+
+1. 5 Academic Regulations
+   Content characters: 58,079
+
+2. 1 General Information
+   Content characters: 7,877
+
+3. 3 Curricula
+   Content characters: 5,483
+
+4. 4 Management and Operation
+   Content characters: 4,709
+
+5. 2 Aims and Characteristics
+   Content characters: 1,681
+
+6. 6 Syllabi
+   Content characters: 696
+
+
+--------------------------------------------------------------------------------
+
+--- HEADING 2 (H2) SECTIONS ---
+(Sorted by character count: largest to smallest)
+
+1. 5.14 University Graduation Requirements
+   Content characters: 13,304
+
+2. 5.18 Minor, Secondary Major and Double Major
+   Content characters: 6,912
+
+3. 5.12 Grading
+   Content characters: 4,560
+
+4. 5.4 Credit Transfer
+   Content characters: 4,122
+
+5. 5.15 Guidelines for Award Classification
+   Content characters: 3,961
+
+6. 3.1 Competitive Allocation of Departmental Schemes
+   Content characters: 3,591
+
+7. 5.16 Classification of Awards
+   Content characters: 3,333
+
+8. 5.11 Exceptional Circumstances
+   Content characters: 3,158
+
+9. 4.4 Academic Advisor
+   Content characters: 2,808
+
+10. 5.9 Progression/Academic Probation/ Deregistration
+   Content characters: 2,769
+
+11. 5.1 Subject Registration and Withdrawal
+   Content characters: 2,421
+
+12. 5.2 Study Load
+   Content characters: 2,187
+
+13. 1.2 Minimum Entrance Requirements
+   Content characters: 2,062
+
+14. 1.6 Normal Duration for Completion of a Programme
+   Content characters: 1,752
+
+15. 5.7 Principles of Assessment
+   Content characters: 1,724
+
+16. 5.8 Assessment Methods
+   Content characters: 1,679
+
+17. 5.13 Different Types of GPA's
+   Content characters: 1,670
+
+18. 5.10 Retaking of Subjects
+   Content characters: 1,590
+
+19. 3.2 Year One Curriculum
+   Content characters: 1,548
+
+20. 1.7 Validity Period of Subject Credits
+   Content characters: 1,343
+
+21. 5.17 Recording of Disciplinary Actions in Students' Records
+   Content characters: 1,198
+
+22. 1.1 Introduction
+   Content characters: 1,040
+
+23. 4.1 Programme Committee
+   Content characters: 993
+
+24. 2.1 Programme Aims
+   Content characters: 985
+
+25. 5.6 General Assessment Regulations
+   Content characters: 981
+
+26. 5.3 Subject Exemption
+   Content characters: 949
+
+27. 1.3 Student Exchanges
+   Content characters: 794
+
+28. 5.5 Deferment of study
+   Content characters: 767
+
+29. 4.3 Student-Staff Consultative Group
+   Content characters: 492
+
+30. 2.3 Programme Outcomes and Assessment Plan
+   Content characters: 435
+
+31. 4.2 General Administration
+   Content characters: 383
+
+32. 5.19 Graduation
+   Content characters: 352
+
+33. 3.3 Industrial Centre (IC) Training
+   Content characters: 327
+
+34. 1.4 External Recognition
+   Content characters: 282
+
+35. 2.2 Programme Characteristics
+   Content characters: 229
+
+36. 1.5 Summer Term Teaching
+   Content characters: 159
+
+================================================================================
+END OF STATISTICS
+================================================================================
