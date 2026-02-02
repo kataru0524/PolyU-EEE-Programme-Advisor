@@ -1,10 +1,24 @@
 import re
+import os
+import traceback
 from pathlib import Path
 from html.parser import HTMLParser
 
-# Configuration
+from mineru.cli.common import convert_pdf_bytes_to_bytes_by_pypdfium2, prepare_env, read_fn
+from mineru.data.data_reader_writer import FileBasedDataWriter
+from mineru.backend.hybrid.hybrid_analyze import doc_analyze as hybrid_doc_analyze
+from mineru.backend.vlm.vlm_middle_json_mkcontent import union_make as vlm_union_make
+from mineru.utils.enum_class import MakeMode
+from mineru.utils.engine_utils import get_vlm_engine
+
+BASE_DIR = Path(__file__).parent.parent
+RAW_DIR = BASE_DIR / "knowledge-base" / "raw"
+INTERMEDIATE_DIR = BASE_DIR / "knowledge-base" / "intermediate"
+PROCESSED_DIR = BASE_DIR / "knowledge-base" / "processed"
+
+# Processing Configuration
 MAX_ROWS_PER_CHUNK = 20  # Maximum number of rows per table chunk before splitting with repeated headers
-MAX_H2_CHARS = 2000  # Maximum characters per H2 section before splitting into parts
+MAX_H2_CHARS = 2500  # Maximum characters per H2 section before splitting into parts
 
 class TableParser(HTMLParser):
     """Parse HTML table and extract cell data with rowspan/colspan information."""
@@ -30,7 +44,6 @@ class TableParser(HTMLParser):
             self.current_cell = ''
             self.current_rowspan = 1
             self.current_colspan = 1
-            # Get rowspan and colspan attributes
             for attr, value in attrs:
                 if attr == 'rowspan':
                     self.current_rowspan = int(value)
@@ -45,7 +58,6 @@ class TableParser(HTMLParser):
                 self.rows.append(self.current_row)
         elif tag == 'td' and self.in_td:
             self.in_td = False
-            # Store cell with its span information
             self.current_row.append({
                 'content': self.current_cell.strip(),
                 'rowspan': self.current_rowspan,
@@ -54,10 +66,9 @@ class TableParser(HTMLParser):
     
     def handle_data(self, data):
         if self.in_td:
-            # Replace newlines with space to keep content on single line for Markdown tables
             cleaned_data = ' '.join(data.split())
-            if cleaned_data:  # Only add if there's actual content after cleaning
-                if self.current_cell:  # Add space if we already have content
+            if cleaned_data:
+                if self.current_cell:
                     self.current_cell += ' '
                 self.current_cell += cleaned_data
 
@@ -72,48 +83,38 @@ def html_table_to_markdown(html_table):
     parser.feed(html_table)
     
     if not parser.rows:
-        return html_table  # Return original if parsing failed
+        return html_table
     
-    # Create a grid to handle rowspan/colspan
-    # First, determine the actual grid size
     max_cols = 0
     for row in parser.rows:
         col_count = sum(cell['colspan'] for cell in row)
         max_cols = max(max_cols, col_count)
     
-    # Check if first row is a table caption (spans all columns)
     table_caption = None
     has_caption = False
     if parser.rows and len(parser.rows[0]) == 1 and parser.rows[0][0]['colspan'] == max_cols:
         table_caption = parser.rows[0][0]['content']
         has_caption = True
     
-    # Work with rows excluding caption
     data_rows = parser.rows[1:] if has_caption else parser.rows
     
-    # Create the grid with None values (for data rows only)
     grid = [[None for _ in range(max_cols)] for _ in range(len(data_rows))]
     
-    # Track which rows are section headers (span all columns)
     section_header_rows = []
     
-    # Fill the grid and identify section headers
     for row_idx, row in enumerate(data_rows):
         col_idx = 0
         
-        # Check if this row is a section header (single cell spanning all columns)
         if len(row) == 1 and row[0]['colspan'] == max_cols:
             section_header_rows.append(row_idx)
         
         for cell in row:
-            # Find the next empty cell in this row
             while col_idx < max_cols and grid[row_idx][col_idx] is not None:
                 col_idx += 1
             
             if col_idx >= max_cols:
                 break
             
-            # Fill the cell and handle spans
             content = cell['content']
             rowspan = cell['rowspan']
             colspan = cell['colspan']
@@ -507,9 +508,9 @@ def extract_toc_section(content):
     Extract the table of contents section from the markdown content.
     Returns: (toc_content, trailing_content, start_pos, end_pos)
     """
-    # Find the TOC section - it starts with "# CONTENTS" followed by "# PAGE"
+    # Find the TOC section - it starts with "# CONTENTS" followed by "# PAGE" or "# Page"
     # and ends when "# 1 " appears for the second time (actual content section)
-    toc_start_pattern = r'# CONTENTS\s*\n\s*# PAGE\s*\n'
+    toc_start_pattern = r'# CONTENTS\s*\n\s*# (PAGE|Page)\s*\n'
     start_match = re.search(toc_start_pattern, content, re.DOTALL)
     
     if not start_match:
@@ -518,8 +519,8 @@ def extract_toc_section(content):
     start_pos = start_match.start()
     toc_entries_start = start_match.end()
     
-    # Find all occurrences of "# 1 " (any section starting with "# 1 ")
-    section_1_pattern = r'\n# 1 '
+    # Find all occurrences of "# 1 " or "# 1." (any section starting with "# 1")
+    section_1_pattern = r'\n# 1[. ]'
     matches = list(re.finditer(section_1_pattern, content))
     
     if len(matches) < 2:
@@ -534,54 +535,11 @@ def extract_toc_section(content):
         # The TOC ends right before the second occurrence of "# 1 ..."
         end_pos = matches[1].start()
     
-    # Extract TOC entries (for table creation) and trailing content (to preserve)
-    full_toc_content = content[toc_entries_start:end_pos]
-    
-    # Split TOC entries from trailing content
-    # TOC entries are lines matching: 
-    #   - "# N ..." (section headings in TOC like "# 1 General Information")
-    #   - "N.M Title Page" (subsection entries with page numbers)
-    #   - "Appendix ..." 
-    # Everything after the last TOC entry should be preserved as trailing content
-    lines = full_toc_content.split('\n')
-    toc_lines = []
-    trailing_lines = []
-    in_trailing = False
-    
-    for line in lines:
-        stripped = line.strip()
-        
-        # Check if this line looks like a TOC entry
-        is_toc_entry = False
-        if stripped:
-            # Match patterns like "1.1 Programme Title 1" or "9.22Aegrotat Award 65"
-            # Use \s* to allow zero or more spaces after section number
-            if re.match(r'^(?:\d+\.)*\d+\s*.+?\s+\d+\s*$', stripped):
-                is_toc_entry = True
-            # Match "# N Title" patterns (section headings in TOC)
-            elif re.match(r'^#\s+\d+\s+', stripped):
-                is_toc_entry = True
-            # Match "Appendix I ..." (with or without page number at end)
-            elif re.match(r'^Appendix\s+[IVX]+', stripped):
-                is_toc_entry = True
-        
-        if in_trailing:
-            # Already in trailing section, collect everything
-            trailing_lines.append(line)
-        elif is_toc_entry:
-            # This is a TOC entry
-            toc_lines.append(line)
-        elif stripped == '':
-            # Empty line - could be spacing between TOC entries or before trailing
-            # Keep with TOC for now, will be filtered when we find real trailing content
-            toc_lines.append(line)
-        else:
-            # Non-empty, non-TOC line - this starts the trailing content
-            in_trailing = True
-            trailing_lines.append(line)
-    
-    toc_entries = '\n'.join(toc_lines)
-    trailing_content = '\n'.join(trailing_lines)
+    # The entire section from start_pos to end_pos is TOC and should be removed
+    # There is no "trailing content" to preserve within the TOC section
+    # Any content after the TOC (after end_pos) will be preserved when we reconstruct
+    toc_entries = content[toc_entries_start:end_pos]
+    trailing_content = ''  # No trailing content within TOC section
     
     return toc_entries, trailing_content, start_pos, end_pos
 
@@ -636,8 +594,8 @@ def create_toc_table(toc_content):
     
     # First pass: collect all entries
     for line in lines:
-        # Skip CONTENTS and PAGE header lines
-        if line.strip().startswith('#') and ('CONTENTS' in line or 'PAGE' in line):
+        # Skip CONTENTS and PAGE header lines (case-insensitive)
+        if line.strip().startswith('#') and ('CONTENTS' in line.upper() or 'PAGE' in line.upper()):
             continue
         
         parsed = parse_toc_line(line)
@@ -697,7 +655,7 @@ def fix_heading_levels(content: str, toc_entries: str) -> str:
     toc_sections = {}  # Map section numbers to their expected heading level
     
     for line in lines:
-        if line.strip().startswith('#') and ('CONTENTS' in line or 'PAGE' in line):
+        if line.strip().startswith('#') and ('CONTENTS' in line.upper() or 'PAGE' in line.upper()):
             continue
         
         # Check for Appendix lines
@@ -809,8 +767,9 @@ def ensure_table_integrity(content: str) -> str:
 def split_h2_sections(content: str) -> str:
     """
     Split H2 sections that exceed MAX_H2_CHARS into multiple parts.
+    H3 sections are treated as content within H2 and are NOT split independently.
     Splits by paragraph when possible, otherwise by sentence.
-    Adds (Part 1), (Part 2), etc. to the H2 heading.
+    Adds (Part 1), (Part 2), etc. to the H2 heading only.
     
     Args:
         content: Markdown content with H2 sections
@@ -825,15 +784,22 @@ def split_h2_sections(content: str) -> str:
     while i < len(lines):
         line = lines[i]
         
-        # Check if this is an H2 heading
+        # Check if this is an H2 heading (NOT H3 or H1)
         h2_match = re.match(r'^##\s+(.+)$', line)
+        h3_match = re.match(r'^###\s+', line)
+        
+        # Skip H3 headings - they're content within H2 sections
+        if h3_match:
+            result_lines.append(line)
+            i += 1
+            continue
         
         if h2_match:
-            h2_heading = h2_match.group(1).strip()
-            h2_start = i
+            heading_text = h2_match.group(1).strip()
+            heading_start = i
             
             # Skip CONTENTS section entirely - don't include it in output
-            if h2_heading == 'CONTENTS':
+            if heading_text == 'CONTENTS':
                 i += 1
                 # Skip all content until next heading
                 while i < len(lines):
@@ -843,31 +809,31 @@ def split_h2_sections(content: str) -> str:
                     i += 1
                 continue
             
-            # Collect all content until next H1 or H2
-            h2_content_lines = []
+            # Collect all content until next H1 or H2 (including H3 subsections as content)
+            content_lines = []
             i += 1
             while i < len(lines):
                 next_line = lines[i]
-                # Check if we hit another heading
+                # Stop only at H1 or H2, NOT at H3
                 if re.match(r'^#{1,2}\s+', next_line):
                     break
-                h2_content_lines.append(next_line)
+                content_lines.append(next_line)
                 i += 1
             
             # Calculate total character count (including heading)
-            h2_content = '\n'.join(h2_content_lines)
-            total_chars = len(f"## {h2_heading}\n{h2_content}")
+            section_content = '\n'.join(content_lines)
+            total_chars = len(f"## {heading_text}\n{section_content}")
             
             if total_chars <= MAX_H2_CHARS:
                 # No split needed
-                result_lines.append(f"## {h2_heading}")
-                result_lines.extend(h2_content_lines)
+                result_lines.append(f"## {heading_text}")
+                result_lines.extend(content_lines)
             else:
                 # Need to split - separate content into paragraphs
                 paragraphs = []
                 current_para = []
                 
-                for content_line in h2_content_lines:
+                for content_line in content_lines:
                     if content_line.strip() == '':
                         # Empty line marks paragraph boundary
                         if current_para:
@@ -884,7 +850,7 @@ def split_h2_sections(content: str) -> str:
                 # Now split paragraphs into parts
                 parts = []
                 current_part = []
-                current_part_size = len(f"## {h2_heading} (Part 1)\n")
+                current_part_size = len(f"## {heading_text} (Part 1)\n")
                 
                 for para in paragraphs:
                     para_size = len(para) + 1  # +1 for newline
@@ -894,7 +860,7 @@ def split_h2_sections(content: str) -> str:
                         # Save current part
                         parts.append('\n'.join(current_part))
                         current_part = [para]
-                        current_part_size = len(f"## {h2_heading} (Part {len(parts) + 1})\n") + para_size
+                        current_part_size = len(f"## {heading_text} (Part {len(parts) + 1})\n") + para_size
                     else:
                         # Add to current part
                         current_part.append(para)
@@ -905,7 +871,7 @@ def split_h2_sections(content: str) -> str:
                     parts.append('\n'.join(current_part))
                 
                 # If still only one part (single huge paragraph), split by sentences
-                if len(parts) == 1 and len(parts[0]) + len(f"## {h2_heading}\n") > MAX_H2_CHARS:
+                if len(parts) == 1 and len(parts[0]) + len(f"## {heading_text}\n") > MAX_H2_CHARS:
                     # Split by sentences
                     text = parts[0]
                     # Simple sentence split by ., !, ? followed by space or newline
@@ -921,7 +887,7 @@ def split_h2_sections(content: str) -> str:
                     
                     parts = []
                     current_part = []
-                    current_part_size = len(f"## {h2_heading} (Part 1)\n")
+                    current_part_size = len(f"## {heading_text} (Part 1)\n")
                     
                     for sentence in reconstructed:
                         sentence = sentence.strip()
@@ -933,7 +899,7 @@ def split_h2_sections(content: str) -> str:
                         if current_part and current_part_size + sentence_size > MAX_H2_CHARS:
                             parts.append(' '.join(current_part))
                             current_part = [sentence]
-                            current_part_size = len(f"## {h2_heading} (Part {len(parts) + 1})\n") + sentence_size
+                            current_part_size = len(f"## {heading_text} (Part {len(parts) + 1})\n") + sentence_size
                         else:
                             current_part.append(sentence)
                             current_part_size += sentence_size
@@ -942,11 +908,14 @@ def split_h2_sections(content: str) -> str:
                         parts.append(' '.join(current_part))
                 
                 # Output parts with numbered headings
-                for part_num, part_content in enumerate(parts, 1):
-                    if len(parts) > 1:
-                        result_lines.append(f"## {h2_heading} (Part {part_num})")
+                # Filter out empty parts before numbering
+                non_empty_parts = [p for p in parts if p.strip()]
+                
+                for part_num, part_content in enumerate(non_empty_parts, 1):
+                    if len(non_empty_parts) > 1:
+                        result_lines.append(f"## {heading_text} (Part {part_num})")
                     else:
-                        result_lines.append(f"## {h2_heading}")
+                        result_lines.append(f"## {heading_text}")
                     
                     # Add the content
                     for part_line in part_content.split('\n'):
@@ -964,6 +933,10 @@ def remove_h1_and_promote_h2(content: str) -> str:
     For orphaned content between H1 and first H2, create H2 with 'Introduction' suffix.
     Also adds '## Basic Information' heading at the beginning before any content.
     
+    Special handling for Appendix sections:
+    - "# Appendix II" becomes "## Appendix II > Introduction"
+    - "# 1 Rationale..." under Appendix becomes "## Appendix II > 1 Rationale..."
+    
     Examples:
         # 1 General Information
         ## 1.1 Programme Title
@@ -971,14 +944,12 @@ def remove_h1_and_promote_h2(content: str) -> str:
         Becomes:
         ## 1 General Information > 1.1 Programme Title
         
-        # 7 Academic Regulations
-        Some orphaned content
-        ## 7.1 First Section
+        # Appendix II
+        # 1 Rationale for AIDA
         
         Becomes:
-        ## 7 Academic Regulations > Introduction
-        Some orphaned content
-        ## 7 Academic Regulations > 7.1 First Section
+        ## Appendix II > Introduction
+        ## Appendix II > 1 Rationale for AIDA
     """
     lines = content.split('\n')
     result_lines = []
@@ -986,6 +957,8 @@ def remove_h1_and_promote_h2(content: str) -> str:
     orphaned_content = []
     seen_h2_under_h1 = False
     first_content_index = -1
+    in_appendix = False
+    current_appendix = None
     i = 0
     
     while i < len(lines):
@@ -998,11 +971,45 @@ def remove_h1_and_promote_h2(content: str) -> str:
             first_content_index = len(result_lines)
         
         if h1_match:
-            # Found H1 - remove it and save for H2 promotion
-            current_h1 = h1_match.group(1).strip()
-            orphaned_content = []
-            seen_h2_under_h1 = False
-            i += 1
+            h1_text = h1_match.group(1).strip()
+            
+            # Check if this is an Appendix heading
+            appendix_match = re.match(r'^Appendix\s+([IVX]+)', h1_text, re.IGNORECASE)
+            
+            if appendix_match:
+                # Flush any previous H1's orphaned content
+                has_content = any(line.strip() for line in orphaned_content)
+                if has_content and current_h1 and not seen_h2_under_h1:
+                    result_lines.append(f"## {current_h1} > Introduction")
+                    result_lines.extend(orphaned_content)
+                
+                # Start new appendix context
+                in_appendix = True
+                current_appendix = appendix_match.group(0)  # "Appendix II"
+                current_h1 = current_appendix
+                orphaned_content = []
+                seen_h2_under_h1 = False
+                i += 1
+            else:
+                # Check if there's actual non-empty orphaned content before this H1
+                has_content = any(line.strip() for line in orphaned_content)
+                if has_content and current_h1 and not seen_h2_under_h1:
+                    # Output H2 for orphaned content with Introduction
+                    result_lines.append(f"## {current_h1} > Introduction")
+                    result_lines.extend(orphaned_content)
+                
+                # Regular H1 or numbered H1 within appendix
+                if in_appendix:
+                    # Numbered section within appendix - promote to H2 with appendix prefix
+                    result_lines.append(f"## {current_appendix} > {h1_text}")
+                    seen_h2_under_h1 = True
+                else:
+                    # Regular H1 outside appendix - remove it and save for H2 promotion
+                    current_h1 = h1_text
+                    seen_h2_under_h1 = False
+                
+                orphaned_content = []
+                i += 1
         elif h2_match:
             # Found H2 - promote it with H1 prefix
             h2_text = h2_match.group(1).strip()
@@ -1027,8 +1034,13 @@ def remove_h1_and_promote_h2(content: str) -> str:
                     result_lines.extend(orphaned_content)
                     orphaned_content = []
                 
-                # Output promoted H2
-                result_lines.append(f"## {current_h1} > {h2_text}")
+                # If we're in appendix and this H2 has a section number with dot (like "5.1"), convert to H3
+                if in_appendix and re.match(r'^\d+\.\d+\s+', h2_text):
+                    # Subsection within appendix becomes H3
+                    result_lines.append(f"### {h2_text}")
+                else:
+                    # Output promoted H2
+                    result_lines.append(f"## {current_h1} > {h2_text}")
                 seen_h2_under_h1 = True
             else:
                 # No H1 context, keep H2 as is
@@ -1079,8 +1091,60 @@ def process_markdown_content(content: str, keep_h1: bool = False) -> str:
     # Remove the entire TOC section - keep only trailing content and skip the table
     new_content = content[:start_pos] + trailing_content + content[end_pos:]
     
-    # Fix heading levels based on TOC structure
-    new_content = fix_heading_levels(new_content, toc_entries)
+    # Standardize headings: remove trailing dots from section numbers
+    new_content = re.sub(r'^(#+\s+\d+(?:\.\d+)*)\.\s+', r'\1 ', new_content, flags=re.MULTILINE)
+    
+    # Convert H1 subsections to H2 based on patterns:
+    # 1. Headings with dots in section numbers (like # 1.1) -> H2
+    # 2. Main numbered headings within Appendix sections (like # 1, # 5) stay as H1
+    # 3. Subsections within Appendix (like # 5.1) become H2
+    # 4. Non-numbered headings become body text unless it's "Appendix X"
+    lines = new_content.split('\n')
+    fixed_lines = []
+    in_appendix = False
+    current_appendix = None
+    
+    for line in lines:
+        # Match H1 headings
+        h1_match = re.match(r'^#\s+(.+)$', line)
+        if h1_match:
+            heading_text = h1_match.group(1).strip()
+            
+            # Check if this is an Appendix heading
+            appendix_match = re.match(r'^Appendix\s+([IVX]+)', heading_text, re.IGNORECASE)
+            
+            # Check if this is a numbered section (e.g., "1.1", "5", "5.12")
+            has_section_number = re.match(r'^\d+(?:\.\d+)*\s+', heading_text)
+            is_subsection = re.match(r'^\d+\.\d+', heading_text)  # Has dot like "5.1"
+            
+            if appendix_match:
+                # This is "Appendix I", "Appendix II", etc. - keep as H1 and set context
+                in_appendix = True
+                current_appendix = appendix_match.group(0)  # "Appendix II"
+                fixed_lines.append(line)
+            elif in_appendix and has_section_number:
+                # Inside appendix with section number
+                if is_subsection:
+                    # Subsection like "# 5.1" -> convert to H2 (will become H3 later)
+                    fixed_lines.append('## ' + heading_text)
+                else:
+                    # Main section like "# 1", "# 5" -> keep as H1 (will get "Appendix X >" prefix)
+                    fixed_lines.append(line)
+            elif has_section_number:
+                # Regular numbered section outside appendix
+                if is_subsection:
+                    # Convert to H2
+                    fixed_lines.append('## ' + heading_text)
+                else:
+                    # Main section like "# 1", keep as H1
+                    fixed_lines.append(line)
+            else:
+                # No section number and not an appendix heading - convert to body text
+                fixed_lines.append(heading_text)
+        else:
+            fixed_lines.append(line)
+    
+    new_content = '\n'.join(fixed_lines)
     
     # Ensure tables stay together for better chunking
     new_content = ensure_table_integrity(new_content)
@@ -1088,8 +1152,9 @@ def process_markdown_content(content: str, keep_h1: bool = False) -> str:
     # Convert all HTML tables to Markdown format
     new_content = convert_html_tables_in_content(new_content)
     
-    # Split H2 sections that exceed MAX_H2_CHARS
-    new_content = split_h2_sections(new_content)
+    # NOTE: Do NOT split H2 sections here - it will be done after remove_h1_and_promote_h2
+    # This is because appendix subsections are H2 at this point but should become H3,
+    # and only the parent H2 should be split, not the H3 subsections.
     
     return new_content
 
@@ -1228,14 +1293,54 @@ def count_heading_characters(content: str) -> dict:
         'line_lengths': line_lengths
     }
 
+def calculate_max_h2_after_processing(content: str) -> int:
+    """
+    Calculate the maximum H2 section length in the processed content.
+    This shows the max length AFTER section splitting.
+    
+    Args:
+        content: Fully processed markdown content
+        
+    Returns:
+        Maximum H2 section length in characters
+    """
+    lines = content.split('\n')
+    max_h2_length = 0
+    current_h2_content = []
+    in_h2 = False
+    
+    for line in lines:
+        # Check for H2 heading
+        if re.match(r'^##\s+', line):
+            # Save previous H2 if exists
+            if in_h2 and current_h2_content:
+                section_length = len('\n'.join(current_h2_content))
+                max_h2_length = max(max_h2_length, section_length)
+            
+            # Start new H2 section
+            in_h2 = True
+            current_h2_content = []
+        elif in_h2:
+            # Accumulate content for current H2
+            current_h2_content.append(line)
+    
+    # Don't forget the last section
+    if in_h2 and current_h2_content:
+        section_length = len('\n'.join(current_h2_content))
+        max_h2_length = max(max_h2_length, section_length)
+    
+    return max_h2_length
+
+
 def generate_stats_file(stats_data: dict, output_path: Path):
     """
     Generate a statistics text file with heading information, character counts, paragraph and line statistics.
     """
-    stats_path = output_path.with_suffix('.txt')
+    stats_path = output_path.with_name(f"{output_path.stem}_stats.txt")
     stats = stats_data['sections']
     paragraph_lengths = stats_data['paragraph_lengths']
     line_lengths = stats_data['line_lengths']
+    max_h2_after_processing = stats_data.get('max_h2_after_processing', None)
     
     with open(stats_path, 'w', encoding='utf-8') as f:
         f.write("=" * 80 + "\n")
@@ -1261,6 +1366,10 @@ def generate_stats_file(stats_data: dict, output_path: Path):
         if h2_count > 0:
             max_h2_chars = max(s['char_count'] for s in stats if s['type'] == 'H2')
             f.write(f"Maximum H2 content characters: {max_h2_chars:,}\n")
+        
+        # Add max H2 length after processing (after splitting)
+        if max_h2_after_processing is not None:
+            f.write(f"\nMaximum H2 section length after processing: {max_h2_after_processing:,} characters\n")
         
         # Paragraph statistics
         f.write("\n" + "-" * 80 + "\n")
@@ -1360,6 +1469,9 @@ def process_file(file_path):
         # Now remove H1s from the content
         processed_content = remove_h1_and_promote_h2(processed_content_with_h1)
         
+        # Split H2 sections AFTER H1/H2 promotion (so appendix H3s don't get split)
+        processed_content = split_h2_sections(processed_content)
+        
         # Generate new filename with _processed suffix
         output_path = file_path.with_stem(f"{file_path.stem}_processed")
         
@@ -1372,30 +1484,208 @@ def process_file(file_path):
         # Generate statistics file
         generate_stats_file(stats, output_path)
         
-        print(f"  ✓ Statistics file saved: {output_path.with_suffix('.txt').name}")
+        print(f"  ✓ Statistics file saved: {output_path.stem}_stats.txt")
         
     except Exception as e:
         print(f"  ✗ Error: {e}")
-        import traceback
         traceback.print_exc()
     
 
-if __name__ == "__main__":
-    base_dir = Path.cwd()
+def run_mineru_parsing(pdf_path: Path, output_dir: Path) -> Path:
+    """
+    Run MinerU parsing on a PDF file and return the path to the generated MD file.
     
-    # Find both target files
-    target_files = [
-        list(base_dir.rglob('46408_PRD_2526.md')),
-        list(base_dir.rglob('46409_PRD_2526.md'))
-    ]
+    Args:
+        pdf_path: Path to the PDF file to parse
+        output_dir: Directory where MinerU will save outputs
+        
+    Returns:
+        Path to the generated markdown file
+    """
+    print(f"  Running MinerU parsing on: {pdf_path.name}")
     
-    # Flatten the list and remove empty results
-    files_to_process = [f[0] for f in target_files if f]
+    try:
+        # Read PDF bytes
+        pdf_bytes = read_fn(pdf_path)
+        file_name = pdf_path.stem
+        
+        # Convert PDF bytes (parse all pages)
+        pdf_bytes = convert_pdf_bytes_to_bytes_by_pypdfium2(pdf_bytes, 0, None)
+        
+        # Prepare environment
+        parse_method = "hybrid_auto"
+        local_image_dir, local_md_dir = prepare_env(str(output_dir), file_name, parse_method)
+        image_writer = FileBasedDataWriter(local_image_dir)
+        md_writer = FileBasedDataWriter(local_md_dir)
+        
+        # Get VLM backend
+        backend = get_vlm_engine(inference_engine='auto', is_async=False)
+        
+        # Analyze document
+        middle_json, infer_result, _vlm_ocr_enable = hybrid_doc_analyze(
+            pdf_bytes,
+            image_writer=image_writer,
+            backend=backend,
+            parse_method=parse_method,
+            language='en',  # Default to English
+            inline_formula_enable=True,
+            server_url=None,
+        )
+        
+        pdf_info = middle_json["pdf_info"]
+        image_dir = str(os.path.basename(local_image_dir))
+        
+        # Generate markdown content
+        md_content_str = vlm_union_make(pdf_info, MakeMode.MM_MD, image_dir)
+        
+        # Write markdown file
+        md_file_path = Path(local_md_dir) / f"{file_name}.md"
+        md_writer.write_string(f"{file_name}.md", md_content_str)
+        
+        print(f"  ✓ MinerU parsing complete: {md_file_path}")
+        return md_file_path
+        
+    except Exception as e:
+        print(f"  ✗ MinerU parsing failed: {e}")
+        traceback.print_exc()
+        raise
+
+
+def is_already_processed(filename: str) -> bool:
+    """
+    Check if a file has already been processed.
+    Returns True if both _processed.md and _processed_stats.txt exist.
+    """
+    processed_md = PROCESSED_DIR / f"{filename}_processed.md"
+    processed_stats = PROCESSED_DIR / f"{filename}_processed_stats.txt"
     
-    if not files_to_process:
-        print("No target files found.")
+    return processed_md.exists() and processed_stats.exists()
+
+
+def find_existing_md(filename: str) -> Path:
+    """
+    Find existing MinerU-processed MD file for a given filename.
+    Searches in /knowledge-base/intermediate/{filename}/*/{filename}.md
+    
+    Returns:
+        Path to the MD file if found, None otherwise
+    """
+    intermediate_subdir = INTERMEDIATE_DIR / filename
+    if not intermediate_subdir.exists():
+        return None
+    
+    # Search for MD file in subdirectories (hybrid_auto, vlm, etc.)
+    for md_file in intermediate_subdir.rglob(f"{filename}.md"):
+        return md_file
+    
+    return None
+
+
+def process_pdf_document(pdf_path: Path):
+    """
+    Process a single PDF document through MinerU parsing and data cleansing.
+    Checks for existing processed files and skips steps accordingly.
+    
+    Args:
+        pdf_path: Path to the PDF file
+    """
+    filename = pdf_path.stem
+    print(f"\n{'='*80}")
+    print(f"Processing: {filename}")
+    print(f"{'='*80}")
+    
+    # Check if already fully processed
+    if is_already_processed(filename):
+        print(f"  >> Skipping: Already processed (found in {PROCESSED_DIR})")
+        return
+    
+    # Check if MinerU MD already exists
+    existing_md = find_existing_md(filename)
+    
+    if existing_md:
+        print(f"  >> Found existing MD: {existing_md}")
+        md_file_path = existing_md
     else:
-        for file_path in files_to_process:
-            print(f"Found target file: {file_path}\n")
-            process_file(file_path)
-        print("\nProcessing complete!")
+        print(f"  >> No existing MD found, running MinerU...")
+        # Run MinerU parsing - MinerU will create {filename}/{parse_method}/ structure
+        md_file_path = run_mineru_parsing(pdf_path, INTERMEDIATE_DIR)
+    
+    # Read the MD file
+    print(f"  >> Starting data cleansing...")
+    with open(md_file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Process content with H1 for statistics
+    processed_content_with_h1 = process_markdown_content(content, keep_h1=True)
+    
+    # Count characters in headings BEFORE removing H1s
+    stats = count_heading_characters(processed_content_with_h1)
+    
+    # Now remove H1s from the content
+    processed_content = remove_h1_and_promote_h2(processed_content_with_h1)
+    
+    # Split H2 sections AFTER H1/H2 promotion (so appendix H3s don't get split)
+    processed_content = split_h2_sections(processed_content)
+    
+    # Calculate max H2 length after processing (after splitting)
+    max_h2_after_processing = calculate_max_h2_after_processing(processed_content)
+    stats['max_h2_after_processing'] = max_h2_after_processing
+    
+    # Ensure processed directory exists
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # Save processed files to PROCESSED_DIR
+    output_path = PROCESSED_DIR / f"{filename}_processed.md"
+    
+    # Save the processed file
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(processed_content)
+    
+    print(f"  ✓ Processed MD saved: {output_path}")
+    
+    # Generate statistics file
+    generate_stats_file(stats, output_path)
+    
+    print(f"  ✓ Statistics saved: {output_path.stem}_stats.txt")
+    print(f"  >> Complete: {filename}")
+
+
+if __name__ == "__main__":
+    print(f"\n{'='*80}")
+    print("Data Processing Pipeline")
+    print(f"{'='*80}")
+    print(f"Raw PDFs Directory: {RAW_DIR}")
+    print(f"Intermediate Directory: {INTERMEDIATE_DIR}")
+    print(f"Processed Directory: {PROCESSED_DIR}")
+    print(f"{'='*80}\n")
+    
+    # Ensure directories exist
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    INTERMEDIATE_DIR.mkdir(parents=True, exist_ok=True)
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # Find all PDF files in RAW_DIR (non-recursive to avoid temp files)
+    pdf_files = list(RAW_DIR.glob("*.pdf"))
+    
+    if not pdf_files:
+        print("No PDF files found in raw directory.")
+        print(f"Please place PDF files in: {RAW_DIR}")
+    else:
+        print(f"Found {len(pdf_files)} PDF file(s):\n")
+        for pdf_path in pdf_files:
+            print(f"  - {pdf_path.relative_to(RAW_DIR)}")
+        
+        print("\n" + "="*80)
+        
+        # Process each PDF
+        for pdf_path in pdf_files:
+            try:
+                process_pdf_document(pdf_path)
+            except Exception as e:
+                print(f"\n  >> Failed to process {pdf_path.name}: {e}")
+                traceback.print_exc()
+                continue
+        
+        print("\n" + "="*80)
+        print("All processing complete!")
+        print("="*80)

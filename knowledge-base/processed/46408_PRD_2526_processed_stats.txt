@@ -1,0 +1,302 @@
+================================================================================
+MARKDOWN HEADING STATISTICS
+================================================================================
+
+File: 46408_PRD_2526_processed.md
+Total sections analyzed: 80
+
+Heading 1 (H1) sections: 15
+Heading 2 (H2) sections: 65
+Total H1 content characters: 176,922
+Total H2 content characters: 170,292
+Maximum H1 content characters: 78,673
+Maximum H2 content characters: 18,126
+
+Maximum H2 section length after processing: 2,453 characters
+
+--------------------------------------------------------------------------------
+PARAGRAPH STATISTICS (delimited by \n\n)
+--------------------------------------------------------------------------------
+
+Total paragraphs: 670
+Maximum paragraph length: 2,452 characters
+Average paragraph length: 262.4 characters
+Minimum paragraph length: 7 characters
+
+Paragraph length distribution:
+  Paragraphs > 600 chars: 72 (10.7%)
+  Paragraphs > 800 chars: 43 (6.4%)
+  Paragraphs > 1000 chars: 25 (3.7%)
+  Paragraphs > 2000 chars: 3 (0.4%)
+
+--------------------------------------------------------------------------------
+LINE STATISTICS (delimited by \n)
+--------------------------------------------------------------------------------
+
+Total lines: 1,534
+Maximum line length: 1,568 characters
+Average line length: 113.9 characters
+Minimum line length: 2 characters
+
+Line length distribution:
+  Lines > 100 chars: 440 (28.7%)
+  Lines > 200 chars: 232 (15.1%)
+  Lines > 500 chars: 46 (3.0%)
+  Lines > 1000 chars: 2 (0.1%)
+
+================================================================================
+DETAILED BREAKDOWN
+================================================================================
+
+--- HEADING 1 (H1) SECTIONS ---
+(Sorted by character count: largest to smallest)
+
+1. 5 Curriculum
+   Content characters: 78,673
+
+2. 7 Academic Regulations on Admission, Registration and Assessment
+   Content characters: 47,952
+
+3. 1 General Information
+   Content characters: 11,451
+
+4. 5 Programme Structure and Curriculum
+   Content characters: 10,319
+
+5. 3 Bachelor of Engineering (Honours) in Electrical Engineering
+   Content characters: 6,816
+
+6. 4 Bachelor of Engineering (Honours) in Transportation Systems Engineering
+   Content characters: 6,759
+
+7. 2 Bachelor of Engineering (Honours) Scheme in Electrical Engineering
+   Content characters: 6,575
+
+8. 6 Management and Operation
+   Content characters: 2,426
+
+9. 2 Aims and Objectives for AIDA
+   Content characters: 1,819
+
+10. 7 Award Classification
+   Content characters: 1,736
+
+11. 1 Rationale for AIDA
+   Content characters: 1,123
+
+12. 3 Programme's Intended Learning Outcomes (PILOs)
+   Content characters: 540
+
+13. 4 Selection Mechanism
+   Content characters: 386
+
+14. 6 Subject Description Forms
+   Content characters: 263
+
+15. Appendix II
+   Content characters: 84
+
+
+--------------------------------------------------------------------------------
+
+--- HEADING 2 (H2) SECTIONS ---
+(Sorted by character count: largest to smallest)
+
+1. 5.5 Progression Pattern for Normal Study Duration
+   Content characters: 18,126
+
+2. 5.4 Programme Specified Subjects
+   Content characters: 14,415
+
+3. 5.7 Curriculum Map
+   Content characters: 12,366
+
+4. 5.2 General University Requirements (GUR)
+   Content characters: 12,338
+
+5. 5.6 Progression Pattern for Senior Year Students
+   Content characters: 8,617
+
+6. 7.20 Grading
+   Content characters: 7,365
+
+7. 1.8 Study Options
+   Content characters: 6,240
+
+8. 5.3 Progression Pattern
+   Content characters: 5,080
+
+9. 7.21 Different types of GPA
+   Content characters: 4,879
+
+10. 5.1 Summary of University Graduation Requirements
+   Content characters: 4,846
+
+11. 5.8 Work-Integrated Education and Industrial Placement
+   Content characters: 4,643
+
+12. 5.4 List of Core and Elective Subjects for Secondary Major in AIDA
+   Content characters: 3,807
+
+13. 2.1 Background and Rationale
+   Content characters: 3,598
+
+14. 7.11 Credit Transfer
+   Content characters: 3,594
+
+15. 3.1 Programme Aims and Rationale
+   Content characters: 3,586
+
+16. 7.22 Guidelines for Award Classification
+   Content characters: 3,533
+
+17. 4.1 Programme Aims and Rationale
+   Content characters: 3,388
+
+18. 7.23 Classification of Awards
+   Content characters: 2,888
+
+19. 4.3 Programme Outcomes
+   Content characters: 2,855
+
+20. 3.3 Programme Outcomes
+   Content characters: 2,823
+
+21. 7.16 Progression / Academic Probation / Deregistration
+   Content characters: 2,720
+
+22. 5.3 Specific Graduation Requirements
+   Content characters: 2,366
+
+23. 7.8 Subject Registration and Withdrawal
+   Content characters: 2,301
+
+24. 7.24 Examination result announcements, transcripts, testimonials and references
+   Content characters: 2,121
+
+25. 7.17 Retaking of Subjects
+   Content characters: 2,107
+
+26. 7.9 Study Load
+   Content characters: 2,006
+
+27. 2.3 Institutional Learning Outcomes
+   Content characters: 1,995
+
+28. 7.14 Principles of Assessment
+   Content characters: 1,673
+
+29. 7.15 Assessment Methods
+   Content characters: 1,639
+
+30. 1.7 Minimum Entrance Requirements
+   Content characters: 1,588
+
+31. 7.5 Normal Duration for Completion of the Programme
+   Content characters: 1,560
+
+32. 7.18 Absence from an assessment component
+   Content characters: 1,464
+
+33. 7.25 Recording of disciplinary actions in students' records
+   Content characters: 1,372
+
+34. 6.1 Administration
+   Content characters: 1,113
+
+35. 7.19 Aegrotat Award
+   Content characters: 1,113
+
+36. 7.10 Subject Exemption
+   Content characters: 982
+
+37. 7.3 Transfer of study within the University
+   Content characters: 939
+
+38. 2.2 Relationship of Programme Objectives to University Missions
+   Content characters: 908
+
+39. 7.13 General Assessment Regulations
+   Content characters: 870
+
+40. 6.3 Academic Advising
+   Content characters: 853
+
+41. 5.1 Credit Requirement for Secondary Major in AIDA
+   Content characters: 772
+
+42. 7.12 Deferment of Study
+   Content characters: 734
+
+43. 5.2 Programme Structure
+   Content characters: 617
+
+44. 1.10 Student Exchange Programme
+   Content characters: 593
+
+45. 1.6 Credits Required for Graduation
+   Content characters: 585
+
+46. 7.7 Residential Requirement
+   Content characters: 552
+
+47. 1.9 Summer Training / Industrial Placement
+   Content characters: 490
+
+48. 7.4 Concurrent Enrolment
+   Content characters: 483
+
+49. 1.4 Award Title
+   Content characters: 476
+
+50. 4.2 Programme Objectives
+   Content characters: 437
+
+51. 6.2 Student-Staff Consultative Group (SSCG)
+   Content characters: 428
+
+52. 5.9 Industrial Centre (IC) Training
+   Content characters: 380
+
+53. 1.13 Medium of Instruction
+   Content characters: 371
+
+54. 7.2 Re-admission
+   Content characters: 344
+
+55. 3.2 Programme Objectives
+   Content characters: 340
+
+56. 5.11 Physics Enhancement Subject
+   Content characters: 334
+
+57. 7.6 Validity Period of Subject Credits
+   Content characters: 296
+
+58. 1.3 Duration and Mode of Attendance
+   Content characters: 265
+
+59. 1.5 External Recognition
+   Content characters: 223
+
+60. 5.10 Language Enhancement Subjects
+   Content characters: 216
+
+61. 1.12 Daytime and Evening Teaching
+   Content characters: 212
+
+62. 1.11 Summer Term Teaching
+   Content characters: 187
+
+63. 1.1 Programme Title
+   Content characters: 108
+
+64. 7.1 Admission
+   Content characters: 96
+
+65. 1.2 Host Department
+   Content characters: 76
+
+================================================================================
+END OF STATISTICS
+================================================================================

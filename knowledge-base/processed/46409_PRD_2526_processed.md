@@ -18,7 +18,6 @@ Bachelor of Science (Honours) in Artificial Intelligence and Information Enginee
 
 Bachelor of Science (Honours) in Information Security
 
-This Programme Requirement Document (PRD) is subject to review and changes which the programme offering Faculty/Department can decide to make from time to time. Students will be informed of the changes as and when appropriate.
 
 ## 1 General Information > 1.1 Programme Title
 
@@ -114,7 +113,6 @@ Minor study
 
 Minor study will be a free choice by students and not mandatory. Each student is allowed to take not more than one Minor. Students who opt for Minor study will be subject to the following regulations:
 
-## 1 General Information > 1.8 Study Options (Part 2)
 (i) A Minor programme is a collection of subjects totalling 18 credits with at least  $50\%$  (9 credits) of the subjects at Level 3 or above;  
 (ii) Students interested in a Minor must submit their applications to and obtain approval from the Minor-offering department, no later than the commencement of second year of study. Students should submit their applications to their Major department, which will indicate its support or otherwise (since the taking of a Minor will increase the student's study load), before the Minor-offering department makes a final decision on the application;  
 (iii) Students are expected to complete their approved Minor as part of their graduation requirements. Students who wish to withdraw from a Minor need to apply for approval officially from the Minor offering department, before the end of the add/drop period of the last Semester of study;  
@@ -123,7 +121,7 @@ Minor study will be a free choice by students and not mandatory. Each student is
 
 addition, to be eligible for the Major and Minor awards, the total number of credits taken by the students for their Major-Minor studies must not be lower than the credit requirement of the single discipline Major programme;
 
-## 1 General Information > 1.8 Study Options (Part 3)
+## 1 General Information > 1.8 Study Options (Part 2)
 (vi) Credit transfer can be given for not more than 9 credits of a Minor programme if the previous credits were earned from approved institutions outside of the university; and not more than 12 credits of a Minor programme if the previous credits were earned from programmes offered by PolyU;  
 (vii) Only students with a GPA of 2.5 or above can be considered for Minor study enrolment. The Minor-offering department may set a quota and additional admission requirements for their Minor; and  
 (viii) Students are required to obtain a GPA of at least 1.70 in order to satisfy the requirement for graduation with a Major plus a Minor.
@@ -134,7 +132,7 @@ Secondary Major (only applicable to students opting BEng (Hons) in ESIoT as thei
 
 Studying on a Secondary Major is a free choice by students and not mandatory. Each student may take not more than one Secondary Major. Students who opt for a Secondary Major will be subject to the following regulations:
 
-## 1 General Information > 1.8 Study Options (Part 4)
+## 1 General Information > 1.8 Study Options (Part 3)
 (i) Students are expected to complete the "X (Major in Electronic Systems & Internet-of-Things) + Secondary Major" within the normal duration of the major programme.  
 (ii) Students may count up to 12 credits of their Major/GUR subjects towards the Secondary Major. Nevertheless, students must take at least 12 credits from their chosen Secondary Major in order to satisfy the residential requirement of the chosen Secondary Major. Students who have completed more than 12 credits of subjects that are eligible for double counting will need to apply for graduation and indicate the subjects intended for double counting.  
 (iii) Students must apply to and obtain approval from the programme offering Department, normally no later than the commencement of the second year of study, to be admitted to the Secondary Major.  
@@ -146,11 +144,11 @@ The Secondary Major in Artificial Intelligence and Data Analytics (AIDA) can be 
 
 Fast-track Integrated Bachelor's and Master's Degree Programme (only applicable to students opting BEng (Hons) in ESIoT or BSc (Hons) in IS as their Major)
 
-## 1 General Information > 1.8 Study Options (Part 5)
 The fast-track programmes offer a pathway for high-achieving and ambitious students to complete both undergraduate and taught postgraduate studies at an accelerated pace. Students can enrol in the programme either in Year 1 or Year 3, depending on their academic standing.
 
 Eligible entrants will receive an offer of admission to the undergraduate programme, as well as a conditional offer to the taught postgraduate programme. Upon successful completion of both the undergraduate and taught postgraduate degrees, students will be awarded two separate degrees: a Bachelor's degree and a Master's degree.
 
+## 1 General Information > 1.8 Study Options (Part 4)
 As part of the Fast-track Programme, students will take taught postgraduate courses that comprise no more than  $30\%$  of the taught postgraduate curriculum (9 credit units), which can be taken as Majors or Free electives in the undergraduate curriculum.
 
 Students are required to maintain a cumulative GPA of 3.30 at the end of Semester Two to stay on the Fast-track Programme.
@@ -280,7 +278,6 @@ Table 3.3.1 Mapping between Programme Objectives and Programme Outcomes
 
 
 
-## 3 BEng (Hons) in Electronic Systems and Internet-of-Things > 3.3 Programme Outcomes (Part 2)
 | Programme Outcomes | Institutional Learning Outcomes 1 | Institutional Learning Outcomes 2 | Institutional Learning Outcomes 3 | Institutional Learning Outcomes 4 | Institutional Learning Outcomes 5 |
 | --- | --- | --- | --- | --- | --- |
 | 1 |  | √ |  |  |  |
@@ -296,6 +293,7 @@ Table 3.3.1 Mapping between Programme Objectives and Programme Outcomes
 
 
 
+## 3 BEng (Hons) in Electronic Systems and Internet-of-Things > 3.3 Programme Outcomes (Part 2)
 Table 3.3.2 Relationship between Institutional Learning Outcomes and Intended Learning Outcomes (ILO) of the programme
 
 ## 4 BSc (Hons) in Artificial Intelligence and Information Engineering > 4.1 Rationale
@@ -436,7 +434,6 @@ Table 5.3.1 Mapping between Programme Objectives and Programme Outcomes
 
 
 
-## 5 BSc (Hons) in Information Security > 5.3 Programme Outcomes (Part 2)
 | Programme Outcomes | Institutional Learning Outcomes 1 | Institutional Learning Outcomes 2 | Institutional Learning Outcomes 3 | Institutional Learning Outcomes 4 | Institutional Learning Outcomes 5 |
 | --- | --- | --- | --- | --- | --- |
 | 1 |  | √ |  |  |  |
@@ -452,6 +449,7 @@ Table 5.3.1 Mapping between Programme Objectives and Programme Outcomes
 
 
 
+## 5 BSc (Hons) in Information Security > 5.3 Programme Outcomes (Part 2)
 Table 5.3.2 Relationship between Institutional Learning Outcomes and Intended Learning Outcomes (ILO) of the programme
 
 ## 6 Curriculum > 6.1 Summary of University Graduation Requirements (Part 1)
@@ -497,24 +495,24 @@ Senior Year Intake
 (v) Satisfy the residential requirement for at least one-third of the credits to be completed for the award; and  
 (vi) Satisfy all requirements as defined and/or stipulated in the Programme Requirement Document and as specified by the University.
 
-## 6 Curriculum > 6.1 Summary of University Graduation Requirements (Part 2)
 There are subjects which are designed to fulfil the credit requirement of different types of subjects. Students passing these subjects will be regarded as having fulfilled the credit requirements of the particular types of subjects concerned. Nevertheless, the subject passed will only be counted once in fulfilling the credit requirements of the award, and the students will be required to take another subject in order to meet the total credit requirement of the programme concerned.
 
 Level-0 subjects and training subjects (including clinical/field training) will not be counted to fulfill free elective requirement for graduation purpose.
 
+## 6 Curriculum > 6.1 Summary of University Graduation Requirements (Part 2)
 Senior Year intakes admitted to the 4-year Undergraduate Degree programmes on the strength of the Associate Degree/Higher Diploma qualifications are required to complete at least 60 credits in order to be eligible for a Bachelor's degree. Exemption may be given for subjects already taken in the previous Associate Degree/Higher Diploma studies. In that case, students should take other electives (including free electives) instead to make up the total of 60 credits required.
 
 A student is required to graduate as soon as he/she satisfies the graduation requirements as stipulated above. The student concerned is required to apply for graduation, in the semester in which he/she is able to fulfil all his/her graduation requirements, and after the add/drop period for that semester has ended.
 
 Students taking the Major/Minor option
 
-## 6 Curriculum > 6.1 Summary of University Graduation Requirements (Part 3)
 Students taking the Major/Minor option will be considered for an award when they have satisfied the requirements for both the Major and Minor studies (i.e., having a GPA of 1.70 or above) and have also submitted an application for graduation. If the 18 credits taken for the approved Minor study can meet the requirements for that Minor, the Major students may apply to graduate with a specific Minor, in addition to their Major. Otherwise, students will graduate with a Major only.
 
 Subject to the approval by the Minor-offering Department, students may count up to 6 credits from their Major/GUR [including Language Communication Requirements (LCR) subjects at proficiency level] towards their chosen Minor. Nevertheless, students must take at least 6 credits from their chosen Minor programme in order to satisfy the residential requirement of their chosen Minor. In addition, to be eligible for the Major and Minor awards, the total number of credits taken by the students for their Major-Minor studies must not be lower than the credit requirement of the single discipline Major programme.
 
 Students taking the Major/Secondary Major option
 
+## 6 Curriculum > 6.1 Summary of University Graduation Requirements (Part 3)
 Students may count up to 12 credits of their Major/GUR subjects towards the Secondary Major. Nevertheless, students must take at least 12 credits from their chosen Secondary Major in order to satisfy the residential requirement of the chosen Secondary Major. Students who have completed more than 12 credits of subjects that are eligible for double counting will need to apply for graduation and indicate the subjects intended for double counting. Notwithstanding the above, students must meet the minimum credit requirements of the “X + Secondary Major” concerned, i.e., 132 credits.
 
 ## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 1)
@@ -552,7 +550,6 @@ Table 6.2.2 Proficient level elective subjects for HKDSE Level 4 students and ab
 
 Chinese
 
-## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 2)
 All undergraduate students must successfully complete one* 3-credit Chinese language subject as stipulated by the University, according to their Chinese language proficiency level (Table 6.2.3).
 
 Cantonese will be used as the Medium of Instruction (MoI) of a certain proportion of Chinese LCR subject. Students taking the Cantonese version of the subjects will be offered a 39 hour non-credit bearing e-Learning course in Putonghua (optional).
@@ -564,6 +561,7 @@ Cantonese will be used as the Medium of Instruction (MoI) of a certain proportio
 | CLC1104C | University Chinese | Cantonese |
 | CLC1104P | University Chinese | Putonghua |
 
+## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 2)
 
 
 * Students entering the University with specified attainment grades in certain public examinations can be given credit transfer or exemption for the LCR Chinese subjects. For the subject exempted, students must take any other subject to make up the 3 credits. For the subject granted credit transfer, student do not need to take any other subject to make up the credits.
@@ -577,7 +575,6 @@ Students of non-native Chinese language background, fulfilling any one of the fo
 (iii) those taken Chinese B or Chinese AB(SL) in IB Diploma; OR  
 (iv) NCS status shown on the official proof provided by their secondary school.
 
-## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 3)
 Otherwise, one subject from Table 6.2.4 below will be pre-assigned to you as Chinese LCR depending on your Chinese language proficiency and/or previous exam results. You might be given an assessment to ascertain that the pre-assigned subject is suitable for you.
 
 Table 6.2.3 Chinese LCR Subjects (3 credits each)  
@@ -596,6 +593,7 @@ Table 6.2.3 Chinese LCR Subjects (3 credits each)
 
 Table 6.2.4 Chinese LCR Subjects for non-Chinese speakers or students whose Chinese standards are at junior secondary level or below (3 credits each)
 
+## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 3)
 For those Senior Year intake students who do not meet the equivalent standard of the Undergraduate Degree LCR (based on their previous studies in AD/HD programme and their academic performance) will be required to take degree LCR subjects on top of the normal curriculum requirement.
 
 Writing Requirement
@@ -608,20 +606,19 @@ All students must, among the CAR subjects they take, pass one subject that inclu
 
 A list of approved CAR subjects for meeting the Writing Requirement and the Reading Requirement is shown at: https://www.polyu.edu.hk/cus/GURSubjects/
 
-## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 4)
 Non-Chinese speakers and those students whose Chinese standards are at junior secondary level or below will by default be exempted from the CAR - Chinese Reading and Writing Requirements and the DSR - Chinese (for Senior Year intake students).
 
 Note: In addition to the LCR and Reading and Writing Requirements, students also have to complete 2 - 4 credits of discipline-specific language requirements (2 credits in English and 0 - 2 credits in Chinese) as specified in the curriculum requirements of their Major. Students who are non-Chinese speakers or those whose Chinese standards are at junior secondary level or below will be exempted from the DSR - Chinese. Students of this category can take a replacement subject of any level to make up for the credit requirement
 
 (ii) Artificial Intelligence and Data Analytics Requirement (GUR-AIDA)
 
+## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 4)
 All 4-year degree students must successfully complete one 2-credit subject in the area of Artificial Intelligence and Data Analytics, which is designed to (i) demonstrate an understanding of the foundational concepts of Artificial Intelligence and Data Analytics (AIDA); (ii) acquire basic skills in using AIDA technologies and applications; (iii) articulate examples of how the adoption AIDA could enhance their chosen disciplines; and (iv) demonstrate an awareness of global contemporary ethical issues and impact from AIDA applications in daily life.
 
 Senior Year Intakes students are required to take the mandatory subject "Essential Components of General Education" for the e-module on GUR-AIDA.
 
 (iii) Innovation and Entrepreneurship Requirement (GUR-IE)
 
-## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 5)
 All 4-year degree students must successfully complete one 1-credit subject in the area of Innovation and Entrepreneurship, which is designed to (i) demonstrate an elementary understanding of innovation and entrepreneurship; (ii) appreciate the importance of innovation and entrepreneurship in local and global community; (iii) appreciate the applications and implications of the latest technologies on entrepreneurship and innovation in their chosen disciplines; and (iv) identify ethical issues in entrepreneurship and innovation.
 
 Senior Year Intakes students are required to take the mandatory subject "Essential Components of General Education" for the e-module on GUR-IE.
@@ -630,11 +627,11 @@ Senior Year Intakes students are required to take the mandatory subject "Essenti
 
 All 4-year degree students must successfully complete one 3-credit subject in the area of Leadership Education and Development, which is designed to enable students to (i) understand and integrate theories, research, and concepts on the basic qualities (particularly intrapersonal and interpersonal qualities including law abidance) of effective leaders, (ii) develop self-awareness and self-understanding, (iii) demonstrate self-leadership in pursuit of continual self-improvement, (iv) apply intrapersonal and interpersonal skills in daily lives, (v) appreciate the importance of intrapersonal and interpersonal qualities in effective leadership, particularly the connection of learning in the subject to one's professional development and personal growth, and (vi) recognise and accept their social responsibility as professionals and citizens to the society and the world.
 
+## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 5)
 Senior Year Intakes students are not required to complete this subject.
 
 (v) Service-Learning (SL)
 
-## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 6)
 All students must successfully complete one 3-credit subject designated to meet the Service-Learning Requirement, in which they are required to (a) participate in substantial community service or civic engagement activities that will benefit the service users or the community at large in a meaningful way, (b) apply the knowledge and skills acquired from their Major or other learning experiences at the University to the community service activities, and (c) reflect on their service learning experience in order to link theory with practice for the development of a stronger sense of ethical, social and national responsibility.
 
 Service-Learning subjects are administered by the Service-Learning and Leadership Office (SLLO). For subject offering and further information, please visit the SLLO website: https://www.polyu.edu.hk/sllo/.
@@ -653,7 +650,7 @@ A list of CAR subjects under each of the four Cluster Areas is available at: htt
 
 (vii) Healthy Lifestyle (HLS)
 
-## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 7)
+## 6 Curriculum > 6.2 General University Requirements (GUR) (Part 6)
 A Healthy lifestyle is the platform for all-round development. All 4-year degree students are required to successfully complete a non-credit-bearing programme on healthy lifestyle. Students are required to complete the following components: (a) sports training/participation, (b) e-learning modules, and (c) lectures/talks. The syllabus covers physical health, mental health, social health, spiritual health, values and priorities on healthy behaviour with reference to competing priorities in life, reflections on healthy living, and plans for self-improvement or maintaining of health behaviour. Details of the programme can found at: https://www.polyu.edu.hk/cus/GURSubjects/ HLS.php.
 
 Senior Year Intakes students are not required to complete HLS.
@@ -704,7 +701,6 @@ Normal Year 1 Intake
 
 (ii) Obtain a total of 5 training credits in Training (TRN) and complete the Work-Integrated Education (WIE) component as stated in Sections 6.8 and 6.9, respectively.
 
-## 6 Curriculum > 6.3 Specific Graduation Requirements (Part 2)
 Senior Year Intake
 
 (i) Successfully complete a minimum of 67 academic credits composed of the following:
@@ -712,6 +708,7 @@ Senior Year Intake
 - 9 credits of General University Requirements (GUR) as set out in Section 6.2.  
 - 58 credits of Major Subjects, of which 43 credits from subjects categorised as Compulsory (COM) and 15 credits from subjects categorised as Elective (ELE) as stated in Table 6.4.3.
 
+## 6 Curriculum > 6.3 Specific Graduation Requirements (Part 2)
 (ii) Obtain a total of 5 training credits in Training (TRN) and complete the Work-Integrated Education (WIE) component as stated in Sections 6.8 and 6.9, respectively.
 
 BSc (Hons) in Information Security
@@ -770,9 +767,9 @@ General University Requirements (GUR) & Free Electives for BEng (Hons) / BSc (Ho
 
 
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 2)
 Table 6.4.1 General University Requirements (GUR) & Free Electives
 
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 2)
 Category: COM: Compulsory  
 $\wedge$  Senior Year Intakes are required to complete one specially-designed CAR (A) - English Language subject (with embedded English Reading and Writing Requirements).  
 * This is normally not required. Only those students not meeting the equivalent standard of the Undergraduate Degree LCR (based on their previous studies in AD/HD programmes and their academic performance) will be required to take degree LCR subjects on top of the normal curriculum requirement.
@@ -784,7 +781,6 @@ Major Subjects for BEng (Hons) in Electronic Systems and Internet-of-Things (BEn
 
 **Major Subjects for BEng in ESIoT**
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 3)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | AMA1110 | Basic Mathematics I – Calculus and Probability & Statistics | 3 | COM | - |
@@ -808,7 +804,7 @@ Major Subjects for BEng (Hons) in Electronic Systems and Internet-of-Things (BEn
 | EIE3333 | Data and Computer Communications | 3 | COM |  |
 | EIE3373 | Microcontroller Systems and Interface | 3 | COM |  |
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 4)
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 3)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | EIE4113 | Wireless and Mobile Systems | 3 | COM |  |
@@ -826,14 +822,14 @@ Major Subjects for BEng (Hons) in Electronic Systems and Internet-of-Things (BEn
 | EIE4122 | Deep Learning and Deep Neural Networks | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
 | EIE4123 | Healthcare Technology | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
 | EIE4124 | Modern Robotics | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
-
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 5)
-| Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
-| --- | --- | --- | --- | --- |
 | EIE4125 | Power Conversion Technology for Energy Harvesting | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
 | EIE4413 | Digital Signal Processing | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
 | EIE4432 | Web Systems and Technologies | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
 | EIE4435 | Image and Audio Processing | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
+
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 4)
+| Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
+| --- | --- | --- | --- | --- |
 | EIE4449 | Optical Communication Systems and Networks | 3 | ELE~ (Select any 4 electives; at least 2 electives at Level 4 or above) |  |
 | ELC3531 | Professional Communication in English for Engineering Students | 2 | COM |  |
 | ENG1004 | Engineering Professionals in Society I | 1 | COM | - |
@@ -858,7 +854,6 @@ TRN: Training
 
 $\sim$  Students are required to select 4 technical electives and at least 2 technical electives must be at Level 4 or above.
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 6)
 Subject to the approval by the Programme Leader of BEng (Hons) in ESIoT, students may take at most one Level 5 subject per semester as a final-year technical elective during their final year of study. The total number of Level 5 subjects taken shall not exceed 2. Students can refer to the list of Level 5 subjects currently available on
 
 https://www.polyu.edu.hk/eee/study/information-for-current-students/subject-syllabi/.
@@ -867,6 +862,7 @@ Table 6.4.2 Major Subjects for BEng in ESIoT
 
 
 
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 5)
 | Subject Code | Subject Title | Credit | Category of Subjects |
 | --- | --- | --- | --- |
 | EEE508 | VLSI Technology and Design | 3 | ELE |
@@ -890,7 +886,6 @@ Table 6.4.2 Major Subjects for BEng in ESIoT
 | EIE573 | Mobile Edge Computing | 3 | ELE |
 | EIE575 | Vehicular Communications and Inter-Networking Technologies | 3 | ELE |
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 7)
 | Subject Code | Subject Title | Credit | Category of Subjects |
 | --- | --- | --- | --- |
 | EIE577 | Optoelectronic Devices | 3 | ELE |
@@ -908,6 +903,7 @@ Major Subjects for BSc (Hons) in Artificial Intelligence and Information Enginee
 
 **Major Subjects for BSc in AIIE**
 
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 6)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | AMA1110 | Basic Mathematics I – Calculus and Probability & Statistics | 3 | COM | - |
@@ -931,7 +927,7 @@ Major Subjects for BSc (Hons) in Artificial Intelligence and Information Enginee
 | EIE4102 | IP Networks | 3 | COM |  |
 | EIE4127 | Capstone Project | 6 | COM |  |
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 8)
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 7)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | EIE4432 | Web Systems and Technologies | 3 | COM | - |
@@ -955,7 +951,6 @@ Major Subjects for BSc (Hons) in Artificial Intelligence and Information Enginee
 | ENG2003 | Information Technology | 3 | COM | - |
 | ENG3003 | Engineering Management | 3 | COM |  |
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 9)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | ENG3004 | Society and The Engineer | 3 | - | COM |
@@ -976,6 +971,7 @@ TRN: Training
 
 $\sim$  Students are required to select  $\underline{5}$  technical electives.
 
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 8)
 Subject to the approval by the Programme Leader of BSc (Hons) in AIIE, students may take at most one Level 5 subject per semester as a final-year technical elective during their final year of study. The total number of Level 5 subjects taken shall not exceed 2. Students can refer to the list of Level 5 subjects currently available on
 
 https://www.polyu.edu.hk/eee/study/information-for-current-students/subject-syllabi/.
@@ -1002,7 +998,6 @@ Major Subjects for Bachelor of Science (Honours) in Information Security (BSc in
 
 **Major Subjects for BSc in IS**
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 10)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | AMA1110 | Basic Mathematics I – Calculus and Probability & Statistics | 3 | COM | - |
@@ -1026,7 +1021,7 @@ Major Subjects for Bachelor of Science (Honours) in Information Security (BSc in
 | EIE3343 | Computer Systems Principles | 3 | COM |  |
 | EIE4113 | Wireless and Mobile Systems | 3 | COM |  |
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 11)
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 9)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | EIE4432 | Web Systems and Technologies | 3 | COM |  |
@@ -1040,16 +1035,16 @@ Major Subjects for Bachelor of Science (Honours) in Information Security (BSc in
 | EIE4114 | Digital Forensics for Crime Investigation | 3 | ELE~ (Select any 2 electives from EEE) | ELE~ (Select any 5 electives; at least 2 from COMP/DSA1 and 2 from EEE) |
 | EIE4116 | Surveillance Studies and Technologies | 3 | ELE~ (Select any 2 electives from EEE) | ELE~ (Select any 5 electives; at least 2 from COMP/DSA1 and 2 from EEE) |
 | EIE4118 | Intrusion Detection and Penetration Test | 3 | ELE~ (Select any 2 electives from EEE) | ELE~ (Select any 5 electives; at least 2 from COMP/DSA1 and 2 from EEE) |
-
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 12)
-| Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
-| --- | --- | --- | --- | --- |
 | EIE4121 | Machine Learning in Cyber-Security | 3 | ELE~ (Select any 2 electives from EEE) | ELE~ (Select any 5 electives; at least 2 from COMP/DSA1 and 2 from EEE) |
 | COMP4913 | Capstone Project | 6 | COM (Select any 1 subject out of these 2 subjects) |  |
 | EIE4117 | Capstone Project | 6 | COM (Select any 1 subject out of these 2 subjects) |  |
 | ELC3531 | Professional Communication in English for Engineering Students | 2 | COM |  |
 | ENG1004 | Engineering Professionals in Society I | 1 | COM | - |
 | ENG2002 | Computer Programming | 3 | COM | - |
+## 6 Curriculum > 6.4 Programme Specified Subjects (Part 10)
+
+| Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
+| --- | --- | --- | --- | --- |
 | ENG2003 | Information Technology | 3 | COM | - |
 | ENG3003 | Engineering Management | 3 | COM |  |
 | ENG3006 | Engineering Professionals in Society II | 2 | COM | - |
@@ -1076,7 +1071,6 @@ https://www.polyu.edu.hk/eee/study/information-for-current-students/subject-syll
 
 
 
-## 6 Curriculum > 6.4 Programme Specified Subjects (Part 13)
 | Subject Code | Subject Title | Credit | Category of Subjects |
 | --- | --- | --- | --- |
 | EEE514 | Quantum Communication | 3 | ELE |
@@ -1131,9 +1125,9 @@ BEng (Hons) in Electronic Systems and Internet-of-Things (Normal Year 1 Intake)
 **EEE2105 Basic Electronic Systems with AI (3 training credits)**
 
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 2)
 **Year 3 (30 academic credits + 3 training credits)**
 
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 2)
 | Semester 1 (15 credits + 1.5 training credit) | Semester 2 (15 credits + 1.5 training credit) |
 | --- | --- |
 | EIE3311 Computer System Fundamentals (3) | EIE3112 Database System (3) |
@@ -1170,11 +1164,11 @@ Table 6.5.1 Progression Pattern of BEng (Hons) in ESIoT for Normal Year 1 Intake
 
 Total credits required for graduation: 120 academic credits + 8 training credits
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 3)
 $\sim$  Students will take these subjects based on their English Language results in HKDSE or other public examinations (see Section 6.2 (i)).  
 $\wedge$  Students are required to take two Faculty Electives among AMA1120 Basic Mathematics II, ENG2003 Information Technology or AP10005 Physics I/AP10006 Physics II in Year 1. AMA1120 and ENG2003 are the Major subjects of the programme and will be pre-assigned for students in Year 1. If students opt to take AP10005/AP10006, AP10005/AP10006 will be recognised as a Free Elective within the programme.  
 % Students of non-native Chinese language background, fulfilling any one of the following criteria with appropriate supporting certificate/document (if applicable), could be exempted from the Chinese LCR at the time of admission. You may use a Chinese LCR subject or free elective to fulfil the credit requirement. You are also exempted from fulfilling the CAR - Chinese Reading and Writing Requirements.
 
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 3)
 (i) those with their first/native language as non-Chinese stated on the grade report of recognized tests (e.g. IELTS, TOEFL, etc.); OR  
 (ii) those admitted with international qualifications without taking any Chinese subject(s) in their secondary/high school; OR  
 (iii) those taken Chinese B or Chinese AB(SL) in IB Diploma; OR  
@@ -1182,7 +1176,6 @@ $\wedge$  Students are required to take two Faculty Electives among AMA1120 Basi
 
 Otherwise, one subject will be pre-assigned to you as Chinese LCR depending on your Chinese language proficiency and/or previous exam results. You might be given an assessment to ascertain that the pre-assigned subject is suitable for you (see Section 6.2 (i)).
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 4)
 * Students are required to complete four Technical Electives from Table 6.5.2 and at least two Technical Electives must be at Level 4 or above. The Department reserves the right of NOT offering all the electives in each year.  
 @ Students are encouraged to take this subject at an earlier stage of study.
 
@@ -1218,9 +1211,9 @@ BSc (Hons) in Artificial Intelligence and Information Engineering (Normal Year 1
 
 
 
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 4)
 **Year 1 (31 academic credits + 2 training credits)**
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 5)
 | Semester 1 (13 or 16 credits + 1 training credit) | Semester 2 (15 or 18 credits + 1 training credit) |
 | --- | --- |
 | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics (3) | AMA1120 Basic Mathematics II – Calculus and Linear Algebra (3)^ |
@@ -1261,7 +1254,7 @@ BSc (Hons) in Artificial Intelligence and Information Engineering (Normal Year 1
 
 **Year 3 (29 academic credits)**
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 6)
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 5)
 | Semester 1 (14 credits) | Semester 2 (15 credits) |
 | --- | --- |
 | EEE2012 Introduction to Internet of Things (2) | EIE3109 Mobile Systems and Application Development (3) |
@@ -1292,11 +1285,11 @@ Table 6.5.3 Progression Pattern of BSc (Hons) in AIIE for Normal Year 1 Intake
 
 Total credits required for graduation: 120 academic credits + 5 training credits
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 7)
 $\sim$  Students will take these subjects based on their English Language results in HKDSE or other public examinations (see Section 6.2 (i)).  
 $\wedge$  Students are required to take two Faculty Electives among AMA1120 Basic Mathematics II, ENG2003 Information Technology or AP10005 Physics I/AP10006 Physics II in Year 1. AMA1120 and ENG2003 are the Major subjects of the programme and will be pre-assigned for students in Year 1. If students opt to take AP10005/AP10006, AP10005/AP10006 will be recognised as a Free Elective within the programme.  
 % Students of non-native Chinese language background, fulfilling any one of the following criteria with appropriate supporting certificate/document (if applicable), could be exempted from the Chinese LCR at the time of admission. You may use a Chinese LCR subject or free elective to fulfil the credit requirement. You are also exempted from fulfilling the CAR - Chinese Reading and Writing Requirements.
 
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 6)
 (i) those with their first/native language as non-Chinese stated on the grade report of recognized tests (e.g. IELTS, TOEFL, etc.); OR  
 (ii) those admitted with international qualifications without taking any Chinese subject(s) in their secondary/high school; OR  
 (iii) those taken Chinese B or Chinese AB(SL) in IB Diploma; OR  
@@ -1311,7 +1304,6 @@ Otherwise, one subject will be pre-assigned to you as Chinese LCR depending on y
 
 **Technical Elective***
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 8)
 | Semester 1 | Semester 2 |
 | --- | --- |
 | EIE3127 Artificial Intelligence Enabled Internet of Things | EIE4105 Multimodal Human Computer Interaction Technology |
@@ -1341,7 +1333,7 @@ BSc (Hons) in Information Security (Normal Year 1 Intake)
 
 **Year 1 (31 academic credits + 2 training credits)**
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 9)
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 7)
 | Semester 1 (13 or 16 credits + 1 training credit) | Semester 2 (15 or 18 credits + 1 training credit) |
 | --- | --- |
 | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics (3) | AMA1120 Basic Mathematics II – Calculus and Linear Algebra (3)^ |
@@ -1374,7 +1366,6 @@ BSc (Hons) in Information Security (Normal Year 1 Intake)
 
 **Year 3 (30 academic credits + 2 training credits)**
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 10)
 | Semester 1 (18 credits) | Semester 2 (16 credits) |
 | --- | --- |
 | COMP3335 Database Security (3) | COMP3334 Computer Systems Security (3) |
@@ -1389,6 +1380,7 @@ BSc (Hons) in Information Security (Normal Year 1 Intake)
 
 **Year 4 (30 academic credits)**
 
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 8)
 | Semester 1 (15 credits) | Semester 2 (15 credits) |
 | --- | --- |
 | ENG3003 Engineering Management (3) | COMP4442 Service and Cloud Computing (3) |
@@ -1405,7 +1397,6 @@ Table 6.5.5 Progression Pattern of BSc (Hons) in IS for Normal Year 1 Intake
 
 Total credits required for graduation: 120 academic credits + 4 training credits
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 11)
 $\sim$  Students will take these subjects based on their English Language results in HKDSE or other public examinations (see Section 6.2 (i)).  
 $\wedge$  Students are required to take two Faculty Electives among AMA1120 Basic Mathematics II, ENG2003 Information Technology or AP10005 Physics I/AP10006 Physics II in Year 1. AMA1120 and ENG2003 are the Major subjects of the programme and will be pre-assigned for students in Year 1. If students opt to take AP10005/AP10006, AP10005/AP10006 will be recognised as a Free Elective within the programme.  
 % Students of non-native Chinese language background, fulfilling any one of the following criteria with appropriate supporting certificate/document (if applicable), could be exempted from the Chinese LCR at the time of admission. You may use a Chinese LCR subject or free elective to fulfil the credit requirement. You are also exempted from fulfilling the CAR - Chinese Reading and Writing Requirements.
@@ -1417,7 +1408,7 @@ $\wedge$  Students are required to take two Faculty Electives among AMA1120 Basi
 
 Otherwise, one subject will be pre-assigned to you as Chinese LCR depending on your Chinese language proficiency and/or previous exam results. You might be given an assessment to ascertain that the pre-assigned subject is suitable for you (see Section 6.2 (i)).
 
-## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 12)
+## 6 Curriculum > 6.5 Progression Pattern for Normal Study Duration (Part 9)
 * Students are required to complete four Technical Electives from Table 6.5.6. Two Technical Electives must be from COMP/DASI and two Technical Electives must be from EEE. The Department reserves the right of NOT offering all the electives in each year.  
 @ Students are encouraged to take this subject at an earlier stage of study.
 
@@ -1496,7 +1487,6 @@ BSc (Hons) in Artificial Intelligence and Information Engineering (Senior Year I
 
 **Year 1 (35 academic credits + 5 training credits)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 3)
 | Semester 1 (17 credits) | Semester 2 (18 credits) |
 | --- | --- |
 | CLC3241P Professional Communication in Chinese (2) | EIE3109 Mobile Systems and Application Development (3) |
@@ -1514,6 +1504,7 @@ BSc (Hons) in Artificial Intelligence and Information Engineering (Senior Year I
 
 **Year 2 (32 academic credits)**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 3)
 | Semester 1 (18 credits) | Semester 2 (14 credits) |
 | --- | --- |
 | ENG3003 Engineering Management (3) | EIE4102 IP Networks (3) |
@@ -1531,7 +1522,6 @@ Table 6.6.2 Progression Pattern of BSc (Hons) in AIIE for Senior Year Intake
 
 Total credits required for graduation: 67 academic credits Note 1,4 + 5 training credits
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 4)
 Note 1: This is an example only, which shows a possible study pattern for graduates with relevant Higher Diploma/Associate Degree from a recognized institution. The exact study pattern for senior year intakes varies from student to student depending on the approved subjects transferred.  
 Note 2: The study pattern for the subjects is indicative only. Students may take these subjects according to their own schedule. However, CAR A – English Language should be completed in the first year of study, including non-mandatory summer semester. Students also need to fulfil the Chinese reading and writing requirements (CR/CW), if such requirements have not been fulfilled in previous studies.  
 Note 3: Students are required to complete five Technical Electives from Table 6.5.4. The Department reserves the right of NOT offering all the electives in each year.  
@@ -1543,7 +1533,7 @@ BSc (Hons) in Information Security (Senior Year Intake) Note 1
 
 **Year 1 (34 academic credits + 2 training credits)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 5)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 4)
 | Semester 1 (18 credits) | Semester 2 (16 credits) |
 | --- | --- |
 | EIE3130 Network Security (3) | CLC3241P Professional Communication in Chinese (2) |
@@ -1577,7 +1567,7 @@ Table 6.6.3 Progression Pattern of BSc (Hons) in IS for Senior Year Intake
 
 Total credits required for graduation: 64 academic credits Note 1,5 + 2 training credits
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 6)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 5)
 Note 1: This is an example only, which shows a possible study pattern for graduates with relevant Higher Diploma/Associate Degree from a recognized institution. The exact study pattern for senior year intakes varies from student to student depending on the approved subjects transferred.  
 Note 2: The study pattern for the subjects is indicative only. Students may take these subjects according to their own schedule. However, CAR A – English Language should be completed in the first year of study, including non-mandatory summer semester. Students also need to fulfil the Chinese reading and writing requirements (CR/CW), if such requirements have not been fulfilled in previous studies.  
 Note 3: Students are required to complete five Technical Electives from Table 6.5.6. Two Technical Electives must be from COMP/DASI and two Technical Electives must be from EEE. The Department reserves the right of NOT offering all the electives in each year.  
@@ -1598,7 +1588,7 @@ BEng (Hons) in Electronic Systems and Internet-of-Things
 
 **Language and Communication Requirements (LCR)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 7)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 6)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | LCR - English - ELCXXXX (2 Subjects) |  |  |  |  |  |  |  |  | TP |  |
@@ -1626,9 +1616,9 @@ BEng (Hons) in Electronic Systems and Internet-of-Things
 | AMA1120 Basic Mathematics II -Calculus and Linear algebra |  |  |  | TP |  |  |  |  |  | T |
 | AMA2111 Mathematics I |  |  |  | TP |  |  |  |  |  | T |
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 8)
 **Compulsory - Engineering Subjects**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 7)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EIE1003 Foundations of Data Science | TPM |  |  | TP |  |  |  |  |  |  |
@@ -1653,7 +1643,7 @@ BEng (Hons) in Electronic Systems and Internet-of-Things
 
 **Compulsory - Language and Complementary Studies**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 9)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 8)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ELC3531 Professional Communication in English for Engineering Students |  |  |  |  |  |  |  |  | TPM |  |
@@ -1678,7 +1668,7 @@ BEng (Hons) in Electronic Systems and Internet-of-Things
 
 **Elective - Engineering Subjects (Select Any 4)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 10)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 9)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EIE3109 Mobile Systems and Application Development |  |  | TP |  | TP |  |  |  |  |  |
@@ -1704,7 +1694,6 @@ BEng (Hons) in Electronic Systems and Internet-of-Things
 
 Table 6.6.4 Alignment of Subjects with Programme Intended Learning Outcomes
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 11)
 Table 6.6.5 illustrates how the subjects support the Programme Outcomes of BSc (Hons) in Artificial Intelligence and Information Engineering through teaching activities (T), practice on the part of students (P), and measurements (M).
 
 BSc (Hons) in Artificial Intelligence and Information Engineering  
@@ -1717,6 +1706,7 @@ BSc (Hons) in Artificial Intelligence and Information Engineering
 
 **Language and Communication Requirements (LCR)**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 10)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | LCR - English - ELCXXXXX (2 Subjects) |  |  |  |  |  |  |  |  | TP |  |
@@ -1734,7 +1724,6 @@ BSc (Hons) in Artificial Intelligence and Information Engineering
 
 **Compulsory - Mathematics and Basic Sciences Subjects**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 12)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | AMA1110 Basic Mathematics I - Calculus and Probability & Statistics |  |  |  | TP |  |  |  |  |  |  |
@@ -1743,7 +1732,7 @@ BSc (Hons) in Artificial Intelligence and Information Engineering
 
 **Compulsory - Engineering Subjects**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 13)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 11)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | DSAI2201 Data Structures and Algorithms | TP |  |  |  |  |  |  |  |  |  |
@@ -1767,13 +1756,13 @@ BSc (Hons) in Artificial Intelligence and Information Engineering
 
 **Compulsory - Capstone Project**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 14)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EIE4127 Capstone Project | PM |  |  |  |  |  |  |  | PM |  |
 
 **Compulsory - Industrial Centre Training and Training through Work Experience**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 12)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EEE2103 Applied Engineering Fundamentals |  |  |  | T |  |  |  |  |  |  |
@@ -1791,7 +1780,7 @@ BSc (Hons) in Artificial Intelligence and Information Engineering
 
 **Elective - Engineering Subjects (Select Any 5)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 15)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 13)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EIE3127 Artificial Intelligence Enabled Internet of Things | TP |  |  | TPM |  | TP |  |  |  | TPM |
@@ -1825,7 +1814,6 @@ BSc (Hons) in Information Security
 
 **Language and Communication Requirements (LCR)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 16)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | LCR - English - ELCXXXXX (2 Subjects) |  |  |  |  |  |  |  |  | TP |  |
@@ -1833,6 +1821,7 @@ BSc (Hons) in Information Security
 
 **Cluster-Area Requirements (CAR) (3 Subjects)**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 14)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | CAR - Cluster-Area Requirement Subjects |  |  |  |  |  |  |  | TP |  |  |
@@ -1851,7 +1840,6 @@ BSc (Hons) in Information Security
 
 **Compulsory - Mathematics and Basic Sciences Subjects**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 17)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | AMA1110 Basic Mathematics I - Calculus and Probability & Statistics |  |  |  | TP |  |  |  |  |  |  |
@@ -1860,7 +1848,7 @@ BSc (Hons) in Information Security
 
 **Compulsory - Computer Science and Engineering Subjects**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 18)
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 15)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | COMP2432 Operating Systems | TP |  |  | TP |  |  |  |  |  |  |
@@ -1883,7 +1871,6 @@ BSc (Hons) in Information Security
 
 **Compulsory - Complementary Studies**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 19)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | COMP3511 Legal Aspects and Ethics of Computing |  |  |  |  |  |  |  | TPM | PM | TPM |
@@ -1894,6 +1881,7 @@ BSc (Hons) in Information Security
 
 **Compulsory - Capstone Project (Select Any 1)**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 16)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | COMP4913 Capstone Project | PM |  |  |  |  |  |  |  | PM |  |
@@ -1908,7 +1896,6 @@ BSc (Hons) in Information Security
 
 **Elective - Computer Science and Engineering Subjects (Select Any 2)**
 
-## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 20)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | COMP4127 Information Systems Audit and Control |  |  | TPM |  | TPM | TP |  | TPM |  |  |
@@ -1920,6 +1907,7 @@ BSc (Hons) in Information Security
 
 **Elective - Computer Science and Engineering Subjects (Select Any 2)**
 
+## 6 Curriculum > 6.6 Progression Pattern for Senior Year Students (Part 17)
 |  | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 | Programme Outcomes 10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EIE3129 IoT Security |  |  |  | TP |  |  |  | TP |  |  |
@@ -1932,7 +1920,7 @@ BSc (Hons) in Information Security
 
 Table 6.6.6 Alignment of Subjects with Programme Intended Learning Outcomes
 
-## 6 Curriculum > 6.7 Capstone Project (Part 1)
+## 6 Curriculum > 6.7 Capstone Project
 
 The Capstone Project is considered to be of great importance. This is reflected in the number of credits it carries, being 6 credits which are equivalent to two standard-sized subjects. Furthermore, the result of the Capstone Project will be very important when the Board of Examiners considers the award classification of a student. Normally, the Board of Examiners will expect a very good grade for the Capstone Project when a student is to be awarded a high Honours classification.
 
@@ -1946,7 +1934,6 @@ The assignment of projects is expected to be completed by the month of June prec
 
 (ii) Project Assessment
 
-## 6 Curriculum > 6.7 Capstone Project (Part 2)
 Assessment of the Capstone Project focuses on three main areas: project reports, oral presentations and work done over the whole project period. Assessment will be done by the project supervisor and an assessor. The Project Management Team, which is composed of the Programme Leader and staff members from teaching sections, will oversee the overall standard of assessment of the projects. The Project Management Team will also oversee the daily operation, such as fixing the dates of project report submission, oral presentation, demonstration, etc.
 
 ## 6 Curriculum > 6.8 Industrial Centre (IC) Training
@@ -1955,28 +1942,27 @@ Industrial Centre (IC) Training is a practical training element to provide a cha
 
 Students must pass all IC Training subjects. IC Training is graded in the normal manner from  $\mathrm{A + }$  to F and will be counted in the evaluation of the Grade Point Average (GPA). However, they will not be counted towards Weighted GPA or Award GPA. The assessment method of Industrial Centre Training is based on  $100\%$  continuous assessment. The assessment components are workshop reports, competency in practical works, and appreciation tests. To complete the IC Training successfully, students must demonstrate good professional attributes, including responsible attitude in training, excellent attendance with active learning, exercising best practice and care in equipment and tools while observing all safety codes. Details of the assessment scheme are available from Industrial Centre.
 
-## 6 Curriculum > 6.9 Work-Integrated Education (Part 1)
+## 6 Curriculum > 6.9 Work-Integrated Education
 
 WIE is a mandatory component of the programme. There can be several routes or options for the students to pursue Work-Integrated Education (WIE). These options include the One-year Internship Scheme (OIS), industrial projects, summer internship and other workplace training opportunities provided by the University or found by students themselves, etc.
 
-1. Credits Requirement
+## 1 Credits Requirement > Introduction
 
 Students of BEng (Hons) in Electronic Systems and Internet-of-Things and BSc (Hons) in Artificial Intelligence and Information Engineering are required to complete a minimum of 2 weeks of Work-Integrated Education (WIE) during the study period. Students of BSc (Hons) in Information Security who successfully complete the 4 weeks of Summer Internship (EIE3189) will fulfil the WIE requirement simultaneously. WIE training credits will not be counted towards the Grade Point Average (GPA) or the Weighted GPA (WGPA). After assessing the training performance, a Pass or a Fail grade will be awarded to the student on his/her WIE component.
 
-2. Intended Learning Outcomes of WIE
+## 2 Intended Learning Outcomes of WIE > Introduction
 
 Since WIE can take different forms and be applied to different kinds of job, the learning outcomes to be achieved vary depending on the job nature and its duration engaged by the student. However, based on the experience gained, WIE can bring a lot of advantages to students' learning both in the profession-specific areas and in their all-round development. The intended learning outcomes of WIE are elaborated in the following paragraph.
 
 On successful completion of the WIE component, the students will be able to:
 
-## 6 Curriculum > 6.9 Work-Integrated Education (Part 2)
 - Apply knowledge and skills learned from the Programme on the job in a broad context of networking and multimedia profession.  
 - Recognize the operation and requirement of real-life business, leading to the development of entrepreneurship, global outlook, professional ethics, social and cultural understanding.  
 - Recognize the expectation of employers, hence leading to better employability.  
 Develop their all-round attributes such as interpersonal skills and leadership.  
 - Develop their critical and creative thinking, and problem-solving skills while taking into account various real-life constraints, helping them to pursue life-long learning and continuing professional development.
 
-3. WIE Options
+## 3 WIE Options > Introduction (Part 1)
 
 WIE component under the Programme can be in many forms, including One-year Internship Scheme (OIS), industrial project, summer internship and other job opportunities.
 
@@ -1986,7 +1972,6 @@ The OIS lasts for 1 year. Under the OIS, the students will pursue Year 1, Year 2
 
 Industrial Project (for BEng (Hons) in ESIoT and BSc (Hons) in AIIE only)
 
-## 6 Curriculum > 6.9 Work-Integrated Education (Part 3)
 Industrial projects are Capstone Projects working with the industry. Students working on an industrial project will pursue the project in a company for a certain period. The students will work with a real-life project in the real working environment.
 
 Summer Internship (for BSc (Hons) in IS only)
@@ -2001,9 +1986,9 @@ It is possible that students find jobs for themselves to work during the summer 
 
 The Department adopts a set of strategies to support students' learning in the workplace. The followings are the details of the operation at different stages.
 
+## 3 WIE Options > Introduction (Part 2)
 Preparation
 
-## 6 Curriculum > 6.9 Work-Integrated Education (Part 4)
 The Department will actively align with the industry to get WIE placement opportunities for students. It is important for students to be fully aware of the benefits brought by WIE. Students will be asked to attend employment seminars as early as possible. Through this type of arrangement, students in all years will be well prepared for job hunting and employment in advance. Students will also be able to realize the benefits for engaging in WIE and the importance of taking an active role in completing the training with the best effort.
 
 Operation
@@ -2020,11 +2005,11 @@ The objective of assessment is to determine what the student has achieved throug
 
 Continuous Assessment
 
-## 6 Curriculum > 6.9 Work-Integrated Education (Part 5)
 The Academic Advisor may visit the student during the training period so that the Academic Advisor and the employer will be able to discuss the student's performance together. This will give better feedback on the student's performance before the training is completed.
 
 Report
 
+## 3 WIE Options > Introduction (Part 3)
 After the training is completed, the student is required to submit a report to the Academic Advisor. The details to be contained in the report should be commensurate with the training duration. It contains a brief reflective writing on the training received, the objectives that have been achieved, and the experience gained. The student may also conduct a self-evaluation on his/her own performance. The report must be endorsed by the student's employer before its submission.
 
 Employer Evaluation
@@ -2095,7 +2080,7 @@ The validity period of subject credits earned is eight years from the year of at
 
 In order to be considered for a PolyU award, a student must complete at least 1/3 of the normal credit requirement for the award he/she is currently enrolled, unless the professional bodies concerned stipulate otherwise. This 1/3 requirement is also applicable to Minor programme and Secondary Major. Students must take at least 6 credits from their chosen Minor programme or at least 12 credits from their chosen Secondary Major in order to satisfy the residential requirement of their chosen Minor or Secondary Major.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.8 Subject Registration and Withdrawal (Part 1)
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.8 Subject Registration and Withdrawal
 
 In addition to programme registration, students need to register for the subjects at specified periods prior to the commencement of the semester. An add/drop period will also be scheduled for each semester/term. Students may apply for withdrawal of their registration on a subject after the add/drop period and before the commencement of the examination period if they have a genuine need to do so. The application should be made to the relevant programme offering Department and will require the approval of both the subject teacher and the host Department Programme Leader concerned. Applications submitted after the commencement of the examination period will not be considered. For approved applications of subject withdrawal, the tuition fee paid for the subject will be forfeited and the withdrawal status of the subject will be shown in the assessment result notification and transcript of studies, but will not be counted in the calculation of the GPA.
 
@@ -2103,10 +2088,9 @@ The pre-requisite requirements of a subject must have been fulfilled before a st
 
 Subject to the maximum study load of 21 credits per semester and the availability of study places, students are allowed to take additional subjects on top of the prescribed credit
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.8 Subject Registration and Withdrawal (Part 2)
 requirement for award before they become eligible for graduation. Students will be allowed to take additional subjects for broadening purpose, after they fulfil the graduation requirements and for the following semester. However, they will still be subject to the maximum study load of 21 credits per semester and the availability of places in the subjects concerned, and their enrolment will be arranged as subject-based students only and be subject to the rules on 'Admission of Subject-based Students', except that graduates from UGC-funded programmes will not be restricted to taking only subjects from a self-financed programme.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.9 Study Load (Part 1)
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.9 Study Load
 
 For students following the progression pattern specified for their programme, they have to take the number of credits and subjects, as specified in this Programme Requirement Document, for each semester. Students cannot drop those subjects assigned by the department unless prior approval has been given by the department.
 
@@ -2116,7 +2100,6 @@ To help improve the academic performance of students on academic probation, thes
 
 Students are not allowed to take zero subject in any semester, including the mandatory summer term as required by some programmes, unless they have obtained prior approval from the programme offering department; otherwise they will be classified as having unofficially withdrawn from their programme. Students who have been approved for zero subject enrolment (i.e., taking zero subject in a semester) are allowed to retain their student status and continue using campus facilities and library facilities. Any semester in which the students are allowed to take zero subject will nevertheless be counted towards the total period of registration.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.9 Study Load (Part 2)
 Students who have obtained approval to pace their studies and students on programmes without any specified progression pattern who wish to take more than the normal load of 15 credits in a semester should seek advice from the Department concerned before the selection of subjects.
 
 ## 8 Academic Regulations on Admission, Registration and Assessment > 8.10 Subject Exemption
@@ -2131,9 +2114,9 @@ Credit transfer may be done with or without the grade being carried over; the fo
 
 Normally, not more than  $50\%$  of the credit requirement for award may be transferable from approved institutions outside the University. For transfer of credits from programmes offered by PolyU, normally not more than  $67\%$  of the credit requirement for award can be transferred. In cases where both types of credits are being transferred (i.e. from programmes offered by PolyU and from approved institutions outside the University), not more than  $50\%$  of the credit requirement for award may be transferred. However, for students admitted to an Articulation Degree or Senior Year curriculum, which is already a reduced curriculum, they should not be given credit transfer for any required GUR subjects, and are required to complete at least 60 credits in order to be eligible for a Bachelor's award.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.11 Credit Transfer (Part 2)
 With applications for transfer of credits earned through study under an approved exchange programme, students should seek approval on their study plan and credit transferability from the programme offering Department before they start the exchange programme. In order to overcome possible problems associated with subject-to-subject mappings, block credit transfer rather than subject-by-subject credit transfer can be given.
 
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.11 Credit Transfer (Part 2)
 All credit transfers approved will take effect in the semester for which they are approved. A student who applies for transfer of credits for a particular semester will only be eligible for graduation at the end of that semester (even if the granting of credit transfer will immediately enable the student to satisfy the credit requirement for the award).
 
 For credit transfer of retained subjects, the grade attained in the last attempt should be taken in the case of credit transfer with grade being carried over. Students applying for credit transfer for a subject taken in other institutions are required to declare that the subject grade used for claiming credit transfer was attained in the last attempt of the subject in their previous studies. If a student fails in the last attempt of a retained subject, no credit transfer should be granted, despite the fact that the student may have attained a pass grade for the subject in the earlier attempts.
@@ -2197,14 +2180,14 @@ A student will have 'progressing' status unless he/she falls within any one of t
 
 When a student falls within any of the categories as stipulated above, except for category (i) with approval for extension, the Board of Examiners shall de-register the student from the programme without exception.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.16 Progression / Academic Probation / Deregistration (Part 2)
 A student may be de-registered from the programme enrolled before the time frame specified at (iii) or (iv) above if his/her academic performance is poor to the extent that the Board of Examiners deems that his/her chance of attaining a GPA of 1.70 at the end of the programme is slim or impossible.
 
 The progression of students to the following academic year will not be affected by the GPA obtained in the Summer Term, unless Summer Term study is mandatory for all students of the programme and constitutes a requirement for graduation, and is so specified in the Programme Requirement Document.
 
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.16 Progression / Academic Probation / Deregistration (Part 2)
 If the student is not satisfied with the de-registration decision of the Board of Examiners, he/she can lodge an appeal. All such appeal cases will be referred directly to Academic Appeals Committee (AAC) for final decision. Views of Faculties/Schools/Departments will be sought and made available to AAC for reference.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.17 Retaking of Subjects (Part 1)
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.17 Retaking of Subjects
 
 Students may only retake a subject which they have failed (i.e. Grade F or S or U). Retaking of subjects is with the condition that the maximum study load of 21 credits per semester is not exceeded.
 
@@ -2218,7 +2201,6 @@ Students who have failed a compulsory subject after two retakes and have been de
 
 In case AAC does not approve further retakes of a failed compulsory subject or the taking of an equivalent subject with special approval from the Faculty, the student concerned would be de-registered and the decision of the AAC shall be final within the University.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.17 Retaking of Subjects (Part 2)
 Note: In these circumstances when students do not have a choice to retake a failed subject, such as when the failed subject has been phased out, a 'tie-subject' arrangement can be made with the approval of the Faculty Board. Under the arrangement, another appropriate subject can be taken as equivalent to the subject which is not offered. Upon passing the equivalent subject, the fail grade of the original subject will be replaced by the latest grade of the retake subject and the failure grade of the original subject will not be taken into account in the calculation of the GPA.
 
 ## 8 Academic Regulations on Admission, Registration and Assessment > 8.18 Absence from an assessment component
@@ -2243,7 +2225,6 @@ Assessment grades shall be awarded on a criterion-referenced basis. A student's 
 
 
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 2)
 | Subject grade | Short description | Elaboration on subject grading description |
 | --- | --- | --- |
 | A+ | Excellent | Demonstrates excellent achievement of intended subject learning outcomes by being able to skillfully use concepts and solve complex problems. Shows evidence of innovative and critical thinking in unfamiliar situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
@@ -2251,25 +2232,22 @@ Assessment grades shall be awarded on a criterion-referenced basis. A student's 
 | A- | Excellent | Demonstrates excellent achievement of intended subject learning outcomes by being able to skillfully use concepts and solve complex problems. Shows evidence of innovative and critical thinking in unfamiliar situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 | B+ | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 | B | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
+| B- | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 3)
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 2)
 | Subject grade | Short description | Elaboration on subject grading description |
 | --- | --- | --- |
-| B- | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 | C+ | Satisfactory | Demonstrates satisfactory achievement of intended subject learning outcomes by being able to solve relatively simple problems. Shows some capacity for analysis and making judgements in a variety of familiar and standard situations, and is able to express the synthesis or application of ideas in a manner that is generally logical but fragmented. |
 | C | Satisfactory | Demonstrates satisfactory achievement of intended subject learning outcomes by being able to solve relatively simple problems. Shows some capacity for analysis and making judgements in a variety of familiar and standard situations, and is able to express the synthesis or application of ideas in a manner that is generally logical but fragmented. |
 | C- | Satisfactory | Demonstrates satisfactory achievement of intended subject learning outcomes by being able to solve relatively simple problems. Shows some capacity for analysis and making judgements in a variety of familiar and standard situations, and is able to express the synthesis or application of ideas in a manner that is generally logical but fragmented. |
 | D+ | Pass | Demonstrates marginal achievement of intended subject learning outcomes by being able to solve relatively simple problems. Can make basic comparisons, connections and judgments and express the ideas learnt in the subject, though there are frequent breakdowns in logic and clarity. |
-
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 4)
-| Subject grade | Short description | Elaboration on subject grading description |
-| --- | --- | --- |
 | D | Pass | Demonstrates marginal achievement of intended subject learning outcomes by being able to solve relatively simple problems. Can make basic comparisons, connections and judgments and express the ideas learnt in the subject, though there are frequent breakdowns in logic and clarity. |
 | D | Pass | Demonstrates marginal achievement of intended subject learning outcomes by being able to solve relatively simple problems. Can make basic comparisons, connections and judgments and express the ideas learnt in the subject, though there are frequent breakdowns in logic and clarity. |
 | F | Fail | Demonstrates inadequate achievement of intended subject learning outcomes through a lack of knowledge and/or understanding of the subject matter. Evidence of analysis is often irrelevant or incomplete. |
 
 
 
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 3)
 'F' is a subject failure grade, whilst all others ('D' to 'A+') are subject passing grades. No credit will be earned if a subject is failed.
 
 Indicative descriptors for modifier grades
@@ -2289,7 +2267,6 @@ A numeral grade point is assigned to each subject grade. The grade points assign
 
 
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 5)
 | Grade | Grade Point for grades attained |
 | --- | --- |
 | A+ | 4.3 |
@@ -2323,6 +2300,7 @@ In addition, the following subjects will be excluded from the GPA calculation:
 (iv) Subjects for which credit transfer has been approved, but without any grade assigned  
 (v) Subjects from which a student has been allowed to withdraw (i.e., those with the code 'W')
 
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.20 Grading (Part 4)
 Subject which has been given an "S" code, i.e., absent from all assessment components, will be included in the GPA calculation and will be counted as "zero" grade point. GPA is thus the unweighted cumulative average calculated for a student, for all relevant subjects taken from the start of the programme to a particular point of time. GPA is an indicator of overall performance, and ranges from 0.00 to 4.30 from 2020/21.
 
 All training credits will be counted in the GPA calculation but not in the WGPA calculation.
@@ -2414,13 +2392,13 @@ The following are guidelines for Boards of Examiners' reference in determining a
 
 Under exceptional circumstances, a student who has completed an Honours degree programme, but has not attained Honours standard, may be awarded a Pass-without-Honours degree. A Pass-without-Honours degree award will be recommended, when the student has demonstrated a level of final attainment which is below the 'essential minimum' required for graduation with Honours from the programme in question, but when he/she has nonetheless covered the prescribed work of the programme in an adequate fashion, while failing to show sufficient evidence of the intellectual calibre expected of Honours degree graduates. For example, if a student in an Honours degree programme has a Grade Point Average (GPA) of 1.70 or more, but his/her Weighted GPA is less than 1.70, he/she may be considered for a Pass-without-Honours classification. A Pass-without-Honours is an unclassified award, but the award parchment will not include this specification.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.23 Classification of Awards (Part 2)
 Students who have committed academic dishonesty or non-compliance with examination regulations will be subject to the penalty of the lowering of award classification by one level. For undergraduate students who should be awarded a Third class Honours degree, they will be downgraded to a Pass-without-Honours. The minimum of downgraded overall result will be kept at a Pass.
 
 The followings are the award GPA ranges for determining award classifications:
 
 
 
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.23 Classification of Awards (Part 2)
 | Honours Degrees | Award GPA |
 | --- | --- |
 | 1st | 3.60 – 4.30 |
@@ -2432,7 +2410,7 @@ The followings are the award GPA ranges for determining award classifications:
 
 Decisions by the Boards of Examiners on award classifications to be granted to each student on completion of the programme shall be ratified by the Faculty/School Board (of Examiners). For cases the decisions of which do not conform to the above indicative GPA range, they should be referred, by the Faculty/School Board (of Examiners), to the APRC for ratification.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.24 Examination result announcements, transcripts, testimonials and references (Part 1)
+## 8 Academic Regulations on Admission, Registration and Assessment > 8.24 Examination result announcements, transcripts, testimonials and references
 
 At the end of each semester, where appropriate, examination results are announced online for individual students' checking. It provides information on subjects taken and grades attained, the Grade Point Average (GPA) for all subjects, and the overall result up to and including the latest semester. The announcement serves as an official notification of the student's academic performance.
 
@@ -2447,7 +2425,6 @@ A formal Transcript of Studies will be issued by the University, upon request, t
 (vii) a statement indicating that the student has completed the Work-integrated Education (WIE) activities / Healthy Lifestyle / e-learning course in Putonghua (offered as an option with effect from the 2018/19 intake cohort), as appropriate; and  
 (viii) information on the partner institution, if the award is for a dual degree/joint programme with another institution and leads to a dual/joint award.
 
-## 8 Academic Regulations on Admission, Registration and Assessment > 8.24 Examination result announcements, transcripts, testimonials and references (Part 2)
 Students may request for a testimonial which is a certification of their studies at the University, but without details on subjects and subject results.
 
 Students may also request for references direct from academic staff members concerned.
@@ -2544,7 +2521,6 @@ BEng (Hons) in Electronic Systems & Internet-of-Things with a Secondary Major in
 
 **Year 1 (31 academic credits + 2 training credits)**
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 2)
 | Semester 1 (13 or 16 credits + 1 training credit) | Semester 2 (15 or 18 credits + 1 training credit) |
 | --- | --- |
 | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics (3)* | AMA1120 Basic Mathematics II – Calculus and Linear Algebra (3)^ |
@@ -2554,6 +2530,7 @@ BEng (Hons) in Electronic Systems & Internet-of-Things with a Secondary Major in
 | MM1031 Introduction to Innovation and Entrepreneurship (1) | ENG1004 Engineering Professionals in Society I (1) |
 | MM1031 Introduction to Innovation and Entrepreneurship (1) | ENG2002 Computer Programming (3)** |
 
+## Appendix II > 5 Programme Structure and Curriculum (Part 2)
 **One CAR and One Free Elective should be taken in Year 1**
 
 | CAR I Cluster-Area Requirement subject 1 (3) | Free Elective 1 (3) |
@@ -2585,7 +2562,6 @@ BEng (Hons) in Electronic Systems & Internet-of-Things with a Secondary Major in
 
 **Year 3 (36 academic credits + 3 training credits)**
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 3)
 | Semester 1 (16.5 credits + 1.5 training credits) | Semester 2 (19.5 credits + 1.5 training credits) |
 | --- | --- |
 | COMP4431 Artificial Intelligence (3) | EIE3112 Database System (3) |
@@ -2610,6 +2586,7 @@ BEng (Hons) in Electronic Systems & Internet-of-Things with a Secondary Major in
 
 **Three Technical Elective and One Elective for AIDA should be taken in Year 4**
 
+## Appendix II > 5 Programme Structure and Curriculum (Part 3)
 | Technical Elective 2 (3)+ | Technical Elective 4 (3)+ |
 | --- | --- |
 | Technical Elective 3 (3)+ | Elective for AIDA 2 (3) |
@@ -2630,7 +2607,6 @@ AIDA Subjects
 
 * Double counted subjects for both Major in ESIoT and Secondary Major in AIDA (not exceeding 12 credits):
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 4)
 (a) AMA1110 Basic Mathematics I - Calculus and Probability & Statistics (3)  
 (b) AMA2111 Mathematics I (3)  
 (c) EIE1003 Foundations of Data Science (3)  
@@ -2651,7 +2627,7 @@ Below are the tables summarising the core and elective subjects.
 
 
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 5)
+## Appendix II > 5 Programme Structure and Curriculum (Part 4)
 | Core Subjects | Subject code and title | Credits |
 | --- | --- | --- |
 | Mathematics I for AIDA: | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics | 3 |
@@ -2695,7 +2671,7 @@ Table 5.4.1 Core Subjects
 | BSE4610 | Building Informatics |
 | CBS3410 | Python for Language Analytics |
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 6)
+## Appendix II > 5 Programme Structure and Curriculum (Part 5)
 |  |  |
 | --- | --- |
 | CBS4702 | Advanced Topics in Quantitative Language Studies |

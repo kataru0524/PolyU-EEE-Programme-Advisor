@@ -138,11 +138,11 @@ Studying on a Secondary Major is a free choice by students and not mandatory. Ea
 (v) Students must complete the Secondary Major as part of their graduation requirements. Students who wish to withdraw from the Secondary Major must obtain approval from the programme offering Department normally before the end of the add/drop period of the last semester of study.  
 (vi) If deemed appropriate by the programme offering Department, students are allowed to take a Major with a Secondary Major and a Minor. Subjects already double-counted for the Major and Secondary Major cannot be used to fulfil the Minor requirement.
 
-## 1 General Information > 1.8 Study Options (Part 4)
 The Secondary Major in Artificial Intelligence and Data Analytics (AIDA) can be found in the in Appendix II.
 
 Fast-track Integrated Bachelor's and Master's Degree Programme (only applicable to students opting BEng (Hons) in EE as their Major)
 
+## 1 General Information > 1.8 Study Options (Part 4)
 The fast-track programmes offer a pathway for high-achieving and ambitious students to complete both undergraduate and taught postgraduate studies at an accelerated pace. Students can enrol in the programme either in Year 1 or Year 3, depending on their academic standing.
 
 (i) Eligible entrants will receive an offer of admission to the undergraduate programme, as well as a conditional offer to the taught postgraduate programme. Upon successful completion of both the undergraduate and taught postgraduate degrees, students will be awarded two separate degrees: a Bachelor's degree and a Master's degree.  
@@ -183,9 +183,9 @@ Bachelor of Engineering (Honours) in Electrical Engineering (BEng EE)
 
 The Bachelor of Engineering (Honours) in Electrical Engineering is a major electrical engineering degree programme in Hong Kong. It addresses the manpower demand of the electrical engineering profession, with particular emphasis on power systems, energy utilisation and related disciplines. This programme complies with the new university curriculum framework, which features a broad-based curriculum, emphasising on fundamentals, provision of opportunities for multidisciplinary studies, freshman experience, enhanced communication skills, work-integrated education, capstone project, and outcome-based education. At the same time, the programme addresses the societal need for a new generation of competent electrical engineers who can practise in their profession in Hong Kong, Mainland China, and the neighbouring regions.
 
-## 2 Bachelor of Engineering (Honours) Scheme in Electrical Engineering > 2.1 Background and Rationale (Part 2)
 Bachelor of Engineering (Honours) in Transportation Systems Engineering (BEng TSE)
 
+## 2 Bachelor of Engineering (Honours) Scheme in Electrical Engineering > 2.1 Background and Rationale (Part 2)
 Given the huge number of forthcoming transportation projects in Hong Kong and its neighbouring regions in the coming decades, there is an ever growing demand on the transportation engineering professionals. The Bachelor of Engineering (Honours) in Transportation Systems Engineering, being currently the only engineering degree programme in the transportation systems area in Hong Kong, addresses the coming huge manpower demand of the transportation systems engineering profession, with particular emphasis on railways, highways and planning of transportation systems and related disciplines. This programme complies with the new university curriculum framework, which features a broad-based curriculum, emphasising on fundamentals, provision of opportunities for multidisciplinary studies, freshman experience, enhanced communication skills, work-integrated education, capstone project, and outcome-based education. At the same time, the programme addresses the societal need for a competent transportation systems engineer who can practise in their profession in Hong Kong, the Mainland China, and the neighbouring regions. This undergraduate programme on Transportation Systems Engineering is developed to fill the gap of the imminent need of professionals in Hong Kong's transportation industry by the unique combinations of the expertise in the Department and other related areas of Engineering. The programme is designed to make full use of the hugely versatile applications of electrical engineering further broadening the career opportunities of our students.
 
 ## 2 Bachelor of Engineering (Honours) Scheme in Electrical Engineering > 2.2 Relationship of Programme Objectives to University Missions
@@ -238,9 +238,9 @@ Modern engineers are often required to undertake different activities and may fa
 
 More and more industrial employers wish to recruit engineers who have a broad-based education as well as adequate professional knowledge to undertake detailed technical work in design and production. Therefore, the programme is also designed to provide training to our students who could develop a thorough understanding of electrical engineering, and acquire a broad and general appreciation of activities in other related disciplines. The students are guided to learn the interfaces between specialist engineering areas and be prepared to work in a multidisciplinary work environment which usually involves colleagues from other engineering backgrounds.
 
-## 3 Bachelor of Engineering (Honours) in Electrical Engineering > 3.1 Programme Aims and Rationale (Part 2)
 Students should aware that 'a good engineering solution' is one which has to fulfil economic, financial, and social criteria as well as to comply with engineering design specifications. This necessitates the inclusion of the study of economics, accounting and management with particular reference to engineering activities, as well as the inter-relations between engineering activities and society as a whole.
 
+## 3 Bachelor of Engineering (Honours) in Electrical Engineering > 3.1 Programme Aims and Rationale (Part 2)
 Language competence of students is strengthened through the English and Chinese subjects stipulated in the General University Requirements (GUR), and is further enhanced by Major subjects. The teaching approach adopted in the curriculum, which involves lectures, seminars, discussions, in-class feedback, assessed presentations, demonstration of project work and written laboratory reports, aims to improve students' verbal and written communication skills.
 
 It is important to train and educate our students not only in cognitive ability in technical areas but also lifelong skills. Hence, students are exposed to situations where they can:
@@ -293,13 +293,13 @@ The Programme Outcomes are in line with the Programme Objectives and the mapping
 
 Table 3.3.1 Mapping between Programme Objectives and Programme Outcomes
 
-## 3 Bachelor of Engineering (Honours) in Electrical Engineering > 3.3 Programme Outcomes (Part 2)
 The Subject Learning Outcomes are designed to be in alignment with the Programme Outcomes. The Subject Learning Outcomes are given in each subject and they can be found in the Subject Description Form (SDF) in Appendix I.
 
 Relationship between Institutional Learning Outcomes and Intended Learning Outcomes (ILO) of the programme is shown in Table 3.3.2.
 
 
 
+## 3 Bachelor of Engineering (Honours) in Electrical Engineering > 3.3 Programme Outcomes (Part 2)
 | Programme Outcomes | Institutional Learning Outcomes 1 | Institutional Learning Outcomes 2 | Institutional Learning Outcomes 3 | Institutional Learning Outcomes 4 | Institutional Learning Outcomes 5 |
 | --- | --- | --- | --- | --- | --- |
 | 1 |  | √ |  |  |  |
@@ -324,9 +324,9 @@ Education is important to equip students with knowledge and skills for developin
 
 Transportation always involves multi-disciplinary knowledge and techniques. The students are guided to learn the interfaces between specialist engineering areas and be prepared to work in a multidisciplinary work environment which usually involves colleagues from other engineering backgrounds. On the other hand, the students should aware that 'a good engineering solution' is one which fulfils economic and financial criteria as well as the engineering design specifications. This necessitates the inclusion of the study of finance, accounting, management and ethical and social responsibilities with particular reference to transportation systems engineering activities, as well as the inter-relations between such activities and the society as a whole.
 
-## 4 Bachelor of Engineering (Honours) in Transportation Systems Engineering > 4.1 Programme Aims and Rationale (Part 2)
 Language competence of students is strengthened through the English and Chinese subjects stipulated in the General University Requirements (GUR), and is further enhanced by Major subjects. The teaching approach adopted in the curriculum, which involves lectures, seminars, discussions, in-class feedback, assessed presentations, demonstration of project work and written laboratory reports, aims to improve students' verbal and written communication skills.
 
+## 4 Bachelor of Engineering (Honours) in Transportation Systems Engineering > 4.1 Programme Aims and Rationale (Part 2)
 It is important to train and educate our students not only in cognitive ability in technical areas but also lifelong skills. Hence, students are exposed to situations where they can:
 
 (i) develop their intellectual abilities (creative thinking, critical/independent judgement making, ability to analyse and synthesize, and to cope with real-life conditions such as indeterminacy, lack of information and time pressure); and  
@@ -375,7 +375,6 @@ The Programme Outcomes are in line with the Programme Objectives and the mapping
 
 
 
-## 4 Bachelor of Engineering (Honours) in Transportation Systems Engineering > 4.3 Programme Outcomes (Part 2)
 The Subject Learning Outcomes are designed to be in alignment with the Programme Outcomes. The Subject Learning Outcomes are given in each subject and they can be found in the Subject Description Form (SDF) in Appendix I.
 
 Relationship between Institutional Learning Outcomes and Intended Learning Outcomes (ILO) of the programme is shown in Table 4.3.2.
@@ -384,6 +383,7 @@ Table 4.3.1 Mapping between Programme Objectives and Programme Outcomes
 
 
 
+## 4 Bachelor of Engineering (Honours) in Transportation Systems Engineering > 4.3 Programme Outcomes (Part 2)
 | Programme Outcomes | Institutional Learning Outcomes 1 | Institutional Learning Outcomes 2 | Institutional Learning Outcomes 3 | Institutional Learning Outcomes 4 | Institutional Learning Outcomes 5 |
 | --- | --- | --- | --- | --- | --- |
 | 1 |  | √ |  |  |  |
@@ -443,24 +443,24 @@ Senior Year Intake
 (v) Satisfy the residential requirement for at least one-third of the credits to be completed for the award; and  
 (vi) Satisfy all requirements as defined and/or stipulated in the Programme Requirement Document and as specified by the University.
 
-## 5 Curriculum > 5.1 Summary of University Graduation Requirements (Part 2)
 There are subjects which are designed to fulfil the credit requirement of different types of subjects. Students passing these subjects will be regarded as having fulfilled the credit requirements of the particular types of subjects concerned. Nevertheless, the subject passed will only be counted once in fulfilling the credit requirements of the award, and the students will be required to take another subject in order to meet the total credit requirement of the programme concerned.
 
 Level-0 subjects and training subjects (including clinical/field training) will not be counted to fulfill free elective requirement for graduation purpose.
 
+## 5 Curriculum > 5.1 Summary of University Graduation Requirements (Part 2)
 Senior Year intakes admitted to the 4-year Undergraduate Degree programmes on the strength of the Associate Degree/Higher Diploma qualifications are required to complete at least 60 credits in order to be eligible for a Bachelor's degree. Exemption may be given for subjects already taken in the previous Associate Degree/Higher Diploma studies. In that case, students should take other electives (including free electives) instead to make up the total of 60 credits required.
 
 A student is required to graduate as soon as he/she satisfies the graduation requirements as stipulated above. The student concerned is required to apply for graduation, in the semester in which he/she is able to fulfil all his/her graduation requirements, and after the add/drop period for that semester has ended.
 
 Students taking the Major/Minor option
 
-## 5 Curriculum > 5.1 Summary of University Graduation Requirements (Part 3)
 Students taking the Major/Minor option will be considered for an award when they have satisfied the requirements for both the Major and Minor studies (i.e., having a GPA of 1.70 or above) and have also submitted an application for graduation. If the 18 credits taken for the approved Minor study can meet the requirements for that Minor, the Major students may apply to graduate with a specific Minor, in addition to their Major. Otherwise, students will graduate with a Major only.
 
 Subject to the approval by the Minor-offering Department, students may count up to 6 credits from their Major/GUR [including Language Communication Requirements (LCR) subjects at proficiency level] towards their chosen Minor. Nevertheless, students must take at least 6 credits from their chosen Minor programme in order to satisfy the residential requirement of their chosen Minor. In addition, to be eligible for the Major and Minor awards, the total number of credits taken by the students for their Major-Minor studies must not be lower than the credit requirement of the single discipline Major programme.
 
 Students taking the Major/Secondary Major option
 
+## 5 Curriculum > 5.1 Summary of University Graduation Requirements (Part 3)
 Students may count up to 12 credits of their Major/GUR subjects towards the Secondary Major. Nevertheless, students must take at least 12 credits from their chosen Secondary Major in order to satisfy the residential requirement of the chosen Secondary Major. Students who have completed more than 12 credits of subjects that are eligible for double counting will need to apply for graduation and indicate the subjects intended for double counting. Notwithstanding the above, students must meet the minimum credit requirements of the “X + Secondary Major” concerned, i.e., 132 credits.
 
 ## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 1)
@@ -498,7 +498,6 @@ Table 5.2.2 Proficient level elective subjects for HKDSE Level 4 students and ab
 
 Chinese
 
-## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 2)
 All undergraduate students must successfully complete one* 3-credit Chinese language subject as stipulated by the University, according to their Chinese language proficiency level (Table 5.2.3).
 
 Cantonese will be used as the Medium of Instruction (MoI) of a certain proportion of Chinese LCR subject. Students taking the Cantonese version of the subjects will be offered a 39 hour non-credit bearing e-Learning course in Putonghua (optional).
@@ -510,6 +509,7 @@ Cantonese will be used as the Medium of Instruction (MoI) of a certain proportio
 | CLC1104C | University Chinese | Cantonese |
 | CLC1104P | University Chinese | Putonghua |
 
+## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 2)
 
 
 * Students entering the University with specified attainment grades in certain public examinations can be given credit transfer or exemption for the LCR Chinese subjects. For the subject exempted, students must take any other subject to make up the 3 credits. For the subject granted credit transfer, student do not need to take any other subject to make up the credits.
@@ -523,7 +523,6 @@ Students of non-native Chinese language background, fulfilling any one of the fo
 (iii) those taken Chinese B or Chinese AB(SL) in IB Diploma; OR  
 (iv) NCS status shown on the official proof provided by their secondary school.
 
-## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 3)
 Otherwise, one subject from Table 5.2.4 below will be pre-assigned to you as Chinese LCR depending on your Chinese language proficiency and/or previous exam results. You might be given an assessment to ascertain that the pre-assigned subject is suitable for you.
 
 Table 5.2.3 Chinese LCR Subjects (3 credits each)  
@@ -542,6 +541,7 @@ Table 5.2.3 Chinese LCR Subjects (3 credits each)
 
 Table 5.2.4 Chinese LCR Subjects for non-Chinese speakers or students whose Chinese standards are at junior secondary level or below (3 credits each)
 
+## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 3)
 For those Senior Year intake students who do not meet the equivalent standard of the Undergraduate Degree LCR (based on their previous studies in AD/HD programme and their academic performance) will be required to take degree LCR subjects on top of the normal curriculum requirement.
 
 Writing Requirement
@@ -554,20 +554,19 @@ All students must, among the CAR subjects they take, pass one subject that inclu
 
 A list of approved CAR subjects for meeting the Writing Requirement and the Reading Requirement is shown at: https://www.polyu.edu.hk/cus/GURSubjects/
 
-## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 4)
 Non-Chinese speakers and those students whose Chinese standards are at junior secondary level or below will by default be exempted from the CAR - Chinese Reading and Writing Requirements and the DSR - Chinese (for Senior Year intake students).
 
 Note: In addition to the LCR and Reading and Writing Requirements, students also have to complete 2 - 4 credits of discipline-specific language requirements (2 credits in English and 0 - 2 credits in Chinese) as specified in the curriculum requirements of their Major. Students who are non-Chinese speakers or those whose Chinese standards are at junior secondary level or below will be exempted from the DSR - Chinese. Students of this category can take a replacement subject of any level to make up for the credit requirement
 
 (ii) Artificial Intelligence and Data Analytics Requirement (GUR-AIDA)
 
+## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 4)
 All 4-year degree students must successfully complete one 2-credit subject in the area of Artificial Intelligence and Data Analytics, which is designed to (i) demonstrate an understanding of the foundational concepts of Artificial Intelligence and Data Analytics (AIDA); (ii) acquire basic skills in using AIDA technologies and applications; (iii) articulate examples of how the adoption AIDA could enhance their chosen disciplines; and (iv) demonstrate an awareness of global contemporary ethical issues and impact from AIDA applications in daily life.
 
 Senior Year Intakes students are required to take the mandatory subject "Essential Components of General Education" for the e-module on GUR-AIDA.
 
 (iii) Innovation and Entrepreneurship Requirement (GUR-IE)
 
-## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 5)
 All 4-year degree students must successfully complete one 1-credit subject in the area of Innovation and Entrepreneurship, which is designed to (i) demonstrate an elementary understanding of innovation and entrepreneurship; (ii) appreciate the importance of innovation and entrepreneurship in local and global community; (iii) appreciate the applications and implications of the latest technologies on entrepreneurship and innovation in their chosen disciplines; and (iv) identify ethical issues in entrepreneurship and innovation.
 
 Senior Year Intakes students are required to take the mandatory subject "Essential Components of General Education" for the e-module on GUR-IE.
@@ -576,11 +575,11 @@ Senior Year Intakes students are required to take the mandatory subject "Essenti
 
 All 4-year degree students must successfully complete one 3-credit subject in the area of Leadership Education and Development, which is designed to enable students to (i) understand and integrate theories, research, and concepts on the basic qualities (particularly intrapersonal and interpersonal qualities including law abidance) of effective leaders, (ii) develop self-awareness and self-understanding, (iii) demonstrate self-leadership in pursuit of continual self-improvement, (iv) apply intrapersonal and interpersonal skills in daily lives, (v) appreciate the importance of intrapersonal and interpersonal qualities in effective leadership, particularly the connection of learning in the subject to one's professional development and personal growth, and (vi) recognise and accept their social responsibility as professionals and citizens to the society and the world.
 
+## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 5)
 Senior Year Intakes students are not required to complete this subject.
 
 (v) Service-Learning (SL)
 
-## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 6)
 All students must successfully complete one 3-credit subject designated to meet the Service-Learning Requirement, in which they are required to (a) participate in substantial community service or civic engagement activities that will benefit the service users or the community at large in a meaningful way, (b) apply the knowledge and skills acquired from their Major or other learning experiences at the University to the community service activities, and (c) reflect on their service learning experience in order to link theory with practice for the development of a stronger sense of ethical, social and national responsibility.
 
 Service-Learning subjects are administered by the Service-Learning and Leadership Office (SLLO). For subject offering and further information, please visit the SLLO website: https://www.polyu.edu.hk/sllo/.
@@ -599,7 +598,7 @@ A list of CAR subjects under each of the four Cluster Areas is available at: htt
 
 (vii) Healthy Lifestyle (HLS)
 
-## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 7)
+## 5 Curriculum > 5.2 General University Requirements (GUR) (Part 6)
 A Healthy lifestyle is the platform for all-round development. All 4-year degree students are required to successfully complete a non-credit-bearing programme on healthy lifestyle. Students are required to complete the following components: (a) sports training/participation, (b) e-learning modules, and (c) lectures/talks. The syllabus covers physical health, mental health, social health, spiritual health, values and priorities on healthy behaviour with reference to competing priorities in life, reflections on healthy living, and plans for self-improvement or maintaining of health behaviour. Details of the programme can found at: https://www.polyu.edu.hk/cus/GURSubjects/ HLS.php.
 
 Senior Year Intakes students are not required to complete HLS.
@@ -615,7 +614,7 @@ National Education (NE)
 
 All Senior Year Intakes students are required to take "Essential Components of General Education", and complete and pass the individual e-modules of the four components within the first year of study (Semesters 1 and 2). The "Online Tutorial on Academic Integrity" should be completed by Week 5 of Semester 1. 4-year degree students are not required to complete this subject.
 
-## 5 Curriculum > 5.3 Specific Graduation Requirements (Part 1)
+## 5 Curriculum > 5.3 Specific Graduation Requirements
 
 BEng (Hons) in Electrical Engineering
 
@@ -654,7 +653,6 @@ Senior Year Intake
 
 (i) Successfully complete a minimum of 71 academic credits composed of the following:
 
-## 5 Curriculum > 5.3 Specific Graduation Requirements (Part 2)
 - 9 credits of General University Requirements (GUR) as set out in Section 5.2.  
 - 62 credits of Major Subjects, of which 59 credits from subjects categorised as Compulsory (COM) and 3 credits from subjects categorised as Elective (ELE) as stated in Table 5.4.3.
 
@@ -688,7 +686,6 @@ General University Requirements (GUR) & Free Electives for BEng (Hons) Scheme in
 
 **Free Electives**
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 2)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | - | Free Elective 1 | 3 | COM | - |
@@ -698,6 +695,7 @@ General University Requirements (GUR) & Free Electives for BEng (Hons) Scheme in
 
 Table 5.4.1 General University Requirements (GUR) & Free Electives
 
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 2)
 Category: COM: Compulsory  
 $\wedge$  Senior Year Intakes are required to complete one specially-designed CAR (A) - English Language subject (with embedded English Reading and Writing Requirements).  
 * This is normally not required. Only those students not meeting the equivalent standard of the Undergraduate Degree LCR (based on their previous studies in AD/HD programmes and their academic performance) will be required to take degree LCR subjects on top of the normal curriculum requirement.
@@ -709,7 +707,6 @@ Major Subjects for BEng (Hons) in Electrical Engineering (BEng in EE)
 
 **Major Subjects for BEng in EE**
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 3)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | AF3625 | Engineering Economics | 3 | - | COM |
@@ -733,7 +730,7 @@ Major Subjects for BEng (Hons) in Electrical Engineering (BEng in EE)
 | EE3006 | Analysis Methods for Engineers | 3 | COM |  |
 | EE3007 | Computer System Principles | 3 | COM | @ |
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 4)
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 3)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | EE3008 | Linear Systems and Signal Processing | 3 | COM | @ |
@@ -757,7 +754,7 @@ Major Subjects for BEng (Hons) in Electrical Engineering (BEng in EE)
 | ENG2001 | Fundamentals of Materials Science and Engineering | 3 | COM |  |
 | ENG2002 | Computer Programming | 3 | COM | @ |
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 5)
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 4)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | ENG2003 | Information Technology | 3 | COM |  |
@@ -794,7 +791,7 @@ Table 5.4.2 Major Subjects for BEng in EE
 
 
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 6)
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 5)
 | Subject Code | Subject Title | Credit | Category of Subjects |
 | --- | --- | --- | --- |
 | AF5107 | Accounting for Engineers | 3 | ELE |
@@ -824,7 +821,7 @@ Major Subjects for BEng (Hons) in Transportation Systems Engineering (BEng in TS
 
 **Major Subjects for BEng in TSE**
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 7)
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 6)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | AF3625 | Engineering Economics | 3 | - | COM |
@@ -848,7 +845,7 @@ Major Subjects for BEng (Hons) in Transportation Systems Engineering (BEng in TS
 | EE2004 | Electrical Energy Systems Fundamentals | 3 | COM | @ |
 | EE2029 | Transportation Engineering Fundamentals | 3 | COM | @ |
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 8)
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 7)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | EE3004 | Power Transmission and Distribution | 3 | COM |  |
@@ -872,7 +869,7 @@ Major Subjects for BEng (Hons) in Transportation Systems Engineering (BEng in TS
 | CSE40462 | Environmental Impact Assessment – Theory and Practice | 3 | ELE (Select 1 Advanced elective) |  |
 | CSE40475 | Sustainable Development Strategy | 3 | ELE (Select 1 Advanced elective) |  |
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 9)
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 8)
 | Subject Code | Subject Title | Credit | Category# Normal Year 1 Intake | Category# Senior Year Intake |
 | --- | --- | --- | --- | --- |
 | ENG4001 | Project Management | 3 | ELE (Select 1 Advanced elective) |  |
@@ -910,11 +907,11 @@ Subject to the approval by the Programme Leader of BEng (Hons) in TSE, students 
 
 https://www.polyu.edu.hk/eee/study/information-for-current-students/subject-syllabi/.
 
-## 5 Curriculum > 5.4 Programme Specified Subjects (Part 10)
 Table 5.4.3 Major Subjects for BEng in TSE  
 
 
 
+## 5 Curriculum > 5.4 Programme Specified Subjects (Part 9)
 | Subject Code | Subject Title | Credit | Category of Subjects |
 | --- | --- | --- | --- |
 | EE512 | Electric Vehicles | 3 | ELE |
@@ -975,7 +972,6 @@ BEng (Hons) in Electrical Engineering (Normal Year 1 Intake)
 | ENG2001 Fundamentals of Materials Science and Engineering (3)+ | EE2004 Electrical Energy Systems Fundamentals (3) |
 | ENG2001 Fundamentals of Materials Science and Engineering (3)+ | CAR II Cluster-Area Requirement subject 2 (3) |
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 2)
 **At least Two of the following Major subjects^ should be taken in Year 2**
 
 |  |  |
@@ -987,6 +983,7 @@ BEng (Hons) in Electrical Engineering (Normal Year 1 Intake)
 **Semester 3: EEE2108 Electrical Engineering Practice (4 training credits)**
 
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 2)
 **Year 3 (29 academic credits + 3 training credits)**
 
 | Semester 1 (15 credits) | Semester 2 (14 credits) |
@@ -1028,12 +1025,12 @@ $\wedge \wedge$  Students are encouraged to take AMA1120 Basic Mathematics II in
 EE Preferred subject selection for BEng (Hons) Scheme in EE, BEng (Hons) in EE and BEng (Hons) in TSE. AP10006 Physics II and AMA1120 Basic Mathematics II will be pre-assigned for students of BEng (Hons) Scheme in EE in Year 1. AP10005 Physics I and ENG2003 Information Technology will be pre-assigned for students of BEng (Hons) in EE or BEng (Hons) in TSE in Year 2.  
 $\%$  Students of non-native Chinese language background, fulfilling any one of the following criteria with appropriate supporting certificate/document (if applicable), could be exempted from the Chinese LCR at the time of admission. You may use a Chinese LCR subject or free elective to fulfil the credit requirement. You are also exempted from fulfilling the CAR - Chinese Reading and Writing Requirements.
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 4)
 (i) those with their first/native language as non-Chinese stated on the grade report of recognized tests (e.g. IELTS, TOEFL, etc.); OR  
 (ii) those admitted with international qualifications without taking any Chinese subject(s) in their secondary/ high school; OR  
 (iii) those taken Chinese B or Chinese AB(SL) in IB Diploma; OR  
 (iv) NCS status shown on the official proof provided by their secondary school.
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 4)
 Otherwise, one subject will be pre-assigned to you as Chinese LCR depending on your Chinese language proficiency and/or previous exam results. You might be given an assessment to ascertain that the pre-assigned subject is suitable for you (see Section 5.2 (i)).
 
 + Students may choose one subject from (a) to (f) listed below:
@@ -1064,7 +1061,6 @@ Chemistry: (e) ABCT1301/ABCT1D01 Chemistry and Modern Living
 
 **Advanced Elective (EE)** (Students should seek prior approval for enrolling on Level 5 EE subjects.)**
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 5)
 | Semester 1 | Semester 2 |
 | --- | --- |
 | EE4003 Electrical Machines (3) | EE4008 Applied Digital Control (3) |
@@ -1075,6 +1071,7 @@ Chemistry: (e) ABCT1301/ABCT1D01 Chemistry and Modern Living
 
 **Semester 1 or Semester 2**
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 5)
 | EE502 Modern Protection Methods | EE509 High Voltage Engineering |
 | --- | --- |
 | EE512 Electric Vehicles | EE520 Intelligent Motion Systems |
@@ -1100,7 +1097,6 @@ BEng (Hons) in Transportation Systems Engineering (Normal Year 1 Intake)
 
 **Year 1 (31 academic credits + 2 training credits)**
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 6)
 | Semester 1 (16 credits + 1 training credit) | Semester 2 (15 credits + 1 training credit) |
 | --- | --- |
 | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics (3) | ELCXXXX English LCR Subject 2 (3)~ |
@@ -1125,6 +1121,7 @@ BEng (Hons) in Transportation Systems Engineering (Normal Year 1 Intake)
 
 **Year 2 (31 academic credits + 6 training credits)**
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 6)
 | Semester 1 (15 credits + 1 training credit) | Semester 2 (16 credits + 1 training credit) |
 | --- | --- |
 | AMA2111 Mathematics I (3)^^ | AMA2112 Mathematics II (3)^^ |
@@ -1141,7 +1138,6 @@ BEng (Hons) in Transportation Systems Engineering (Normal Year 1 Intake)
 | AP10005 Physics I (3)EE | ENG2003 Information Technology (3)EE |
 | EEE2106 MATLAB for Engineers and Scientists (1 training credit) | EEE2107 BIM Basic and Electrical System (1 training credit) |
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 7)
 **Semester 3: EEE2109 Transportation Systems Engineering Practices (4 training credits)**
 
 
@@ -1168,6 +1164,7 @@ BEng (Hons) in Transportation Systems Engineering (Normal Year 1 Intake)
 
 **Year 4 (29 academic credits)**
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 7)
 | Semester 1 (13.5 credits) | Semester 2 (15.5 credits) |
 | --- | --- |
 | CSE40490 Transport Management and Highway Maintenance (3) | CSE40408 Traffic Surveys and Transport Planning (3) |
@@ -1189,10 +1186,9 @@ BEng (Hons) in Transportation Systems Engineering (Normal Year 1 Intake)
 
 Table 5.5.3 Progression Pattern of BEng (Hons) in TSE for Normal Year 1 Intake
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 8)
 Total credits required for graduation: 120 academic credits + 11 training credits
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 9)
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 8)
 $\sim$  Students will take these subjects based on their English Language results in HKDSE or other public examinations (see Section 5.2 (i)).  
 Students who do not possess the requisite background knowledge in Physics (i.e., attained Level 2 in HKDSE Physics or Combined Science with a component in Physics) are required to take and pass a Physics enhancement subject (AP10001 Introduction to Physics) before they can take AP10005 Physics I and AP10006 Physics II. The enhancement subject will be counted towards the fulfilment of a Free Elective.  
 $\wedge$  Students are required to take two Faculty Electives among AMA1120 Basic Mathematics II $^{\wedge\wedge}$ , AP10005 Physics I/AP10006 Physics II or ENG2003 Information Technology in Year 1. AMA1120, AP10005, AP10006 and ENG2003 are Major subjects leading to the award of BEng (Hons) in EE or BEng (Hons) in TSE. Students are required to take the four Major subjects before graduation.  
@@ -1200,12 +1196,12 @@ $\wedge \wedge$  Students are encouraged to take AMA1120 Basic Mathematics II in
 EE Preferred subject selection for BEng (Hons) Scheme in EE, BEng (Hons) in EE and BEng (Hons) in TSE. AP10006 Physics II and AMA1120 Basic Mathematics II will be pre-assigned for students of BEng (Hons) Scheme in EE in Year 1. AP10005 Physics I and ENG2003 Information Technology will be pre-assigned for students of BEng (Hons) in EE or BEng (Hons) in TSE in Year 2.  
 $\%$  Students of non-native Chinese language background, fulfilling any one of the following criteria with appropriate supporting certificate/document (if applicable), could be exempted from the Chinese LCR at the time of admission. You may use a Chinese LCR subject or free elective to fulfil the credit requirement. You are also exempted from fulfilling the CAR - Chinese Reading and Writing Requirements.
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 10)
 (i) those with their first/native language as non-Chinese stated on the grade report of recognized tests (e.g. IELTS, TOEFL, etc.); OR  
 (ii) those admitted with international qualifications without taking any Chinese subject(s) in their secondary/ high school; OR  
 (iii) those taken Chinese B or Chinese AB(SL) in IB Diploma; OR  
 (iv) NCS status shown on the official proof provided by their secondary school.
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 9)
 Otherwise, one subject will be pre-assigned to you as Chinese LCR depending on your Chinese language proficiency and/or previous exam results. You might be given an assessment to ascertain that the pre-assigned subject is suitable for you (see Section 5.2 (i)).
 
 + Students may choose one subject from (a) to (f) listed below:
@@ -1239,7 +1235,6 @@ Chemistry: (e) ABCT1301/ABCT1D01 Chemistry and Modern Living
 
 **Semester 1 or Semester 2**
 
-## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 11)
 |  |  |
 | --- | --- |
 | EIE4104 Mobile Networking | EE512 Electric Vehicles |
@@ -1254,6 +1249,7 @@ Chemistry: (e) ABCT1301/ABCT1D01 Chemistry and Modern Living
 
 
 
+## 5 Curriculum > 5.5 Progression Pattern for Normal Study Duration (Part 10)
 ** The Department reserves the right of NOT offering all the electives in each year.
 
 Table 5.5.4
@@ -1289,7 +1285,6 @@ BEng (Hons) in Electrical Engineering (Senior Year Intake) Note 1
 
 **Year 2 (30 academic credits)**
 
-## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 2)
 | Semester 1 (13.5 or 16.5 credits) | Semester 2 (13.5 or 16.5 credits) |
 | --- | --- |
 | ENG3003 Engineering Management (3) | ENG3004 Society and the Engineer (3) |
@@ -1310,6 +1305,7 @@ Table 5.6.1 Progression Pattern of BEng (Hons) in EE for Senior Year Intake
 
 Total credits required for graduation: 60 academic credits Note 1,7 + 11 training credits
 
+## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 2)
 Note 1: This is an example only which shows a possible study pattern for graduates with relevant Higher Diploma/Associate Degree from a recognized institution. The exact study pattern for senior year intakes varies from student to student depending on the number of subjects approved for credit transfer.  
 Note 2: Students may choose one subject from (a) to (f) listed below:
 
@@ -1325,7 +1321,6 @@ Chemistry: (e) ABCT1301/ABCT1D01 Chemistry and Modern Living
 
 + ENG2001 will be pre-assigned for students of BEng (Hons) in EE and BEng (Hons) in TSE.
 
-## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 3)
 Note 3: The study pattern for the subjects is indicative only. Students may take these subjects according to their own schedule. However, CAR A – English Language should be completed in the first year of study, including non-mandatory summer semester. Students also need to fulfil the Chinese reading and writing requirements (CR/CW), if such requirements have not been fulfilled in previous studies.  
 Note 4: Students may choose subjects listed below to be counted as Level-4 electives or Advanced Elective (EE):
 
@@ -1343,7 +1338,7 @@ BEng (Hons) in Transportation Systems Engineering (Senior Year Intake) Note 1
 
 **Year 1 (36 academic credits + 11 training credits)**
 
-## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 4)
+## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 3)
 | Semester 1 (19 credits + 2 training credits) | Semester 2 (17 credits + 3 training credits) |
 | --- | --- |
 | AF3625 Engineering Economics (3) | CSE30292 Transportation Operation and Management (3) |
@@ -1381,7 +1376,6 @@ BEng (Hons) in Transportation Systems Engineering (Senior Year Intake) Note 1
 
 
 
-## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 5)
 Table 5.6.2 Progression Pattern of BEng (Hons) in TSE for Senior Year Intake
 
 Total credits required for graduation: 71 academic credits Note 1,6 + 11 training credits
@@ -1389,6 +1383,7 @@ Total credits required for graduation: 71 academic credits Note 1,6 + 11 trainin
 Note 1: This is an example only which shows a possible study pattern for graduates with relevant Higher Diploma/Associate Degree from a recognized institution. The exact study pattern for senior year intakes varies from student to student depending on the number of subjects approved for credit transfer.  
 Note 2: Students may choose one subject from (a) to (f) listed below:
 
+## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 4)
 Engineering Materials+: (a) ENG2001 Fundamentals of Materials Science and Engineering
 
 Biology: (b) ABCT1101/ABCT1D04 Introductory Life Science  
@@ -1401,7 +1396,6 @@ Chemistry: (e) ABCT1301/ABCT1D01 Chemistry and Modern Living
 
 + ENG2001 will be pre-assigned for students of BEng (Hons) in EE and BEng (Hons) in TSE.
 
-## 5 Curriculum > 5.6 Progression Pattern for Senior Year Students (Part 6)
 Note 3: The study pattern for the subjects is indicative only. Students may take these subjects according to their own schedule. However, CAR A – English Language should be completed in the first year of study, including non-mandatory summer semester. Students also need to fulfil the Chinese reading and writing requirements (CR/CW), if such requirements have not been fulfilled in previous studies.  
 Note 4: Students are required to complete one Advanced Elective from Table 5.5.4 in Year 4. The Department reserves the right of NOT offering all the electives in each year.  
 Note 5: Students are encouraged to take this subject at an earlier stage of study.  
@@ -1475,7 +1469,6 @@ BEng (Hons) in Electrical Engineering
 
 **Level-4 electives: 2 subjects out of the following 3 subjects: EE4003, EE4004 and EE4007**
 
-## 5 Curriculum > 5.7 Curriculum Map (Part 3)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EE4003 | TPM |  |  |  | TP |  |  |  |  |
@@ -1484,6 +1477,7 @@ BEng (Hons) in Electrical Engineering
 
 **Advanced elective: 2 subjects out of the followings**
 
+## 5 Curriculum > 5.7 Curriculum Map (Part 3)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EE4003 | TPM |  |  |  | TP |  |  |  |  |
@@ -1507,7 +1501,6 @@ BEng (Hons) in Electrical Engineering
 | EE548 |  |  | TP |  |  |  |  | TP |  |
 | EE570 |  |  | TP |  |  |  |  | TP |  |
 
-## 5 Curriculum > 5.7 Curriculum Map (Part 4)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EEE523 |  |  | TP |  |  |  |  | TP |  |
@@ -1535,6 +1528,7 @@ BEng (Hons) in Electrical Engineering
 
 Table 5.7.1 Alignment of Subjects with Programme Intended Learning Outcomes
 
+## 5 Curriculum > 5.7 Curriculum Map (Part 4)
 Table 5.7.2 illustrates how the subjects support the Programme Outcomes of BEng (Hons) in Transportation Systems Engineering through teaching activities (T), practice on the part of students (P), and measurements (M).
 
 BEng (Hons) in Transportation Systems Engineering  
@@ -1544,7 +1538,6 @@ BEng (Hons) in Transportation Systems Engineering
 
 **General University Requirements (GUR)**
 
-## 5 Curriculum > 5.7 Curriculum Map (Part 5)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | APSS1L01 |  |  |  |  | T |  | T |  | T |
@@ -1567,7 +1560,7 @@ BEng (Hons) in Transportation Systems Engineering
 
 **Major subjects in Transportation Systems Engineering**
 
-## 5 Curriculum > 5.7 Curriculum Map (Part 6)
+## 5 Curriculum > 5.7 Curriculum Map (Part 5)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | AMA1110 | T |  |  | T |  |  |  | T |  |
@@ -1604,7 +1597,6 @@ BEng (Hons) in Transportation Systems Engineering
 
 **Level-3 elective: 1 subject out of the followings**
 
-## 5 Curriculum > 5.7 Curriculum Map (Part 7)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EE3002 | TP |  |  |  |  |  | TP |  |  |
@@ -1615,6 +1607,7 @@ BEng (Hons) in Transportation Systems Engineering
 
 **Advanced elective: 1 subject out of the followings**
 
+## 5 Curriculum > 5.7 Curriculum Map (Part 6)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | EE4004 | TP |  |  | TP |  |  | TP |  |  |
@@ -1638,7 +1631,6 @@ BEng (Hons) in Transportation Systems Engineering
 | CSE40475 |  |  | TP |  |  |  |  |  |  |
 | CSE561 |  |  | TP |  |  |  |  | TP |  |
 
-## 5 Curriculum > 5.7 Curriculum Map (Part 8)
 | Subject Code | Programme Outcomes 1 | Programme Outcomes 2 | Programme Outcomes 3 | Programme Outcomes 4 | Programme Outcomes 5 | Programme Outcomes 6 | Programme Outcomes 7 | Programme Outcomes 8 | Programme Outcomes 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | CSE562 |  |  | TP |  |  |  |  | TP |  |
@@ -1667,12 +1659,12 @@ Industrial Placement (EEE3012) normally takes place during the summer at the end
 
 WIE activities may include placement, employment or attachment relevant to the context, knowledge and skills of the Programme. The Job Board arranged by the Student Affairs Office (SAO) of the University is one of the main sources of placement opportunities for local students and students from Mainland China and overseas. The WIE activities may or may not involve any payment. Any payment by employers is completely at the employers' discretion. Typical examples of WIE activities are as follows:
 
-## 5 Curriculum > 5.8 Work-Integrated Education and Industrial Placement (Part 2)
 Full-time placement in a suitable organisation for 6 weeks.  
 Assisting in PolyU activities that have an external collaboration or service component, such as Innovation and Technology Fund projects, Rapid Product Development Syndicate projects, Industrial Guided Applied Research and Development projects, high-level consultancy projects, collaborative research projects undertaken with external organisations, and jobs undertaken by the Industrial Centre as a service for an external organisation.  
 - Placement within the IAESTE (International Association for the Exchange of Students for Technical Experience) Programme, in which the student is attached to a workplace abroad during training.  
 Students work on their final-year degree project, which involves an industrial partner or external client. The student need not be placed in the company, but will make frequent visits to ensure the project meets with the specifications required by the company.
 
+## 5 Curriculum > 5.8 Work-Integrated Education and Industrial Placement (Part 2)
 To ensure students gain valuable experience, the industrial training must be carefully selected and well-organized. Prior to starting their placement, students must outline the expected learning outcomes and, upon completion, submit a report detailing their learning outcomes and achievements. Consequently, the following learning support activities will be conducted.
 
 (i) Orientation
@@ -1687,7 +1679,6 @@ Information on searching local or non-local work-base employment and attachments
 
 During the training period, students should maintain a training journal to document their progress. The journal may include:
 
-## 5 Curriculum > 5.8 Work-Integrated Education and Industrial Placement (Part 3)
 - Location and title of the internship: Summarise where practical training took place and how the internship fits into the overall structure of the host organization.  
 - Responsibilities: Describe the actual responsibilities undertaken during the internship.  
 Skills and Knowledge: Detail the skills and knowledge required to fulfill the work responsibilities. Explain how these skills and knowledge evolved throughout the work experiences and their relevance to the academic studies and future goals.  
@@ -1774,7 +1765,7 @@ The validity period of subject credits earned is eight years from the year of at
 
 In order to be considered for a PolyU award, a student must complete at least 1/3 of the normal credit requirement for the award he/she is currently enrolled, unless the professional bodies concerned stipulate otherwise. This 1/3 requirement is also applicable to Minor programme and Secondary Major. Students must take at least 6 credits from their chosen Minor programme or at least 12 credits from their chosen Secondary Major in order to satisfy the residential requirement of their chosen Minor or Secondary Major.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.8 Subject Registration and Withdrawal (Part 1)
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.8 Subject Registration and Withdrawal
 
 In addition to programme registration, students need to register for the subjects at specified periods prior to the commencement of the semester. An add/drop period will also be scheduled for each semester/term. Students may apply for withdrawal of their registration on a subject after the add/drop period and before the commencement of the examination period if they have a genuine need to do so. The application should be made to the relevant programme offering Department and will require the approval of both the subject teacher and the host Department Programme Leader concerned. Applications submitted after the commencement of the examination period will not be considered. For approved applications of subject withdrawal, the tuition fee paid for the subject will be forfeited and the withdrawal status of the subject will be shown in the assessment result notification and transcript of studies, but will not be counted in the calculation of the GPA.
 
@@ -1782,10 +1773,9 @@ The pre-requisite requirements of a subject must have been fulfilled before a st
 
 Subject to the maximum study load of 21 credits per semester and the availability of study places, students are allowed to take additional subjects on top of the prescribed credit
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.8 Subject Registration and Withdrawal (Part 2)
 requirement for award before they become eligible for graduation. Students will be allowed to take additional subjects for broadening purpose, after they fulfil the graduation requirements and for the following semester. However, they will still be subject to the maximum study load of 21 credits per semester and the availability of places in the subjects concerned, and their enrolment will be arranged as subject-based students only and be subject to the rules on 'Admission of Subject-based Students', except that graduates from UGC-funded programmes will not be restricted to taking only subjects from a self-financed programme.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.9 Study Load (Part 1)
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.9 Study Load
 
 For students following the progression pattern specified for their programme, they have to take the number of credits and subjects, as specified in this Programme Requirement Document, for each semester. Students cannot drop those subjects assigned by the department unless prior approval has been given by the department.
 
@@ -1795,7 +1785,6 @@ To help improve the academic performance of students on academic probation, thes
 
 Students are not allowed to take zero subject in any semester, including the mandatory summer term as required by some programmes, unless they have obtained prior approval from the programme offering department; otherwise they will be classified as having unofficially withdrawn from their programme. Students who have been approved for zero subject enrolment (i.e., taking zero subject in a semester) are allowed to retain their student status and continue using campus facilities and library facilities. Any semester in which the students are allowed to take zero subject will nevertheless be counted towards the total period of registration.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.9 Study Load (Part 2)
 Students who have obtained approval to pace their studies and students on programmes without any specified progression pattern who wish to take more than the normal load of 15 credits in a semester should seek advice from the Department concerned before the selection of subjects.
 
 ## 7 Academic Regulations on Admission, Registration and Assessment > 7.10 Subject Exemption
@@ -1810,9 +1799,9 @@ Credit transfer may be done with or without the grade being carried over; the fo
 
 Normally, not more than  $50\%$  of the credit requirement for award may be transferable from approved institutions outside the University. For transfer of credits from programmes offered by PolyU, normally not more than  $67\%$  of the credit requirement for award can be transferred. In cases where both types of credits are being transferred (i.e. from programmes offered by PolyU and from approved institutions outside the University), not more than  $50\%$  of the credit requirement for award may be transferred. However, for students admitted to an Articulation Degree or Senior Year curriculum, which is already a reduced curriculum, they should not be given credit transfer for any required GUR subjects, and are required to complete at least 60 credits in order to be eligible for a Bachelor's award.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.11 Credit Transfer (Part 2)
 With applications for transfer of credits earned through study under an approved exchange programme, students should seek approval on their study plan and credit transferability from the programme offering Department before they start the exchange programme. In order to overcome possible problems associated with subject-to-subject mappings, block credit transfer rather than subject-by-subject credit transfer can be given.
 
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.11 Credit Transfer (Part 2)
 All credit transfers approved will take effect in the semester for which they are approved. A student who applies for transfer of credits for a particular semester will only be eligible for graduation at the end of that semester (even if the granting of credit transfer will immediately enable the student to satisfy the credit requirement for the award).
 
 For credit transfer of retained subjects, the grade attained in the last attempt should be taken in the case of credit transfer with grade being carried over. Students applying for credit transfer for a subject taken in other institutions are required to declare that the subject grade used for claiming credit transfer was attained in the last attempt of the subject in their previous studies. If a student fails in the last attempt of a retained subject, no credit transfer should be granted, despite the fact that the student may have attained a pass grade for the subject in the earlier attempts.
@@ -1876,14 +1865,14 @@ A student will have 'progressing' status unless he/she falls within any one of t
 
 When a student falls within any of the categories as stipulated above, except for category (i) with approval for extension, the Board of Examiners shall de-register the student from the programme without exception.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.16 Progression / Academic Probation / Deregistration (Part 2)
 A student may be de-registered from the programme enrolled before the time frame specified at (iii) or (iv) above if his/her academic performance is poor to the extent that the Board of Examiners deems that his/her chance of attaining a GPA of 1.70 at the end of the programme is slim or impossible.
 
 The progression of students to the following academic year will not be affected by the GPA obtained in the Summer Term, unless Summer Term study is mandatory for all students of the programme and constitutes a requirement for graduation, and is so specified in the Programme Requirement Document.
 
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.16 Progression / Academic Probation / Deregistration (Part 2)
 If the student is not satisfied with the de-registration decision of the Board of Examiners, he/she can lodge an appeal. All such appeal cases will be referred directly to Academic Appeals Committee (AAC) for final decision. Views of Faculties/Schools/Departments will be sought and made available to AAC for reference.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.17 Retaking of Subjects (Part 1)
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.17 Retaking of Subjects
 
 Students may only retake a subject which they have failed (i.e. Grade F or S or U). Retaking of subjects is with the condition that the maximum study load of 21 credits per semester is not exceeded.
 
@@ -1897,7 +1886,6 @@ Students who have failed a compulsory subject after two retakes and have been de
 
 In case AAC does not approve further retakes of a failed compulsory subject or the taking of an equivalent subject with special approval from the Faculty, the student concerned would be de-registered and the decision of the AAC shall be final within the University.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.17 Retaking of Subjects (Part 2)
 Note: In these circumstances when students do not have a choice to retake a failed subject, such as when the failed subject has been phased out, a 'tie-subject' arrangement can be made with the approval of the Faculty Board. Under the arrangement, another appropriate subject can be taken as equivalent to the subject which is not offered. Upon passing the equivalent subject, the fail grade of the original subject will be replaced by the latest grade of the retake subject and the failure grade of the original subject will not be taken into account in the calculation of the GPA.
 
 ## 7 Academic Regulations on Admission, Registration and Assessment > 7.18 Absence from an assessment component
@@ -1922,7 +1910,6 @@ Assessment grades shall be awarded on a criterion-referenced basis. A student's 
 
 
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 2)
 | Subject grade | Short description | Elaboration on subject grading description |
 | --- | --- | --- |
 | A+ | Excellent | Demonstrates excellent achievement of intended subject learning outcomes by being able to skillfully use concepts and solve complex problems. Shows evidence of innovative and critical thinking in unfamiliar situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
@@ -1930,25 +1917,22 @@ Assessment grades shall be awarded on a criterion-referenced basis. A student's 
 | A- | Excellent | Demonstrates excellent achievement of intended subject learning outcomes by being able to skillfully use concepts and solve complex problems. Shows evidence of innovative and critical thinking in unfamiliar situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 | B+ | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 | B | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
+| B- | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 3)
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 2)
 | Subject grade | Short description | Elaboration on subject grading description |
 | --- | --- | --- |
-| B- | Good | Demonstrates good achievement of intended subject learning outcomes by being able to use appropriate concepts and solve problems. Shows the ability to analyse issues critically and make well-grounded judgements in familiar or standard situations, and is able to express the synthesis or application of ideas in a logical and comprehensive manner. |
 | C+ | Satisfactory | Demonstrates satisfactory achievement of intended subject learning outcomes by being able to solve relatively simple problems. Shows some capacity for analysis and making judgements in a variety of familiar and standard situations, and is able to express the synthesis or application of ideas in a manner that is generally logical but fragmented. |
 | C | Satisfactory | Demonstrates satisfactory achievement of intended subject learning outcomes by being able to solve relatively simple problems. Shows some capacity for analysis and making judgements in a variety of familiar and standard situations, and is able to express the synthesis or application of ideas in a manner that is generally logical but fragmented. |
 | C- | Satisfactory | Demonstrates satisfactory achievement of intended subject learning outcomes by being able to solve relatively simple problems. Shows some capacity for analysis and making judgements in a variety of familiar and standard situations, and is able to express the synthesis or application of ideas in a manner that is generally logical but fragmented. |
 | D+ | Pass | Demonstrates marginal achievement of intended subject learning outcomes by being able to solve relatively simple problems. Can make basic comparisons, connections and judgments and express the ideas learnt in the subject, though there are frequent breakdowns in logic and clarity. |
-
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 4)
-| Subject grade | Short description | Elaboration on subject grading description |
-| --- | --- | --- |
 | D | Pass | Demonstrates marginal achievement of intended subject learning outcomes by being able to solve relatively simple problems. Can make basic comparisons, connections and judgments and express the ideas learnt in the subject, though there are frequent breakdowns in logic and clarity. |
 | D | Pass | Demonstrates marginal achievement of intended subject learning outcomes by being able to solve relatively simple problems. Can make basic comparisons, connections and judgments and express the ideas learnt in the subject, though there are frequent breakdowns in logic and clarity. |
 | F | Fail | Demonstrates inadequate achievement of intended subject learning outcomes through a lack of knowledge and/or understanding of the subject matter. Evidence of analysis is often irrelevant or incomplete. |
 
 
 
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 3)
 'F' is a subject failure grade, whilst all others ('D' to 'A+') are subject passing grades. No credit will be earned if a subject is failed.
 
 Indicative descriptors for modifier grades
@@ -1968,7 +1952,6 @@ A numeral grade point is assigned to each subject grade. The grade points assign
 
 
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 5)
 | Grade | Grade Point for grades attained |
 | --- | --- |
 | A+ | 4.3 |
@@ -2002,6 +1985,7 @@ In addition, the following subjects will be excluded from the GPA calculation:
 (iv) Subjects for which credit transfer has been approved, but without any grade assigned  
 (v) Subjects from which a student has been allowed to withdraw (i.e., those with the code 'W')
 
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.20 Grading (Part 4)
 Subject which has been given an "S" code, i.e., absent from all assessment components, will be included in the GPA calculation and will be counted as "zero" grade point. GPA is thus the unweighted cumulative average calculated for a student, for all relevant subjects taken from the start of the programme to a particular point of time. GPA is an indicator of overall performance, and ranges from 0.00 to 4.30 from 2020/21.
 
 All training credits will be counted in the GPA calculation but not in the WGPA calculation.
@@ -2057,9 +2041,9 @@ For calculating the weighted GPA (and award GPA) to determine the Honours classi
 
 Any subjects passed after the graduation requirement has been met or subjects taken on top of the prescribed credit requirements for award shall not be taken into account in the grade point calculation for award classification. However, if a student attempts more elective subjects (or optional subjects) than those required for graduation in or before the semester in which he/she becomes eligible for award, the elective subjects (or optional subjects), except for subjects which are selected by students to fulfill the free electives requirement for graduation, with a higher grade/contribution shall be included in the grade point calculation (i.e., the excessive subjects attempted with a lower grade/contribution, including failed subjects, will be excluded).
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.22 Guidelines for Award Classification (Part 2)
 For students who have completed a Major (including the Major/Secondary Major option)/Minor programme, a single classification will be awarded and their award classification will mainly be based on the "Major GPA", but it can be moderated by the Board of Examiners with reference to the "Minor GPA". For students who have completed a Major programme combined with free electives, their award classification will be determined by their "Major GPA" which includes grades obtained for the free electives, if appropriate.
 
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.22 Guidelines for Award Classification (Part 2)
 "Major GPA" is derived based on all subjects of the Major programme, as well as the Secondary Major programme, if any, including those meeting the mandatory General University Requirements (GUR) and programme-specific language requirement, but not necessarily including the training credits.
 
 "Minor GPA" is derived based on the 18 credits of specific Minor programme. "Minor GPA" is unweighted.
@@ -2092,13 +2076,13 @@ The following are guidelines for Boards of Examiners' reference in determining a
 
 Under exceptional circumstances, a student who has completed an Honours degree programme, but has not attained Honours standard, may be awarded a Pass-without-Honours degree. A Pass-without-Honours degree award will be recommended, when the student has demonstrated a level of final attainment which is below the 'essential minimum' required for graduation with Honours from the programme in question, but when he/she has nonetheless covered the prescribed work of the programme in an adequate fashion, while failing to show sufficient evidence of the intellectual calibre expected of Honours degree graduates. For example, if a student in an Honours degree programme has a Grade Point Average (GPA) of 1.70 or more, but his/her Weighted GPA is less than 1.70, he/she may be considered for a Pass-without-Honours classification. A Pass-without-Honours is an unclassified award, but the award parchment will not include this specification.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.23 Classification of Awards (Part 2)
 Students who have committed academic dishonesty or non-compliance with examination regulations will be subject to the penalty of the lowering of award classification by one level. For undergraduate students who should be awarded a Third class Honours degree, they will be downgraded to a Pass-without-Honours. The minimum of downgraded overall result will be kept at a Pass.
 
 The followings are the award GPA ranges for determining award classifications:
 
 
 
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.23 Classification of Awards (Part 2)
 | Honours Degrees | Award GPA |
 | --- | --- |
 | 1st | 3.60 – 4.30 |
@@ -2110,7 +2094,7 @@ The followings are the award GPA ranges for determining award classifications:
 
 Decisions by the Boards of Examiners on award classifications to be granted to each student on completion of the programme shall be ratified by the Faculty/School Board (of Examiners). For cases the decisions of which do not conform to the above indicative GPA range, they should be referred, by the Faculty/School Board (of Examiners), to the APRC for ratification.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.24 Examination result announcements, transcripts, testimonials and references (Part 1)
+## 7 Academic Regulations on Admission, Registration and Assessment > 7.24 Examination result announcements, transcripts, testimonials and references
 
 At the end of each semester, where appropriate, examination results are announced online for individual students' checking. It provides information on subjects taken and grades attained, the Grade Point Average (GPA) for all subjects, and the overall result up to and including the latest semester. The announcement serves as an official notification of the student's academic performance.
 
@@ -2125,7 +2109,6 @@ A formal Transcript of Studies will be issued by the University, upon request, t
 (vii) a statement indicating that the student has completed the Work-integrated Education (WIE) activities / Healthy Lifestyle / e-learning course in Putonghua (offered as an option with effect from the 2018/19 intake cohort), as appropriate; and  
 (viii) information on the partner institution, if the award is for a dual degree/joint programme with another institution and leads to a dual/joint award.
 
-## 7 Academic Regulations on Admission, Registration and Assessment > 7.24 Examination result announcements, transcripts, testimonials and references (Part 2)
 Students may request for a testimonial which is a certification of their studies at the University, but without details on subjects and subject results.
 
 Students may also request for references direct from academic staff members concerned.
@@ -2222,7 +2205,6 @@ BEng (Hons) in Electrical Engineering with a Secondary Major in Artificial Intel
 
 **Year 1 (31 academic credits + 2 training credits)**
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 2)
 | Semester 1 (16 credits + 1 training credit) | Semester 2 (15 credits + 1 training credit) |
 | --- | --- |
 | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics (3)* | ELCXXXX English LCR Subject 2 (3) |
@@ -2239,6 +2221,7 @@ BEng (Hons) in Electrical Engineering with a Secondary Major in Artificial Intel
 | AP10006 Physics II (3)EE | AMA1120 Basic Mathematics II – Calculus and Linear Algebra (3)EE |
 | ENG2003 Information Technology (3) | AP10005 Physics I (3) |
 
+## Appendix II > 5 Programme Structure and Curriculum (Part 2)
 **EEE2103 Applied Engineering Fundamentals (2 training credits)**
 
 
@@ -2263,7 +2246,6 @@ BEng (Hons) in Electrical Engineering with a Secondary Major in Artificial Intel
 | AP10005 Physics I (3)EE | ENG2003 Information Technology (3)EE |
 | EEE2106 MATLAB for Engineers and Scientists (1 training credit) | EEE2107 BIM Basic and Electrical System (1 training credit) |
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 3)
 **Semester 3: EEE2108 Electrical Engineering Practice (4 training credits)**
 
 
@@ -2283,6 +2265,7 @@ BEng (Hons) in Electrical Engineering with a Secondary Major in Artificial Intel
 
 **Year 4 (35 academic credits)**
 
+## Appendix II > 5 Programme Structure and Curriculum (Part 3)
 | Semester 1 (16.5 credits) | Semester 2 (18.5 credits) |
 | --- | --- |
 | At least Two Level-4 electives should be taken | ENG3006 Engineering Professionals in Society II (2) |
@@ -2308,7 +2291,6 @@ AIDA Subjects
 
 * Double counted subjects for both Major in EE and Secondary Major in AIDA:
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 4)
 (a) AMA1110 Basic Mathematics I - Calculus and Probability & Statistics  
 (b) AMA2111 Mathematics I  
 (c) ENG2002 Computer Programming  
@@ -2337,7 +2319,7 @@ Below are the tables summarising the core and elective subjects.
 
 
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 5)
+## Appendix II > 5 Programme Structure and Curriculum (Part 4)
 | Core Subjects | Subject code and title | Credits |
 | --- | --- | --- |
 | Mathematics I for AIDA: | AMA1110 Basic Mathematics I – Calculus and Probability & Statistics | 3 |
@@ -2381,7 +2363,7 @@ Table 5.4.1 Core Subjects
 | BSE4610 | Building Informatics |
 | CBS3410 | Python for Language Analytics |
 
-## Appendix II > 5 Programme Structure and Curriculum (Part 6)
+## Appendix II > 5 Programme Structure and Curriculum (Part 5)
 |  |  |
 | --- | --- |
 | CBS4702 | Advanced Topics in Quantitative Language Studies |
