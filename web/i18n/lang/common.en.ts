@@ -52,6 +52,10 @@ const translation = {
     fontSizeXl: 'Extra Large',
     fontSize2xl: 'Huge',
     fontSize3xl: 'Large',
+    ttsSpeed: 'Speed',
+    ttsSlow: 'Slow',
+    ttsDefault: 'Default',
+    ttsFast: 'Fast',
   },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',

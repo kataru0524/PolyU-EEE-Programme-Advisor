@@ -109,8 +109,14 @@ const Answer: FC<IAnswerProps> = ({
 
   const handleTextToSpeech = async () => {
     try {
+      // Get TTS speed setting
+      const ttsSpeed = localStorage.getItem('tts_speed')
+      const playbackRate = ttsSpeed ? parseFloat(ttsSpeed) : 1.0
+      
       // If audio is already playing and paused, resume it
       if (audioRef.current && isPaused) {
+        // Update playback rate in case it was changed in settings
+        audioRef.current.playbackRate = playbackRate
         audioRef.current.play()
         setIsPaused(false)
         return
@@ -140,20 +146,37 @@ const Answer: FC<IAnswerProps> = ({
         setIsLoadingAudio(false)
       }
       
-      // Create a blob URL from the cached or fetched audio
-      const audioUrl = URL.createObjectURL(audioBlob)
-      audioUrlRef.current = audioUrl
+      // Reuse existing audio URL if available, otherwise create new one
+      let audioUrl = audioUrlRef.current
+      if (!audioUrl) {
+        audioUrl = URL.createObjectURL(audioBlob)
+        audioUrlRef.current = audioUrl
+      }
+      
       const audio = new Audio(audioUrl)
       audioRef.current = audio
+      
+      // Apply TTS speed setting with pitch preservation
+      audio.playbackRate = playbackRate
+      
+      // Always preserve pitch to maintain natural voice quality
+      // Set for different browser implementations
+      if ('preservesPitch' in audio) {
+        audio.preservesPitch = true
+      }
+      // @ts-ignore - webkit prefix for Safari
+      if ('webkitPreservesPitch' in audio) {
+        audio.webkitPreservesPitch = true
+      }
+      // @ts-ignore - moz prefix for Firefox
+      if ('mozPreservesPitch' in audio) {
+        audio.mozPreservesPitch = true
+      }
       
       audio.onended = () => {
         setIsPlayingAudio(false)
         setIsPaused(false)
-        if (audioUrlRef.current) {
-          URL.revokeObjectURL(audioUrlRef.current)
-          audioUrlRef.current = null
-        }
-        audioRef.current = null
+        // Don't revoke URL or clear cache - keep for replay
       }
       audio.onerror = () => {
         setIsPlayingAudio(false)
@@ -162,6 +185,7 @@ const Answer: FC<IAnswerProps> = ({
           URL.revokeObjectURL(audioUrlRef.current)
           audioUrlRef.current = null
         }
+        cachedAudioBlobRef.current = null
         audioRef.current = null
         notify({ type: 'error', message: t('common.api.error') })
       }

@@ -51,6 +51,10 @@ const translation = {
     fontSizeXl: '特大',
     fontSize2xl: '超大',
     fontSize3xl: '大',
+    ttsSpeed: '语速',
+    ttsSlow: '慢',
+    ttsDefault: '默认',
+    ttsFast: '快',
   },  imageUploader: {
     uploadFromComputer: '从本地上传',
     uploadFromComputerReadError: '图片读取失败，请重新选择。',

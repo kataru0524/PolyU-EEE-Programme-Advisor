@@ -51,6 +51,10 @@ const translation = {
     fontSizeXl: '較大',
     fontSize2xl: '超大',
     fontSize3xl: '大',
+    ttsSpeed: '語速',
+    ttsSlow: '慢',
+    ttsDefault: '預設',
+    ttsFast: '快',
   },
   imageUploader: {
     uploadFromComputer: '由電腦上載',

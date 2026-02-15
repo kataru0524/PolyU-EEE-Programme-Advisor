@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { XMarkIcon, SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid'
 import { getLocaleOnClient, setLocaleOnClient } from '@/i18n/client'
+import TurtleIcon from '@/app/components/icons/TurtleIcon'
+import RabbitIcon from '@/app/components/icons/RabbitIcon'
 
 type ThemeMode = 'light' | 'dark' | 'system'
 type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
@@ -26,6 +28,26 @@ const reverseFontSizeMap: Record<FontSize, string> = {
   'xl': '5',
   '2xl': '6',
   '3xl': '7',
+}
+
+const speedMap: Record<string, number> = {
+  '1': 0.8,
+  '2': 0.95,
+  '3': 1.1,
+  '4': 1.3,
+  '5': 1.5,
+  '6': 1.7,
+  '7': 1.9,
+}
+
+const reverseSpeedMap: Record<number, string> = {
+  0.8: '1',
+  0.95: '2',
+  1.1: '3',
+  1.3: '4',
+  1.5: '5',
+  1.7: '6',
+  1.9: '7',
 }
 
 export interface ISettingsDialogProps {
@@ -79,6 +101,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
   const [themeMode, setThemeMode] = useState<ThemeMode>('system')
   const [fontSize, setFontSize] = useState<FontSize>('md')
   const [currentLanguage, setCurrentLanguage] = useState(getLocaleOnClient())
+  const [ttsSpeed, setTtsSpeed] = useState(1.10)
 
   useEffect(() => {
     // Load theme preference from localStorage
@@ -91,6 +114,15 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     const savedFontSize = localStorage.getItem('font_size') as FontSize | null
     if (savedFontSize) {
       setFontSize(savedFontSize)
+    }
+
+    // Load TTS preferences from localStorage
+    const savedTtsSpeed = localStorage.getItem('tts_speed')
+    if (savedTtsSpeed !== null) {
+      setTtsSpeed(parseFloat(savedTtsSpeed))
+    } else {
+      setTtsSpeed(1.1)
+      localStorage.setItem('tts_speed', '1.1')
     }
   }, [isOpen])
 
@@ -138,6 +170,20 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     }
     const languageName = languageMap[locale] || locale
     onLanguageChange?.(languageName)
+  }
+
+  const handleTtsSpeedChange = (speed: number) => {
+    setTtsSpeed(speed)
+    localStorage.setItem('tts_speed', speed.toString())
+  }
+
+  const getTtsSpeedLevel = (speed: number): string => {
+    // Find the closest speed level
+    const speeds = Object.values(speedMap)
+    const closest = speeds.reduce((prev, curr) => 
+      Math.abs(curr - speed) < Math.abs(prev - speed) ? curr : prev
+    )
+    return reverseSpeedMap[closest] || '3'
   }
 
   const languages = [
@@ -230,8 +276,10 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
               {t('common.settings.fontSize', { defaultValue: 'Font Size' })}
             </h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-xs font-medium text-gray-700 dark:text-gray-400">A</span>
+              <div className="flex items-center gap-4">
+                <div className="w-6 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-400">A</span>
+                </div>
                 <input
                   type="range"
                   min="1"
@@ -240,12 +288,44 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                   onChange={(e) => handleFontSizeChange(fontSizeMap[e.target.value])}
                   className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300"
                 />
-                <span className="text-2xl font-medium text-gray-700 dark:text-gray-400">A</span>
+                <div className="w-6 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl font-medium text-gray-700 dark:text-gray-400">A</span>
+                </div>
               </div>
-              <div className="relative flex text-xs text-gray-500 dark:text-gray-400">
+              <div className="relative flex text-xs text-gray-500 dark:text-gray-400 mt-2">
                 <span className="absolute left-0">{t('common.settings.fontSizeXs', { defaultValue: 'Small' })}</span>
-                <span className="absolute left-[35.2%] -translate-x-1/2">{t('common.settings.fontSizeMd', { defaultValue: 'Default' })}</span>
+                <span className="absolute left-[37%] -translate-x-1/2">{t('common.settings.fontSizeMd', { defaultValue: 'Default' })}</span>
                 <span className="absolute right-0">{t('common.settings.fontSize3xl', { defaultValue: 'Large' })}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Speech Speed Section */}
+          <div className="pt-3">
+            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
+              {t('common.settings.ttsSpeed', { defaultValue: 'Speech Speed' })}
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-6 flex items-center justify-center flex-shrink-0">
+                  <TurtleIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="7"
+                  value={getTtsSpeedLevel(ttsSpeed)}
+                  onChange={(e) => handleTtsSpeedChange(speedMap[e.target.value])}
+                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300"
+                />
+                <div className="w-6 flex items-center justify-center flex-shrink-0">
+                  <RabbitIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+                </div>
+              </div>
+              <div className="relative flex text-xs text-gray-500 dark:text-gray-400 mt-2">
+                <span className="absolute left-0">{t('common.settings.ttsSlow', { defaultValue: 'Slow' })}</span>
+                <span className="absolute left-[37%] -translate-x-1/2">{t('common.settings.ttsDefault', { defaultValue: 'Default' })}</span>
+                <span className="absolute right-0">{t('common.settings.ttsFast', { defaultValue: 'Fast' })}</span>
               </div>
             </div>
           </div>
