@@ -55,6 +55,7 @@ const Main: FC<IMainProps> = () => {
   const [fileConfig, setFileConfig] = useState<FileUpload | undefined>()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deletingConversationId, setDeletingConversationId] = useState<string>('')
+  const [isDeleting, setIsDeleting] = useState(false)
 
   // Monitor sidebar width and auto-collapse if needed
   useEffect(() => {
@@ -121,6 +122,10 @@ const Main: FC<IMainProps> = () => {
 
   const [conversationIdChangeBecauseOfNew, setConversationIdChangeBecauseOfNew, getConversationIdChangeBecauseOfNew] = useGetState(false)
   const [isChatStarted, { setTrue: setChatStarted, setFalse: setChatNotStarted }] = useBoolean(false)
+  const [isSwitchingChat, setIsSwitchingChat] = useState(false)
+  const [isContentReady, setIsContentReady] = useState(true)
+  const switchTimeoutsRef = useRef<NodeJS.Timeout[]>([])
+  
   const handleStartChat = (inputs: Record<string, any>) => {
     createNewChat()
     setConversationIdChangeBecauseOfNew(true)
@@ -182,32 +187,69 @@ const Main: FC<IMainProps> = () => {
 
     // update chat list of current conversation
     if (!isNewConversation && !conversationIdChangeBecauseOfNew && !isResponding) {
-      fetchChatList(currConversationId).then((res: any) => {
-        const { data } = res
-        const newChatList: ChatItem[] = generateNewChatListWithOpenStatement(notSyncToStateIntroduction, notSyncToStateInputs)
+      // Clear any pending timeouts from previous switches
+      switchTimeoutsRef.current.forEach(timeout => clearTimeout(timeout))
+      switchTimeoutsRef.current = []
+      
+      // Start fade out of content
+      setIsContentReady(false)
+      
+      // Fetch new data
+      const chatDataPromise = fetchChatList(currConversationId)
+      
+      // Show loading overlay after brief content fade
+      const timeout1 = setTimeout(() => {
+        setIsSwitchingChat(true)
+      }, 150)
+      switchTimeoutsRef.current.push(timeout1)
+      
+      // Wait for fade out to complete, then swap content
+      const timeout2 = setTimeout(() => {
+        chatDataPromise.then((res: any) => {
+          const { data } = res
+          const newChatList: ChatItem[] = generateNewChatListWithOpenStatement(notSyncToStateIntroduction, notSyncToStateInputs)
 
-        data.forEach((item: any) => {
-          newChatList.push({
-            id: `question-${item.id}`,
-            content: item.query,
-            isAnswer: false,
-            message_files: item.message_files?.filter((file: any) => file.belongs_to === 'user') || [],
+          data.forEach((item: any) => {
+            newChatList.push({
+              id: `question-${item.id}`,
+              content: item.query,
+              isAnswer: false,
+              message_files: item.message_files?.filter((file: any) => file.belongs_to === 'user') || [],
 
+            })
+            newChatList.push({
+              id: item.id,
+              content: item.answer,
+              agent_thoughts: addFileInfos(item.agent_thoughts ? sortAgentSorts(item.agent_thoughts) : item.agent_thoughts, item.message_files),
+              feedback: item.feedback,
+              isAnswer: true,
+              message_files: item.message_files?.filter((file: any) => file.belongs_to === 'assistant') || [],
+            })
           })
-          newChatList.push({
-            id: item.id,
-            content: item.answer,
-            agent_thoughts: addFileInfos(item.agent_thoughts ? sortAgentSorts(item.agent_thoughts) : item.agent_thoughts, item.message_files),
-            feedback: item.feedback,
-            isAnswer: true,
-            message_files: item.message_files?.filter((file: any) => file.belongs_to === 'assistant') || [],
-          })
+          
+          // Apply new content and start fade in
+          setChatList(newChatList)
+          const timeout3 = setTimeout(() => {
+            setIsContentReady(true)
+            const timeout4 = setTimeout(() => {
+              setIsSwitchingChat(false)
+            }, 350)
+            switchTimeoutsRef.current.push(timeout4)
+          }, 50)
+          switchTimeoutsRef.current.push(timeout3)
+        }).catch(() => {
+          setIsSwitchingChat(false)
+          setIsContentReady(true)
         })
-        setChatList(newChatList)
-      })
+      }, 400)
+      switchTimeoutsRef.current.push(timeout2)
     }
 
-    if (isNewConversation && isChatStarted) { setChatList(generateNewChatListWithOpenStatement()) }
+    if (isNewConversation && isChatStarted) { 
+      setChatList(generateNewChatListWithOpenStatement()) 
+      setIsSwitchingChat(false)
+      setIsContentReady(true)
+    }
   }
   useEffect(handleConversationSwitch, [currConversationId, inited])
 
@@ -295,6 +337,7 @@ const Main: FC<IMainProps> = () => {
   const confirmDeleteConversation = async () => {
     if (!deletingConversationId) return
     
+    setIsDeleting(true)
     try {
       await deleteConversation(deletingConversationId)
       
@@ -307,12 +350,13 @@ const Main: FC<IMainProps> = () => {
       }
       
       notify({ type: 'success', message: t('common.api.success') })
+      setDeleteDialogOpen(false)
+      setDeletingConversationId('')
     } catch (error) {
       notify({ type: 'error', message: t('common.api.error') })
       console.error('Failed to delete conversation:', error)
     } finally {
-      setDeleteDialogOpen(false)
-      setDeletingConversationId('')
+      setIsDeleting(false)
     }
   }
 
@@ -882,15 +926,55 @@ const Main: FC<IMainProps> = () => {
           {
             hasSetInputs && (
               <div 
-                className='relative grow pb-[180px] mb-3.5 overflow-y-auto chat-scrollbar' 
+                className='relative grow pb-[180px] mb-3.5 overflow-y-scroll chat-scrollbar' 
                 style={{ 
                   width: 'calc(100% - 6px)',
                   marginLeft: 'auto',
-                  marginRight: '6px'
+                  marginRight: '6px',
+                  scrollbarGutter: 'stable'
                 }} 
                 ref={chatListDomRef}
               >
-                <div 
+                {/* Loading overlay with smooth fade */}
+                {isSwitchingChat && (
+                  <div 
+                    className={`absolute inset-0 z-10 flex items-center justify-center transition-all duration-300 ease-in-out ${
+                      isContentReady 
+                        ? 'bg-white/0 dark:bg-gray-950/0 opacity-0 pointer-events-none' 
+                        : 'bg-white dark:bg-gray-950 opacity-100'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center gap-3">
+                      <svg className="w-12 h-12 animate-spin" viewBox="0 0 50 50">
+                        <circle
+                          className="stroke-primary-200 dark:stroke-gray-700"
+                          cx="25"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          strokeWidth="6"
+                        />
+                        <circle
+                          className="stroke-primary-600 dark:stroke-gray-300"
+                          cx="25"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          strokeWidth="6"
+                          strokeDasharray="90 150"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('common.operation.loadingConversation')}</span>
+                    </div>
+                  </div>
+                )}
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    !isContentReady
+                      ? 'opacity-0 blur-sm scale-95'
+                      : 'opacity-100 blur-0 scale-100'
+                  }`} 
                   className='mx-auto'
                   style={{
                     maxWidth: (isMobile || shouldAutoCollapse) 
@@ -920,9 +1004,12 @@ const Main: FC<IMainProps> = () => {
         message={t('common.operation.confirmDelete')}
         onConfirm={confirmDeleteConversation}
         onCancel={() => {
-          setDeleteDialogOpen(false)
-          setDeletingConversationId('')
+          if (!isDeleting) {
+            setDeleteDialogOpen(false)
+            setDeletingConversationId('')
+          }
         }}
+        isLoading={isDeleting}
       />
     </div>
   )

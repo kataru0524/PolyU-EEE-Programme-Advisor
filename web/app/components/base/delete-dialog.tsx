@@ -1,6 +1,6 @@
 'use client'
 import type { FC } from 'react'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Button from './button'
@@ -11,6 +11,7 @@ export interface IDeleteDialogProps {
   message: string
   onConfirm: () => void
   onCancel: () => void
+  isLoading?: boolean
 }
 
 const DeleteDialog: FC<IDeleteDialogProps> = ({
@@ -19,10 +20,23 @@ const DeleteDialog: FC<IDeleteDialogProps> = ({
   message,
   onConfirm,
   onCancel,
+  isLoading = false,
 }) => {
   const { t } = useTranslation()
+  const [isVisible, setIsVisible] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
 
-  if (!isOpen) return null
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true)
+      setTimeout(() => setIsAnimating(true), 10)
+    } else {
+      setIsAnimating(false)
+      setTimeout(() => setIsVisible(false), 200)
+    }
+  }, [isOpen])
+
+  if (!isVisible) return null
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -33,12 +47,16 @@ const DeleteDialog: FC<IDeleteDialogProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" 
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-200 ${
+        isAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
+      }`}
       onClick={onCancel}
       onKeyDown={handleKeyDown}
     >
       <div 
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden"
+        className={`bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden transition-all duration-200 origin-center ${
+          isAnimating ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
@@ -65,12 +83,15 @@ const DeleteDialog: FC<IDeleteDialogProps> = ({
           <Button
             onClick={onCancel}
             className="!h-9 !bg-white dark:!bg-gray-700 !text-gray-700 dark:!text-gray-200 hover:!bg-gray-100 dark:hover:!bg-gray-600 border border-gray-300 dark:border-gray-600"
+            disabled={isLoading}
           >
             {t('common.operation.cancel')}
           </Button>
           <Button
             onClick={onConfirm}
             className="!h-9 !bg-red-600 !text-white hover:!bg-red-700"
+            disabled={isLoading}
+            loading={isLoading}
           >
             {t('common.operation.delete')}
           </Button>

@@ -41,6 +41,7 @@ const Sidebar: FC<ISidebarProps> = ({
   const [renameDialogOpen, setRenameDialogOpen] = useState(false)
   const [renamingId, setRenamingId] = useState<string>('')
   const [renamingName, setRenamingName] = useState('')
+  const [isRenaming, setIsRenaming] = useState(false)
 
   const handleRename = (id: string) => {
     const conversation = list.find(item => item.id === id)
@@ -51,17 +52,24 @@ const Sidebar: FC<ISidebarProps> = ({
     setRenameDialogOpen(true)
   }
 
-  const handleRenameConfirm = (newName: string) => {
-    onRenameConversation?.(renamingId, newName)
-    setRenameDialogOpen(false)
-    setRenamingId('')
-    setRenamingName('')
+  const handleRenameConfirm = async (newName: string) => {
+    setIsRenaming(true)
+    try {
+      await onRenameConversation?.(renamingId, newName)
+      setRenameDialogOpen(false)
+      setRenamingId('')
+      setRenamingName('')
+    } finally {
+      setIsRenaming(false)
+    }
   }
 
   const handleRenameCancel = () => {
-    setRenameDialogOpen(false)
-    setRenamingId('')
-    setRenamingName('')
+    if (!isRenaming) {
+      setRenameDialogOpen(false)
+      setRenamingId('')
+      setRenamingName('')
+    }
   }
   return (
     <div
@@ -82,7 +90,7 @@ const Sidebar: FC<ISidebarProps> = ({
       )}
 
       <nav className="mt-4 flex-1 space-y-1 bg-white dark:bg-gray-900 p-4 !pt-0">
-        {list.map((item) => {
+        {list.map((item, index) => {
           const isCurrent = item.id === currentId
           const ItemIcon
             = isCurrent ? ChatBubbleOvalLeftEllipsisSolidIcon : ChatBubbleOvalLeftEllipsisIcon
@@ -97,6 +105,7 @@ const Sidebar: FC<ISidebarProps> = ({
                   ? 'bg-primary-50 dark:bg-gray-800 text-primary-600 dark:text-gray-100'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200',
                 'group flex items-center justify-between rounded-md px-2 py-2 text-sm font-medium cursor-pointer',
+                'transition-all duration-200 ease-out',
               )}
             >
               <div className="flex items-center flex-1 min-w-0 gap-2">
@@ -105,7 +114,7 @@ const Sidebar: FC<ISidebarProps> = ({
                     isCurrent
                       ? 'text-primary-600 dark:text-gray-100'
                       : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400',
-                    'h-5 w-5 flex-shrink-0',
+                    'h-5 w-5 flex-shrink-0 transition-colors duration-200',
                   )}
                   aria-hidden="true"
                 />
@@ -141,6 +150,7 @@ const Sidebar: FC<ISidebarProps> = ({
         currentName={renamingName}
         onConfirm={handleRenameConfirm}
         onCancel={handleRenameCancel}
+        isLoading={isRenaming}
       />
     </div>
   )

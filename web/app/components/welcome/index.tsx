@@ -52,18 +52,26 @@ const Welcome: FC<IWelcomeProps> = ({
 }) => {
   const { t } = useTranslation()
   const [renameDialogOpen, setRenameDialogOpen] = useState(false)
+  const [isRenaming, setIsRenaming] = useState(false)
 
   const handleRename = () => {
     setRenameDialogOpen(true)
   }
 
-  const handleRenameConfirm = (newName: string) => {
-    onRenameConversation?.(newName)
-    setRenameDialogOpen(false)
+  const handleRenameConfirm = async (newName: string) => {
+    setIsRenaming(true)
+    try {
+      await onRenameConversation?.(newName)
+      setRenameDialogOpen(false)
+    } finally {
+      setIsRenaming(false)
+    }
   }
 
   const handleRenameCancel = () => {
-    setRenameDialogOpen(false)
+    if (!isRenaming) {
+      setRenameDialogOpen(false)
+    }
   }
   const hasVar = promptConfig.prompt_variables.length > 0
   const [isFold, setIsFold] = useState<boolean>(true)
@@ -441,7 +449,7 @@ const Welcome: FC<IWelcomeProps> = ({
         {/*  Has't set inputs  */}
         {
           !hasSetInputs && (
-            <div className='mobile:pt-[72px] tablet:pt-[128px] pc:pt-[200px]'>
+            <div className='mobile:pt-[72px] tablet:pt-[128px] pc:pt-[80px]'>
               {hasVar
                 ? (
                   renderVarPanel()
@@ -484,6 +492,7 @@ const Welcome: FC<IWelcomeProps> = ({
         currentName={conversationName}
         onConfirm={handleRenameConfirm}
         onCancel={handleRenameCancel}
+        isLoading={isRenaming}
       />
     </div >
   )

@@ -98,6 +98,25 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
   onLanguageChange,
 }) => {
   const { t, i18n } = useTranslation()
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [shouldRender, setShouldRender] = useState(false)
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false)
+  const [isDropdownAnimating, setIsDropdownAnimating] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 })
+
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true)
+      // Small delay to ensure the element is mounted before animating
+      const timer = setTimeout(() => setIsAnimating(true), 10)
+      return () => clearTimeout(timer)
+    } else {
+      setIsAnimating(false)
+      // Keep mounted for exit animation
+      const timer = setTimeout(() => setShouldRender(false), 300)
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen])
   const [themeMode, setThemeMode] = useState<ThemeMode>('system')
   const [fontSize, setFontSize] = useState<FontSize>('md')
   const [currentLanguage, setCurrentLanguage] = useState(getLocaleOnClient())
@@ -193,92 +212,147 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     { code: 'zh-Hans', name: '简体中文' },
   ]
 
-  if (!isOpen) return null
+  if (!shouldRender) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/50 dark:bg-black/70"
+        className={`fixed inset-0 bg-black/50 dark:bg-black/70 transition-opacity duration-300 ${
+          isAnimating ? 'opacity-100' : 'opacity-0'
+        }`}
         onClick={onClose}
       />
       
       {/* Dialog */}
-      <div className="relative bg-white dark:bg-gray-900 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+      <div className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden transition-all duration-300 ${
+        isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+      }`}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <div className="flex-shrink-0 flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             {t('common.settings.title', { defaultValue: 'Settings' })}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            aria-label="Close settings"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6 space-y-6">
+        {/* Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto px-6 pb-8">
+          {/* Language Section */}
+          <div className="relative py-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+              {t('common.settings.language', { defaultValue: 'Language' })}
+            </h3>
+            <button
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                setDropdownPosition({
+                  top: rect.bottom + 8,
+                  left: rect.left,
+                  width: rect.width
+                })
+                if (!languageDropdownOpen) {
+                  setLanguageDropdownOpen(true)
+                  setTimeout(() => setIsDropdownAnimating(true), 10)
+                } else {
+                  setIsDropdownAnimating(false)
+                  setTimeout(() => setLanguageDropdownOpen(false), 200)
+                }
+              }}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-primary-600 dark:focus:ring-primary-500 transition-all hover:border-gray-300 dark:hover:border-gray-600"
+            >
+              <span>{languages.find(l => l.code === currentLanguage)?.name}</span>
+              <svg 
+                className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${languageDropdownOpen ? 'rotate-180' : ''}`}
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-gray-800" />
+
           {/* Theme Section */}
-          <div>
-            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
+          <div className="py-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wider">
               {t('common.settings.appearance', { defaultValue: 'Appearance' })}
             </h3>
-            <div className="grid grid-cols-3 gap-3">
+            {/* Segmented Control */}
+            <div className="relative grid grid-cols-3 p-1 bg-gray-100 dark:bg-gray-800 rounded-full gap-1">
+              {/* Sliding background */}
+              <div 
+                className="absolute top-1 bottom-1 bg-white dark:bg-gray-700 rounded-full shadow-md transition-all duration-300 ease-out"
+                style={{
+                  left: themeMode === 'system' ? '0.25rem' : themeMode === 'light' ? 'calc(33.333% + 0.125rem)' : 'calc(66.666% + 0rem)',
+                  width: 'calc(33.333% - 0.375rem)'
+                }}
+              />
               <button
                 onClick={() => handleThemeChange('system')}
-                className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
+                aria-label="System theme"
+                aria-pressed={themeMode === 'system'}
+                className={`relative flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 z-10 ${
                   themeMode === 'system'
-                    ? 'border-primary-600 dark:border-gray-500 bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-gray-200'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-400'
+                    ? 'text-gray-900 dark:text-gray-100'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300'
                 }`}
               >
-                <ComputerDesktopIcon className="w-6 h-6" />
-                <span className="text-xs font-medium">
-                  {t('common.theme.system')}
-                </span>
+                <ComputerDesktopIcon className="w-5 h-5 transition-transform duration-200" />
+                <span className="text-xs hidden sm:block">{t('common.theme.system')}</span>
               </button>
               
               <button
                 onClick={() => handleThemeChange('light')}
-                className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
+                aria-label="Light theme"
+                aria-pressed={themeMode === 'light'}
+                className={`relative flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 z-10 ${
                   themeMode === 'light'
-                    ? 'border-primary-600 dark:border-gray-500 bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-gray-200'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-400'
+                    ? 'text-gray-900 dark:text-gray-100'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300'
                 }`}
               >
-                <SunIcon className="w-6 h-6" />
-                <span className="text-xs font-medium">
-                  {t('common.theme.light')}
-                </span>
+                <SunIcon className="w-5 h-5 transition-transform duration-200" />
+                <span className="text-xs hidden sm:block">{t('common.theme.light')}</span>
               </button>
               
               <button
                 onClick={() => handleThemeChange('dark')}
-                className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
+                aria-label="Dark theme"
+                aria-pressed={themeMode === 'dark'}
+                className={`relative flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 z-10 ${
                   themeMode === 'dark'
-                    ? 'border-primary-600 dark:border-gray-500 bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-gray-200'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-400'
+                    ? 'text-gray-900 dark:text-gray-100'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300'
                 }`}
               >
-                <MoonIcon className="w-6 h-6" />
-                <span className="text-xs font-medium">
-                  {t('common.theme.dark')}
-                </span>
+                <MoonIcon className="w-5 h-5 transition-transform duration-200" />
+                <span className="text-xs hidden sm:block">{t('common.theme.dark')}</span>
               </button>
             </div>
           </div>
 
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-gray-800" />
+
           {/* Font Size Section */}
-          <div>
-            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
+          <div className="py-6 pb-8">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wider">
               {t('common.settings.fontSize', { defaultValue: 'Font Size' })}
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="flex items-center gap-4">
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-medium text-gray-700 dark:text-gray-400">A</span>
+                  <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">A</span>
                 </div>
                 <input
                   type="range"
@@ -286,13 +360,14 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                   max="7"
                   value={reverseFontSizeMap[fontSize]}
                   onChange={(e) => handleFontSizeChange(fontSizeMap[e.target.value])}
-                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300"
+                  aria-label="Font size"
+                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300 transition-all duration-150 hover:h-2.5 active:h-3"
                 />
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
-                  <span className="text-2xl font-medium text-gray-700 dark:text-gray-400">A</span>
+                  <span className="text-2xl font-semibold text-gray-600 dark:text-gray-400">A</span>
                 </div>
               </div>
-              <div className="relative flex text-xs text-gray-500 dark:text-gray-400 mt-2">
+              <div className="relative flex text-xs text-gray-500 dark:text-gray-500 font-medium">
                 <span className="absolute left-0">{t('common.settings.fontSizeXs', { defaultValue: 'Small' })}</span>
                 <span className="absolute left-[37%] -translate-x-1/2">{t('common.settings.fontSizeMd', { defaultValue: 'Default' })}</span>
                 <span className="absolute right-0">{t('common.settings.fontSize3xl', { defaultValue: 'Large' })}</span>
@@ -300,15 +375,18 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
             </div>
           </div>
 
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-gray-800" />
+
           {/* Speech Speed Section */}
-          <div className="pt-3">
-            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
-              {t('common.settings.ttsSpeed', { defaultValue: 'Speech Speed' })}
+          <div className="py-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wider">
+              {t('common.settings.ttsSpeed', { defaultValue: 'Text-to-Speech Speed' })}
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="flex items-center gap-4">
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
-                  <TurtleIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+                  <TurtleIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </div>
                 <input
                   type="range"
@@ -316,48 +394,67 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                   max="7"
                   value={getTtsSpeedLevel(ttsSpeed)}
                   onChange={(e) => handleTtsSpeedChange(speedMap[e.target.value])}
-                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300"
+                  aria-label="Speech speed"
+                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300 transition-all duration-150 hover:h-2.5 active:h-3"
                 />
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
-                  <RabbitIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
+                  <RabbitIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </div>
               </div>
-              <div className="relative flex text-xs text-gray-500 dark:text-gray-400 mt-2">
+              <div className="relative flex text-xs text-gray-500 dark:text-gray-500 font-medium">
                 <span className="absolute left-0">{t('common.settings.ttsSlow', { defaultValue: 'Slow' })}</span>
                 <span className="absolute left-[37%] -translate-x-1/2">{t('common.settings.ttsDefault', { defaultValue: 'Default' })}</span>
                 <span className="absolute right-0">{t('common.settings.ttsFast', { defaultValue: 'Fast' })}</span>
               </div>
             </div>
           </div>
-
-          {/* Language Section */}
-          <div className="pt-3">
-            <h3 className="text-base font-medium text-gray-900 dark:text-gray-100 mb-3">
-              {t('common.settings.language', { defaultValue: 'Language' })}
-            </h3>
-            <div className="space-y-2">
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg border transition-all ${
-                    currentLanguage === lang.code
-                      ? 'border-primary-600 dark:border-gray-500 bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-gray-200'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-700 dark:text-gray-400'
-                  }`}
-                >
-                  <span className="font-medium">{lang.name}</span>
-                  {currentLanguage === lang.code && (
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* Language Dropdown - Floating above dialog */}
+      {languageDropdownOpen && (
+        <>
+          <div 
+            className={`fixed inset-0 z-[60] transition-opacity duration-200 ${
+              isDropdownAnimating ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={() => {
+              setIsDropdownAnimating(false)
+              setTimeout(() => setLanguageDropdownOpen(false), 200)
+            }}
+          />
+          <div 
+            className={`fixed z-[70] py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-64 overflow-auto transition-all duration-200 ${
+              isDropdownAnimating 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 -translate-y-2'
+            }`}
+            style={{
+              top: `${dropdownPosition.top}px`,
+              left: `${dropdownPosition.left}px`,
+              width: `${dropdownPosition.width}px`
+            }}
+          >
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => {
+                  handleLanguageChange(lang.code)
+                  setIsDropdownAnimating(false)
+                  setTimeout(() => setLanguageDropdownOpen(false), 200)
+                }}
+                className={`w-full text-left px-4 py-3 transition-colors ${
+                  currentLanguage === lang.code
+                    ? 'bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-gray-200 font-semibold'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
+              >
+                {lang.name}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -10,6 +10,7 @@ export interface IRenameDialogProps {
   currentName: string
   onConfirm: (newName: string) => void
   onCancel: () => void
+  isLoading?: boolean
 }
 
 const RenameDialog: FC<IRenameDialogProps> = ({
@@ -17,22 +18,30 @@ const RenameDialog: FC<IRenameDialogProps> = ({
   currentName,
   onConfirm,
   onCancel,
+  isLoading = false,
 }) => {
   const { t } = useTranslation()
   const [name, setName] = useState(currentName)
+  const [isVisible, setIsVisible] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (isOpen) {
       setName(currentName)
+      setIsVisible(true)
+      setTimeout(() => setIsAnimating(true), 10)
       setTimeout(() => {
         inputRef.current?.focus()
         inputRef.current?.select()
       }, 100)
+    } else {
+      setIsAnimating(false)
+      setTimeout(() => setIsVisible(false), 200)
     }
   }, [isOpen, currentName])
 
-  if (!isOpen) return null
+  if (!isVisible) return null
 
   const handleConfirm = () => {
     if (name.trim()) {
@@ -51,9 +60,16 @@ const RenameDialog: FC<IRenameDialogProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={onCancel}>
+    <div 
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-200 ${
+        isAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
+      }`} 
+      onClick={onCancel}
+    >
       <div 
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden"
+        className={`bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden transition-all duration-200 origin-center ${
+          isAnimating ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2'
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
@@ -82,13 +98,15 @@ const RenameDialog: FC<IRenameDialogProps> = ({
           <Button
             onClick={onCancel}
             className="!h-9 !bg-white dark:!bg-gray-700 !text-gray-700 dark:!text-gray-200 hover:!bg-gray-100 dark:hover:!bg-gray-600 border border-gray-300 dark:border-gray-600"
+            disabled={isLoading}
           >
             {t('common.operation.cancel')}
           </Button>
           <Button
             onClick={handleConfirm}
             className="!h-9 !bg-primary-600 !text-white hover:!bg-primary-700 disabled:!bg-gray-300 disabled:!text-gray-500"
-            disabled={!name.trim()}
+            disabled={!name.trim() || isLoading}
+            loading={isLoading}
           >
             {t('common.operation.save')}
           </Button>
