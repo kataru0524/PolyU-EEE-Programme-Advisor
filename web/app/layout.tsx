@@ -1,8 +1,26 @@
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { getLocaleOnServer } from '@/i18n/server'
+import type { Metadata } from 'next'
 
 import './styles/globals.css'
 import './styles/markdown.scss'
+
+export const metadata: Metadata = {
+  openGraph: {
+    images: [
+      {
+        url: '/thumbnail.png',
+        width: 1200,
+        height: 630,
+        alt: 'PolyU EEE Programme Advisor',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/thumbnail.png'],
+  },
+}
 
 const LocaleLayout = async ({
   children,
