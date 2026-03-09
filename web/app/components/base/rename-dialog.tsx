@@ -1,6 +1,7 @@
 'use client'
 import type { FC } from 'react'
 import React, { useState, useEffect, useRef } from 'react'
+import ReactDOM from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Button from './button'
@@ -59,9 +60,9 @@ const RenameDialog: FC<IRenameDialogProps> = ({
     }
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div 
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-all duration-200 ${
+      className={`fixed inset-0 z-[100000] flex items-center justify-center bg-black transition-all duration-200 ${
         isAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
       }`} 
       onClick={onCancel}
@@ -112,7 +113,8 @@ const RenameDialog: FC<IRenameDialogProps> = ({
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 

@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import Button from '@/app/components/base/button'
 import StreamdownMarkdown from '@/app/components/base/streamdown-markdown'
 import Tooltip from '@/app/components/base/tooltip'
-import WorkflowProcess from '@/app/components/workflow/workflow-process'
 import { randomString } from '@/utils/string'
 import ImageGallery from '../../base/image-gallery'
 import LoadingAnim from '../loading-anim'
@@ -374,20 +373,16 @@ const Answer: FC<IAnswerProps> = ({
       <div className="flex items-start">
         {!isSidebarCollapsed && (
           <div className={`${s.answerIcon} w-10 h-10 shrink-0`} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}>
-            {isResponding
-              && (
-                <div className={s.typeingIcon}>
-                  <LoadingAnim type="avatar" />
-                </div>
-              )}
+            {isResponding && !!content && (
+              <div className={s.typeingIcon}>
+                <LoadingAnim type="avatar" />
+              </div>
+            )}
           </div>
         )}
         <div className={`${s.answerWrap}`} style={{ maxWidth: getMaxWidth() }} onMouseLeave={handleCopyMouseLeave}>
           <div className={`${s.answer} relative text-base text-gray-900 dark:text-gray-100 overflow-visible`}>
-            <div className={`py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${workflowProcess && 'min-w-[480px]'} ${!isSidebarCollapsed && 'ml-2'}`}>
-              {workflowProcess && (
-                <WorkflowProcess data={workflowProcess} hideInfo />
-              )}
+            <div className={`py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${!isSidebarCollapsed && 'ml-2'}`}>
               {(isResponding && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
                 ? (
                   <div className="flex items-center justify-center w-6 h-5">

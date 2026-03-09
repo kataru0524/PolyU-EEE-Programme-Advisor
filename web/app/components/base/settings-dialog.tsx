@@ -367,10 +367,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                   <span className="text-2xl font-semibold text-gray-600 dark:text-gray-400">A</span>
                 </div>
               </div>
-              <div className="relative flex text-xs text-gray-500 dark:text-gray-500 font-medium">
-                <span className="absolute left-0">{t('common.settings.fontSizeXs', { defaultValue: 'Small' })}</span>
-                <span className="absolute left-[37%] -translate-x-1/2">{t('common.settings.fontSizeMd', { defaultValue: 'Default' })}</span>
-                <span className="absolute right-0">{t('common.settings.fontSize3xl', { defaultValue: 'Large' })}</span>
+              <div className="flex items-start gap-4 text-xs text-gray-500 dark:text-gray-500 font-medium">
+                <span className="w-6 flex-shrink-0 flex justify-center whitespace-nowrap">{t('common.settings.fontSizeXs', { defaultValue: 'Small' })}</span>
+                <div className="flex-1 relative h-4">
+                  <span className="absolute -translate-x-1/2" style={{ left: '34%' }}>{t('common.settings.fontSizeMd', { defaultValue: 'Default' })}</span>
+                </div>
+                <span className="w-6 flex-shrink-0 flex justify-center whitespace-nowrap">{t('common.settings.fontSize3xl', { defaultValue: 'Large' })}</span>
               </div>
             </div>
           </div>
@@ -401,10 +403,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                   <RabbitIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </div>
               </div>
-              <div className="relative flex text-xs text-gray-500 dark:text-gray-500 font-medium">
-                <span className="absolute left-0">{t('common.settings.ttsSlow', { defaultValue: 'Slow' })}</span>
-                <span className="absolute left-[37%] -translate-x-1/2">{t('common.settings.ttsDefault', { defaultValue: 'Default' })}</span>
-                <span className="absolute right-0">{t('common.settings.ttsFast', { defaultValue: 'Fast' })}</span>
+              <div className="flex items-start gap-4 text-xs text-gray-500 dark:text-gray-500 font-medium">
+                <span className="w-6 flex-shrink-0 flex justify-center whitespace-nowrap">{t('common.settings.ttsSlow', { defaultValue: 'Slow' })}</span>
+                <div className="flex-1 relative h-4">
+                  <span className="absolute -translate-x-1/2" style={{ left: '34%' }}>{t('common.settings.ttsDefault', { defaultValue: 'Default' })}</span>
+                </div>
+                <span className="w-6 flex-shrink-0 text-center">{t('common.settings.ttsFast', { defaultValue: 'Fast' })}</span>
               </div>
             </div>
           </div>

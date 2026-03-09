@@ -20,6 +20,7 @@ const Tooltip: FC<TooltipProps> = ({
   children,
 }) => {
   const [open, setOpen] = useState(false)
+  const isTouchRef = React.useRef(false)
 
   return (
     <PortalToFollowElem
@@ -30,8 +31,9 @@ const Tooltip: FC<TooltipProps> = ({
     >
       <PortalToFollowElemTrigger
         onClick={() => triggerMethod === 'click' && setOpen(v => !v)}
-        onMouseEnter={() => triggerMethod === 'hover' && setOpen(true)}
-        onMouseLeave={() => triggerMethod === 'hover' && setOpen(false)}
+        onMouseEnter={() => { if (triggerMethod === 'hover' && !isTouchRef.current) setOpen(true) }}
+        onMouseLeave={() => { if (triggerMethod === 'hover' && !isTouchRef.current) setOpen(false) }}
+        onTouchStart={() => { isTouchRef.current = true; setOpen(false); setTimeout(() => { isTouchRef.current = false }, 500) }}
       >
         {children}
       </PortalToFollowElemTrigger>

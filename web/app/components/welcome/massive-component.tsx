@@ -57,7 +57,7 @@ export const ChatBtn: FC<{ onClick: () => void, className?: string, disabled?: b
         <span>{t('questions.actions.start_chat')}</span>
       </Button>
       {disabled && (
-        <span className="text-sm text-amber-600">{t('questions.actions.form_incomplete_hint')}</span>
+        <span className="text-sm text-amber-600 max-w-[120px] leading-tight">{t('questions.actions.form_incomplete_hint')}</span>
       )}
     </div>
   )

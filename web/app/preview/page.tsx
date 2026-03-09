@@ -1,9 +1,5 @@
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { getLocaleOnServer } from '@/i18n/server'
 import type { Metadata } from 'next'
-
-import './styles/globals.css'
-import './styles/markdown.scss'
+import RedirectClient from './redirect-client'
 
 const resolveSiteUrl = () => {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim()
@@ -23,7 +19,6 @@ const resolveSiteUrl = () => {
 
 const SITE_URL = resolveSiteUrl()
 const THUMBNAIL_URL = `${SITE_URL}/thumbnail.png`
-
 const META_TITLE = 'PolyU EEE Programme Advisor'
 const META_DESCRIPTION = 'An intelligent chatbot advisor for the PolyU Department of Electrical and Electronic Engineering programme.'
 
@@ -32,12 +27,12 @@ export const metadata: Metadata = {
   title: META_TITLE,
   description: META_DESCRIPTION,
   alternates: {
-    canonical: SITE_URL,
+    canonical: `${SITE_URL}/preview`,
   },
   openGraph: {
     type: 'website',
     siteName: META_TITLE,
-    url: SITE_URL,
+    url: `${SITE_URL}/preview`,
     title: META_TITLE,
     description: META_DESCRIPTION,
     images: [
@@ -59,28 +54,14 @@ export const metadata: Metadata = {
   },
 }
 
-const LocaleLayout = async ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  let locale = 'en'
-  try {
-    locale = await getLocaleOnServer()
-  }
-  catch {
-    locale = 'en'
-  }
+export default function PreviewPage() {
   return (
-    <html lang={locale} className="h-full" suppressHydrationWarning>
-      <body className="h-full bg-white dark:bg-gray-950" suppressHydrationWarning>
-        <div className="w-full h-full min-w-[300px]">
-          {children}
-        </div>
-        <SpeedInsights />
-      </body>
-    </html>
+    <main className='min-h-screen flex items-center justify-center p-6 text-center text-sm text-gray-600'>
+      <RedirectClient href={SITE_URL} />
+      <p>
+        Redirecting to PolyU EEE Programme Advisor...{' '}
+        <a href={SITE_URL} className='text-primary-600 underline'>Click here if not redirected</a>
+      </p>
+    </main>
   )
 }
-
-export default LocaleLayout

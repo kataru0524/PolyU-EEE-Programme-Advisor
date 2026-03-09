@@ -31,6 +31,7 @@ export interface IWelcomeProps {
   onInputsChange: (inputs: Record<string, any>) => void
   onPinConversation?: () => void
   onRenameConversation?: (name: string) => void
+  onDeleteConversation?: () => void
   isSidebarCollapsed?: boolean
 }
 
@@ -48,6 +49,7 @@ const Welcome: FC<IWelcomeProps> = ({
   onInputsChange,
   onPinConversation,
   onRenameConversation,
+  onDeleteConversation,
   isSidebarCollapsed = false,
 }) => {
   const { t } = useTranslation()
@@ -131,6 +133,18 @@ const Welcome: FC<IWelcomeProps> = ({
     return res
   })()
 
+  const [questionnaireVisible, setQuestionnaireVisible] = useState(false)
+
+  useEffect(() => {
+    if (!hasSetInputs) {
+      const frame = requestAnimationFrame(() => setQuestionnaireVisible(true))
+      return () => cancelAnimationFrame(frame)
+    }
+    else {
+      setQuestionnaireVisible(false)
+    }
+  }, [hasSetInputs])
+
   const { notify } = Toast
   const logError = (message: string) => {
     notify({ type: 'error', message, duration: 3000 })
@@ -141,7 +155,7 @@ const Welcome: FC<IWelcomeProps> = ({
     const displayName = conversationId === '-1' ? t('app.chat.newChat') : conversationName
     
     return (
-      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:h-12 tablet:h-16 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible'>
+      <div className='sticky top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:h-12 tablet:h-16 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible'>
         <div className='flex items-center gap-2'>
           <div className='text-gray-900 dark:text-gray-100'>{displayName}</div>
           {conversationId && conversationId !== '-1' && (
@@ -149,6 +163,7 @@ const Welcome: FC<IWelcomeProps> = ({
               isPinned={isPinned}
               onPin={onPinConversation}
               onRename={handleRename}
+              onDelete={onDeleteConversation}
             />
           )}
         </div>
@@ -312,6 +327,7 @@ const Welcome: FC<IWelcomeProps> = ({
     return (
       <TemplateVarPanel
         isFold={false}
+        className='mobile:flex-1 mobile:flex mobile:flex-col'
         header={
           <AppInfoComp siteInfo={siteInfo} />
         }
@@ -327,6 +343,7 @@ const Welcome: FC<IWelcomeProps> = ({
     return (
       <TemplateVarPanel
         isFold={false}
+        className='mobile:flex-1 mobile:flex mobile:flex-col'
         header={
           <AppInfoComp siteInfo={siteInfo} />
         }
@@ -429,27 +446,27 @@ const Welcome: FC<IWelcomeProps> = ({
 
     return (
       <div
-        className='pt-[88px] mb-5'
+        className='pt-4 mb-5'
       >
         {isPublicVersion ? renderHasSetInputsPublic() : renderHasSetInputsPrivate()}
       </div>)
   }
 
   return (
-    <div className='relative mobile:min-h-[48px] tablet:min-h-[64px]'>
+    <div className={`relative mobile:min-h-[48px] tablet:min-h-[64px] ${!hasSetInputs ? 'mobile:flex-1 mobile:flex mobile:flex-col' : ''}`}>
       {hasSetInputs && renderHeader()}
       <div 
-        className='mx-auto mobile:w-full px-3.5' 
+        className={`mx-auto mobile:w-full px-3.5 ${!hasSetInputs ? 'mobile:flex-1 mobile:flex mobile:flex-col' : ''}`}
         style={{ 
           maxWidth: isSidebarCollapsed 
-            ? 'calc(100vw - 48px)' 
+            ? '100%' 
             : 'min(794px, calc(100vw - var(--sidebar-width-pc, 244px) - 48px))'
         }}
       >
         {/*  Has't set inputs  */}
         {
           !hasSetInputs && (
-            <div className='mobile:pt-[72px] tablet:pt-[128px] pc:pt-[80px]'>
+            <div className={`mobile:pt-[24px] tablet:pt-[128px] pc:pt-[80px] mobile:flex-1 mobile:flex mobile:flex-col transition-all duration-500 ease-out ${questionnaireVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               {hasVar
                 ? (
                   renderVarPanel()

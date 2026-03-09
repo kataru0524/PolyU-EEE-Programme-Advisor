@@ -99,6 +99,14 @@ const Sidebar: FC<ISidebarProps> = ({
           return (
             <div
               onClick={() => onCurrentIdChange(item.id)}
+              onTouchEnd={(e) => {
+                // Fire immediately on touch without waiting for the 300ms click delay
+                const target = e.target as HTMLElement
+                // Don't intercept if the touch was on the menu button
+                if (target.closest('button')) return
+                e.preventDefault()
+                onCurrentIdChange(item.id)
+              }}
               key={item.id}
               className={classNames(
                 isCurrent
@@ -141,10 +149,7 @@ const Sidebar: FC<ISidebarProps> = ({
       {/* <a className="flex flex-shrink-0 p-4" href="https://langgenius.ai/" target="_blank">
         <Card><div className="flex flex-row items-center"><ChatBubbleOvalLeftEllipsisSolidIcon className="text-primary-600 h-6 w-6 mr-2" /><span>LangGenius</span></div></Card>
       </a> */}
-      <div className="flex flex-shrink-0 pr-4 pb-4 pl-4">
-        <div className="text-gray-400 font-normal text-xs">© {copyRight} {(new Date()).getFullYear()}</div>
-      </div>
-      
+
       <RenameDialog
         isOpen={renameDialogOpen}
         currentName={renamingName}

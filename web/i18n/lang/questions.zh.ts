@@ -3,13 +3,14 @@ const translation = {
   titleShort: '课程顾问',
   welcome: '欢迎使用智能课程顾问',
   user_input_form: {
-    student_type: {
+    admission_route: {
       label: '您的学术背景是什么？',
       options: [
-        'JUPAS (香港中学文凭考试)',
-        '国际课程 (IB / GCE A-Level)',
+        'JUPAS（HKDSE）',
+        'Non-JUPAS（非联招）',
+        '副学士/高级文凭入学',
+        '国际课程（IB / GCE A-Level）',
         '内地高考',
-        '高年级入学（副学士/高级文凭）',
       ],
     },
     interest_stream: {

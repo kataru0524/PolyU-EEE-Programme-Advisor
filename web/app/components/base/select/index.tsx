@@ -84,7 +84,7 @@ const Select: FC<ISelectProps> = ({
               () => {
                 if (!disabled) { setOpen(!open) }
               }
-            } className={`flex items-center h-9 w-full rounded-lg border-0 ${bgClassName} dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 dark:text-gray-200`}>
+            } className={`flex items-center min-h-9 w-full rounded-lg border-0 ${bgClassName} dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 dark:text-gray-200 whitespace-normal text-left`}>
               {selectedItem?.name}
             </Combobox.Button>}
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none group-hover:bg-gray-200 dark:group-hover:bg-gray-600" onClick={
@@ -112,7 +112,7 @@ const Select: FC<ISelectProps> = ({
               >
                 {({ /* active, */ selected }) => (
                   <>
-                    <span className={classNames('block truncate', selected && 'font-normal')}>{item.name}</span>
+                    <span className={classNames('block whitespace-normal', selected && 'font-normal')}>{item.name}</span>
                     {selected && (
                       <span
                         className={classNames(
@@ -159,9 +159,9 @@ const SimpleSelect: FC<ISelectProps> = ({
         }
       }}
     >
-      <div className="relative h-9">
-        <Listbox.Button className={`w-full h-full rounded-lg border-0 bg-gray-100 dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 cursor-pointer dark:text-gray-200 ${className}`}>
-          <span className="block truncate text-left">{selectedItem?.name}</span>
+      <div className="relative min-h-9">
+        <Listbox.Button className={`w-full min-h-full rounded-lg border-0 bg-gray-100 dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 cursor-pointer dark:text-gray-200 whitespace-normal text-left ${className}`}>
+          <span className="block whitespace-normal text-left">{selectedItem?.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronDownIcon
               className="h-5 w-5 text-gray-400 dark:text-gray-500"
@@ -188,7 +188,7 @@ const SimpleSelect: FC<ISelectProps> = ({
               >
                 {({ /* active, */ selected }) => (
                   <>
-                    <span className={classNames('block truncate', selected && 'font-normal')}>{item.name}</span>
+                    <span className={classNames('block whitespace-normal', selected && 'font-normal')}>{item.name}</span>
                     {selected && (
                       <span
                         className={classNames(

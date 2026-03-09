@@ -8,6 +8,7 @@
 .chat-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
 .chat-scrollbar::-webkit-scrollbar {
@@ -125,7 +126,8 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 body {

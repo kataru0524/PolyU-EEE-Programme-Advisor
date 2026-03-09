@@ -28,7 +28,7 @@ const Header: FC<IHeaderProps> = ({
   const [settingsOpen, setSettingsOpen] = useState(false)
   
   return (
-    <div className='flex items-center justify-between px-6 h-12 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800'>
+    <div className='shrink-0 flex items-center justify-between px-6 h-12 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 z-30'>
       <div className='flex items-center gap-3'>
         {isMobile && onShowSideBar && (
           <button
@@ -49,10 +49,11 @@ const Header: FC<IHeaderProps> = ({
       <div className='flex items-center gap-3'>
         <button
           onClick={() => setSettingsOpen(true)}
-          className='p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
+          className='flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors'
           title={t('common.settings.title', { defaultValue: 'Settings' })}
         >
           <Cog6ToothIcon className="w-5 h-5" />
+          <span className="ml-1.5 text-sm font-medium">{t('common.settings.title', { defaultValue: 'Settings' })}</span>
         </button>
       </div>
       

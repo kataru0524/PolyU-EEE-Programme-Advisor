@@ -80,3 +80,10 @@
 .avatar::after {
   left: 5px;
 }
+
+:global(.dark) .avatar,
+:global(.dark) .avatar::before,
+:global(.dark) .avatar::after {
+  background-color: #2563EB;
+  color: #2563EB;
+}

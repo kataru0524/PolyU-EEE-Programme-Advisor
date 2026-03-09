@@ -44,7 +44,19 @@ const Main: FC<IMainProps> = () => {
   const [promptConfig, setPromptConfig] = useState<PromptConfig | null>(null)
   const [inited, setInited] = useState<boolean>(false)
   // in mobile, show sidebar by click button
-  const [isShowSidebar, { setTrue: showSidebar, setFalse: hideSidebar }] = useBoolean(false)
+  const [isSidebarMounted, setIsSidebarMounted] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const sidebarCloseTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const isShowSidebar = isSidebarMounted
+  const showSidebar = () => {
+    if (sidebarCloseTimerRef.current) { clearTimeout(sidebarCloseTimerRef.current); sidebarCloseTimerRef.current = null }
+    setIsSidebarMounted(true)
+    requestAnimationFrame(() => requestAnimationFrame(() => setIsSidebarOpen(true)))
+  }
+  const hideSidebar = () => {
+    setIsSidebarOpen(false)
+    sidebarCloseTimerRef.current = setTimeout(() => { setIsSidebarMounted(false); sidebarCloseTimerRef.current = null }, 300)
+  }
   const [shouldAutoCollapse, setShouldAutoCollapse] = useState<boolean>(false)
   const [visionConfig, setVisionConfig] = useState<VisionSettings | undefined>({
     enabled: false,
@@ -89,7 +101,7 @@ const Main: FC<IMainProps> = () => {
 
   useEffect(() => {
     const translatedTitle = t('questions.title', { defaultValue: APP_INFO?.title })
-    if (translatedTitle) { document.title = `${translatedTitle} - Powered by Dify` }
+    if (translatedTitle) { document.title = translatedTitle }
   }, [APP_INFO?.title, t])
 
   // onData change thought (the produce obj). https://github.com/immerjs/immer/issues/576
@@ -125,6 +137,8 @@ const Main: FC<IMainProps> = () => {
   const [isSwitchingChat, setIsSwitchingChat] = useState(false)
   const [isContentReady, setIsContentReady] = useState(true)
   const switchTimeoutsRef = useRef<NodeJS.Timeout[]>([])
+  const activeSwitchConversationIdRef = useRef<string | null>(null)
+  const chatListScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   
   const handleStartChat = (inputs: Record<string, any>) => {
     createNewChat()
@@ -187,25 +201,38 @@ const Main: FC<IMainProps> = () => {
 
     // update chat list of current conversation
     if (!isNewConversation && !conversationIdChangeBecauseOfNew && !isResponding) {
+      const switchTargetConversationId = currConversationId
+      activeSwitchConversationIdRef.current = switchTargetConversationId
       // Clear any pending timeouts from previous switches
       switchTimeoutsRef.current.forEach(timeout => clearTimeout(timeout))
       switchTimeoutsRef.current = []
+      if (chatListScrollTimeoutRef.current) {
+        clearTimeout(chatListScrollTimeoutRef.current)
+        chatListScrollTimeoutRef.current = null
+      }
       
-      // Start fade out of content
+      // Show loading overlay and start fade out simultaneously
+      isSwitchingChatRef.current = true
+      setIsSwitchingChat(true)
       setIsContentReady(false)
+      needScrollToBottomRef.current = null
+      requestAnimationFrame(() => {
+        if (
+          isSwitchingChatRef.current
+          && activeSwitchConversationIdRef.current === switchTargetConversationId
+          && chatListDomRef.current
+        )
+          chatListDomRef.current.scrollTop = 0
+      })
       
       // Fetch new data
-      const chatDataPromise = fetchChatList(currConversationId)
-      
-      // Show loading overlay after brief content fade
-      const timeout1 = setTimeout(() => {
-        setIsSwitchingChat(true)
-      }, 150)
-      switchTimeoutsRef.current.push(timeout1)
+      const chatDataPromise = fetchChatList(switchTargetConversationId)
       
       // Wait for fade out to complete, then swap content
       const timeout2 = setTimeout(() => {
         chatDataPromise.then((res: any) => {
+          if (activeSwitchConversationIdRef.current !== switchTargetConversationId || switchTargetConversationId !== getCurrConversationId())
+            return
           const { data } = res
           const newChatList: ChatItem[] = generateNewChatListWithOpenStatement(notSyncToStateIntroduction, notSyncToStateInputs)
 
@@ -230,14 +257,30 @@ const Main: FC<IMainProps> = () => {
           // Apply new content and start fade in
           setChatList(newChatList)
           const timeout3 = setTimeout(() => {
+            if (activeSwitchConversationIdRef.current !== switchTargetConversationId || switchTargetConversationId !== getCurrConversationId())
+              return
+            // Reset scroll to top synchronously while overlay is still opaque —
+            // this also cancels any ongoing smooth scroll animation from the previous chat
+            if (chatListDomRef.current)
+              chatListDomRef.current.scrollTop = 0
+            needScrollToBottomRef.current = switchTargetConversationId
             setIsContentReady(true)
             const timeout4 = setTimeout(() => {
+              if (activeSwitchConversationIdRef.current !== switchTargetConversationId || switchTargetConversationId !== getCurrConversationId())
+                return
+              activeSwitchConversationIdRef.current = null
+              isSwitchingChatRef.current = false
               setIsSwitchingChat(false)
             }, 350)
             switchTimeoutsRef.current.push(timeout4)
           }, 50)
           switchTimeoutsRef.current.push(timeout3)
         }).catch(() => {
+          if (activeSwitchConversationIdRef.current !== switchTargetConversationId || switchTargetConversationId !== getCurrConversationId())
+            return
+          needScrollToBottomRef.current = null
+          activeSwitchConversationIdRef.current = null
+          isSwitchingChatRef.current = false
           setIsSwitchingChat(false)
           setIsContentReady(true)
         })
@@ -247,6 +290,9 @@ const Main: FC<IMainProps> = () => {
 
     if (isNewConversation && isChatStarted) { 
       setChatList(generateNewChatListWithOpenStatement()) 
+      needScrollToBottomRef.current = null
+      activeSwitchConversationIdRef.current = null
+      isSwitchingChatRef.current = false
       setIsSwitchingChat(false)
       setIsContentReady(true)
     }
@@ -256,7 +302,7 @@ const Main: FC<IMainProps> = () => {
   const handleConversationIdChange = (id: string) => {
     // Remove the temporary "New Chat" item if switching away from it without starting
     if (currConversationId === '-1' && id !== '-1' && !isChatStarted) {
-      setConversationList(conversationList.filter(item => item.id !== '-1'))
+      setConversationList(prev => prev.filter(item => item.id !== '-1'))
       setChatNotStarted()
     }
     
@@ -342,7 +388,7 @@ const Main: FC<IMainProps> = () => {
       await deleteConversation(deletingConversationId)
       
       // Remove from conversation list
-      setConversationList(conversationList.filter(item => item.id !== deletingConversationId))
+      setConversationList(prev => prev.filter(item => item.id !== deletingConversationId))
       
       // If deleted conversation is current, switch to new chat
       if (deletingConversationId === currConversationId) {
@@ -386,24 +432,75 @@ const Main: FC<IMainProps> = () => {
   */
   const [chatList, setChatList, getChatList] = useGetState<ChatItem[]>([])
   const chatListDomRef = useRef<HTMLDivElement>(null)
+  const needScrollToBottomRef = useRef<string | null>(null)
+  const isSwitchingChatRef = useRef(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  // Keep the root container locked to the visual viewport so the virtual
+  // keyboard only pushes up the content area — not the header/chat title.
+  // Also scroll to the latest message when the keyboard opens.
   useEffect(() => {
-    // scroll to bottom with page-level scrolling
-    if (chatListDomRef.current) {
-      setTimeout(() => {
-        chatListDomRef.current?.scrollIntoView({
-          behavior: 'auto',
-          block: 'end',
-        })
-      }, 50)
+    const viewport = window.visualViewport
+    if (!viewport) return
+    let prevHeight = viewport.height
+    const update = () => {
+      if (!rootRef.current) return
+      rootRef.current.style.height = `${viewport.height}px`
+      rootRef.current.style.top = `${viewport.offsetTop}px`
+      // Keyboard just opened (viewport shrank) — scroll chat to bottom
+      if (viewport.height < prevHeight && chatListDomRef.current)
+        chatListDomRef.current.scrollTo({ top: chatListDomRef.current.scrollHeight, behavior: 'smooth' })
+      prevHeight = viewport.height
     }
-  }, [chatList, currConversationId])
+    viewport.addEventListener('resize', update)
+    viewport.addEventListener('scroll', update)
+    return () => {
+      viewport.removeEventListener('resize', update)
+      viewport.removeEventListener('scroll', update)
+    }
+  }, [])
+
+  // Scroll to bottom when a loaded conversation becomes visible
+  useEffect(() => {
+    if (isContentReady && needScrollToBottomRef.current === currConversationId) {
+      needScrollToBottomRef.current = null
+      // scrollTop was already reset to 0 under the overlay;
+      // now force jump to latest message to avoid carrying previous chat height
+      requestAnimationFrame(() => {
+        if (chatListDomRef.current)
+          chatListDomRef.current.scrollTo({ top: chatListDomRef.current.scrollHeight, behavior: 'smooth' })
+      })
+    }
+  }, [isContentReady, currConversationId])
+
+  useEffect(() => {
+    // Block scroll during conversation load — checked at schedule time AND at fire time
+    if (isSwitchingChatRef.current || activeSwitchConversationIdRef.current) return
+    if (chatListScrollTimeoutRef.current) {
+      clearTimeout(chatListScrollTimeoutRef.current)
+      chatListScrollTimeoutRef.current = null
+    }
+    const id = setTimeout(() => {
+      if (isSwitchingChatRef.current || activeSwitchConversationIdRef.current) return
+      if (chatListDomRef.current)
+        chatListDomRef.current.scrollTo({ top: chatListDomRef.current.scrollHeight, behavior: 'smooth' })
+      chatListScrollTimeoutRef.current = null
+    }, 50)
+    chatListScrollTimeoutRef.current = id
+    return () => {
+      clearTimeout(id)
+      if (chatListScrollTimeoutRef.current === id)
+        chatListScrollTimeoutRef.current = null
+    }
+  }, [chatList])
+
   // user can not edit inputs if user had send message
   const canEditInputs = !chatList.some(item => item.isAnswer === false) && isNewConversation
   const createNewChat = () => {
     // if new chat is already exist, do not create new chat
     if (conversationList.some(item => item.id === '-1')) { return }
 
-    setConversationList(produce(conversationList, (draft) => {
+    setConversationList(prev => produce(prev, (draft) => {
       draft.unshift({
         id: '-1',
         name: t('app.chat.newChatDefaultName'),
@@ -886,7 +983,7 @@ const Main: FC<IMainProps> = () => {
   if (!APP_ID || !APP_INFO || !promptConfig) { return <Loading type='app' /> }
 
   return (
-    <div className='bg-gray-100 dark:bg-gray-800'>
+    <div ref={rootRef} className='fixed inset-0 flex flex-col overflow-hidden bg-gray-100 dark:bg-gray-800'>
       <Header
         title={APP_INFO.title}
         isMobile={isMobile || shouldAutoCollapse}
@@ -894,18 +991,24 @@ const Main: FC<IMainProps> = () => {
         onCreateNewChat={() => handleConversationIdChange('-1')}
         onLanguageChange={handleLanguageChange}
       />
-      <div className="flex rounded-t-2xl bg-white dark:bg-gray-950">
+      <div className="flex flex-1 min-h-0 bg-white dark:bg-gray-950">
         {/* sidebar */}
         {!isMobile && !shouldAutoCollapse && renderSidebar()}
-        {(isMobile || shouldAutoCollapse) && isShowSidebar && (
-          <div className='fixed inset-0 z-50' style={{ backgroundColor: 'rgba(35, 56, 118, 0.2)' }} onClick={hideSidebar} >
-            <div className='inline-block' onClick={e => e.stopPropagation()}>
+        {(isMobile || shouldAutoCollapse) && isSidebarMounted && (
+          <div
+            className={`fixed inset-0 z-50 transition-colors duration-300 ${isSidebarOpen ? 'bg-[rgba(35,56,118,0.2)]' : 'bg-transparent'}`}
+            onClick={hideSidebar}
+          >
+            <div
+              className={`inline-block h-full transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+              onClick={e => e.stopPropagation()}
+            >
               {renderSidebar()}
             </div>
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_3rem)]'>
+        <div className='flex-grow flex flex-col min-h-0 overflow-hidden relative'>
           <ConfigSence
             conversationName={conversationName}
             conversationId={currConversationId}
@@ -920,55 +1023,58 @@ const Main: FC<IMainProps> = () => {
             onInputsChange={setCurrInputs}
             onPinConversation={() => handlePinConversation(currConversationId)}
             onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
+            onDeleteConversation={() => handleDeleteConversation(currConversationId)}
             isSidebarCollapsed={isMobile || shouldAutoCollapse}
           ></ConfigSence>
+
+          {/* Loading overlay — positioned against the viewport-height container, not the scroll content */}
+          {isSwitchingChat && (
+            <div 
+              className={`absolute inset-0 z-20 flex items-center justify-center transition-all duration-300 ease-in-out ${
+                isContentReady 
+                  ? 'bg-white/0 dark:bg-gray-950/0 opacity-0 pointer-events-none' 
+                  : 'bg-white dark:bg-gray-950 opacity-100'
+              }`}
+            >
+              <div className="flex flex-col items-center gap-3">
+                <svg className="w-12 h-12 animate-spin" viewBox="0 0 50 50">
+                  <circle
+                    className="stroke-primary-200 dark:stroke-gray-700"
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    fill="none"
+                    strokeWidth="6"
+                  />
+                  <circle
+                    className="stroke-primary-600 dark:stroke-gray-300"
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    fill="none"
+                    strokeWidth="6"
+                    strokeDasharray="90 150"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('common.operation.loadingConversation')}</span>
+              </div>
+            </div>
+          )}
 
           {
             hasSetInputs && (
               <div 
-                className='relative grow pb-[180px] mb-3.5 overflow-y-scroll chat-scrollbar' 
+                className='relative grow pb-[80px] mb-3.5 overflow-y-scroll chat-scrollbar' 
                 style={{ 
                   width: 'calc(100% - 6px)',
                   marginLeft: 'auto',
                   marginRight: '6px',
-                  scrollbarGutter: 'stable'
+                  scrollbarGutter: 'stable',
+                  WebkitOverflowScrolling: 'touch',
                 }} 
                 ref={chatListDomRef}
               >
-                {/* Loading overlay with smooth fade */}
-                {isSwitchingChat && (
-                  <div 
-                    className={`absolute inset-0 z-10 flex items-center justify-center transition-all duration-300 ease-in-out ${
-                      isContentReady 
-                        ? 'bg-white/0 dark:bg-gray-950/0 opacity-0 pointer-events-none' 
-                        : 'bg-white dark:bg-gray-950 opacity-100'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center gap-3">
-                      <svg className="w-12 h-12 animate-spin" viewBox="0 0 50 50">
-                        <circle
-                          className="stroke-primary-200 dark:stroke-gray-700"
-                          cx="25"
-                          cy="25"
-                          r="20"
-                          fill="none"
-                          strokeWidth="6"
-                        />
-                        <circle
-                          className="stroke-primary-600 dark:stroke-gray-300"
-                          cx="25"
-                          cy="25"
-                          r="20"
-                          fill="none"
-                          strokeWidth="6"
-                          strokeDasharray="90 150"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('common.operation.loadingConversation')}</span>
-                    </div>
-                  </div>
-                )}
                 <div
                   className={`transition-all duration-300 ease-in-out ${
                     !isContentReady
