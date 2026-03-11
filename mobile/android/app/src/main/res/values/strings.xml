@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">EEE Advisor</string>
+    <string name="title_activity_main">EEE Advisor</string>
+    <string name="package_name">hk.edu.polyu.eee.advisor</string>
+    <string name="custom_url_scheme">hk.edu.polyu.eee.advisor</string>
+</resources>
