@@ -90,14 +90,19 @@ const Welcome: FC<IWelcomeProps> = ({
   }
   
   const [inputs, setInputs] = useState<Record<string, any>>((() => {
-    if (hasSetInputs) { return savedInputs }
+    const currentLanguageName = getLanguageName(getLocaleOnClient())
+    if (hasSetInputs) {
+      const init = { ...savedInputs }
+      if ('language' in init) init.language = currentLanguageName
+      return init
+    }
 
     const res: Record<string, any> = {}
     if (promptConfig) {
       promptConfig.prompt_variables.forEach((item) => {
         // Auto-populate language field with current locale
-        if (item.key === 'language' && item.hide) {
-          res[item.key] = getLanguageName(getLocaleOnClient())
+        if (item.key === 'language') {
+          res[item.key] = currentLanguageName
         } else {
           res[item.key] = ''
         }
@@ -106,13 +111,14 @@ const Welcome: FC<IWelcomeProps> = ({
     return res
   })())
   useEffect(() => {
+    const currentLanguageName = getLanguageName(getLocaleOnClient())
     if (!savedInputs) {
       const res: Record<string, any> = {}
       if (promptConfig) {
         promptConfig.prompt_variables.forEach((item) => {
           // Auto-populate language field with current locale
-          if (item.key === 'language' && item.hide) {
-            res[item.key] = getLanguageName(getLocaleOnClient())
+          if (item.key === 'language') {
+            res[item.key] = currentLanguageName
           } else {
             res[item.key] = ''
           }
@@ -121,9 +127,25 @@ const Welcome: FC<IWelcomeProps> = ({
       setInputs(res)
     }
     else {
-      setInputs(savedInputs)
+      // Always override language with the current locale, even if savedInputs
+      // already has a stale value from a previous locale setting.
+      const updated = { ...savedInputs }
+      if ('language' in updated)
+        updated.language = currentLanguageName
+      setInputs(updated)
     }
   }, [savedInputs])
+
+  // Keep inputs.language in sync when the user changes locale without a page reload.
+  useEffect(() => {
+    const handleLocaleChange = (e: Event) => {
+      const locale = (e as CustomEvent<string>).detail
+      const newLanguageName = getLanguageName(locale)
+      setInputs(prev => 'language' in prev ? { ...prev, language: newLanguageName } : prev)
+    }
+    window.addEventListener('localechange', handleLocaleChange)
+    return () => window.removeEventListener('localechange', handleLocaleChange)
+  }, [])
 
   const highLightPromoptTemplate = (() => {
     if (!promptConfig) { return '' }
@@ -368,7 +390,10 @@ const Welcome: FC<IWelcomeProps> = ({
           setIsFold(true)
         }}
         onCancel={() => {
-          setInputs(savedInputs)
+          const reverted = { ...savedInputs }
+          if ('language' in reverted)
+            reverted.language = getLanguageName(getLocaleOnClient())
+          setInputs(reverted)
           setIsFold(true)
         }}
       />

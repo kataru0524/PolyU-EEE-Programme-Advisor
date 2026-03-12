@@ -15,8 +15,8 @@ import type { ChatItem, ConversationItem, Feedbacktype, PromptConfig, VisionFile
 import type { FileUpload } from '@/app/components/base/file-uploader-in-attachment/types'
 import { Resolution, TransferMethod, WorkflowRunningStatus } from '@/types/app'
 import Chat from '@/app/components/chat'
-import { setLocaleOnClient } from '@/i18n/client'
-import { getLocaleOnClient } from '@/i18n/client'
+import { setLocaleOnClient, getLocaleOnClient } from '@/i18n/client'
+import { changeLanguage } from '@/i18n/i18next-config'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 import Loading from '@/app/components/base/loading'
 import { replaceVarWithValues, userInputsFormToPromptVariables } from '@/utils/prompt'
@@ -568,9 +568,9 @@ const Main: FC<IMainProps> = () => {
 
         // fetch new conversation info
         const { user_input_form, opening_statement: introduction, file_upload, system_parameters, suggested_questions = [] }: any = appParams
-        // Use saved language from localStorage, fallback to default
-        const savedLanguage = localStorage.getItem('user_language') || APP_INFO.default_language
-        setLocaleOnClient(savedLanguage, true)
+        // Sync i18next to the detected/chosen locale without writing it as an
+        // explicit user preference (that only happens when the user picks via the UI).
+        changeLanguage(getLocaleOnClient())
         setNewConversationInfo({
           name: t('app.chat.newChatDefaultName'),
           introduction,
