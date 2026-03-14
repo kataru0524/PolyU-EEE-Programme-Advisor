@@ -14,8 +14,42 @@ export const AppInfoComp: FC<{ siteInfo: AppInfo }> = ({ siteInfo }) => {
   const { t } = useTranslation()
   return (
     <div>
-      <div className='flex items-center py-2 text-xl font-medium text-gray-700 dark:text-gray-300 rounded-md'>{t('questions.welcome')}</div>
+      <div className='flex items-center py-2 text-xl font-medium text-gray-700 dark:text-gray-300 rounded-md'>{t('questions.welcome_questionnaire')}</div>
       <p className='text-sm text-gray-500 dark:text-gray-400'>{siteInfo.description}</p>
+    </div>
+  )
+}
+
+export const WelcomeCard: FC = () => {
+  const { t } = useTranslation()
+  const scopeItems = t('questions.welcome_card.scope_items', {
+    returnObjects: true,
+    defaultValue: [],
+  }) as string[]
+
+  return (
+    <div className='rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-sky-50 px-4 py-4 text-gray-800 shadow-sm dark:border-indigo-900/40 dark:from-indigo-950/40 dark:to-sky-950/30 dark:text-gray-100'>
+      <div className='text-base font-semibold text-indigo-900 dark:text-indigo-200'>
+        {t('questions.welcome_card.title')}
+      </div>
+      <p className='mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300'>
+        {t('questions.welcome_card.subtitle')}
+      </p>
+      <div className='mt-3 rounded-xl border border-white/70 bg-white/70 px-3 py-3 dark:border-white/10 dark:bg-black/10'>
+        <div className='text-xs font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300'>
+          {t('questions.welcome_card.scope_title')}
+        </div>
+        <ul className='mt-2 space-y-1 text-sm text-gray-700 dark:text-gray-300'>
+          {scopeItems.map((item, idx) => (
+            <li key={`${idx}-${item}`} className='leading-6'>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className='mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400'>
+        {t('questions.welcome_card.disclaimer')}
+      </p>
     </div>
   )
 }

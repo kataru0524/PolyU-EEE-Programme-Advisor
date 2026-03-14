@@ -44,6 +44,8 @@ const translation = {
     title: '設定',
     appearance: '外觀',
     language: '語言',
+    welcomeIntro: '歡迎提示',
+    showWelcomeIntro: '為新對話顯示歡迎卡片',
     fontSize: '字體大小',
     fontSizeXs: '細',
     fontSizeSm: '細',

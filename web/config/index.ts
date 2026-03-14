@@ -17,5 +17,7 @@ export const promptTemplate = 'I want you to act as a javascript console.'
 export const API_PREFIX = '/api'
 
 export const LOCALE_COOKIE_NAME = 'locale'
+export const WELCOME_INTRO_SHOW_KEY = 'show_welcome_intro'
+export const WELCOME_INTRO_PREF_EVENT = 'welcomeintrochange'
 
 export const DEFAULT_VALUE_MAX_LEN = 48

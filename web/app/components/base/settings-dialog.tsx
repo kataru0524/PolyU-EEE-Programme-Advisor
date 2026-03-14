@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { XMarkIcon, SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid'
 import { getLocaleOnClient, setLocaleOnClient } from '@/i18n/client'
+import type { Locale } from '@/i18n'
+import { WELCOME_INTRO_PREF_EVENT, WELCOME_INTRO_SHOW_KEY } from '@/config'
 import TurtleIcon from '@/app/components/icons/TurtleIcon'
 import RabbitIcon from '@/app/components/icons/RabbitIcon'
 
@@ -121,8 +123,11 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
   const [fontSize, setFontSize] = useState<FontSize>('md')
   const [currentLanguage, setCurrentLanguage] = useState(getLocaleOnClient())
   const [ttsSpeed, setTtsSpeed] = useState(1.10)
+  const [showWelcomeIntro, setShowWelcomeIntro] = useState(true)
 
   useEffect(() => {
+    setCurrentLanguage(getLocaleOnClient())
+
     // Load theme preference from localStorage
     const savedTheme = localStorage.getItem('theme_mode') as ThemeMode | null
     if (savedTheme) {
@@ -143,7 +148,19 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
       setTtsSpeed(1.1)
       localStorage.setItem('tts_speed', '1.1')
     }
+
+    const savedShowWelcomeIntro = localStorage.getItem(WELCOME_INTRO_SHOW_KEY)
+    // Default to enabled when no explicit preference exists.
+    setShowWelcomeIntro(savedShowWelcomeIntro !== '0')
   }, [isOpen])
+
+  useEffect(() => {
+    const handleLocaleChange = () => {
+      setCurrentLanguage(getLocaleOnClient())
+    }
+    window.addEventListener('localechange', handleLocaleChange)
+    return () => window.removeEventListener('localechange', handleLocaleChange)
+  }, [])
 
   const applyTheme = (mode: ThemeMode) => {
     const root = document.documentElement
@@ -176,7 +193,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     applyFontSize(size)
   }
 
-  const handleLanguageChange = (locale: string) => {
+  const handleLanguageChange = (locale: Locale) => {
     setCurrentLanguage(locale)
     setLocaleOnClient(locale, true)
     
@@ -196,6 +213,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     localStorage.setItem('tts_speed', speed.toString())
   }
 
+  const handleShowWelcomeIntroChange = (nextShow: boolean) => {
+    setShowWelcomeIntro(nextShow)
+    localStorage.setItem(WELCOME_INTRO_SHOW_KEY, nextShow ? '1' : '0')
+    window.dispatchEvent(new CustomEvent(WELCOME_INTRO_PREF_EVENT, { detail: nextShow }))
+  }
+
   const getTtsSpeedLevel = (speed: number): string => {
     // Find the closest speed level
     const speeds = Object.values(speedMap)
@@ -205,7 +228,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     return reverseSpeedMap[closest] || '3'
   }
 
-  const languages = [
+  const languages: Array<{ code: Locale, name: string }> = [
     { code: 'en', name: 'English' },
     { code: 'zh-HK', name: '繁體中文（粵語）' },
     { code: 'zh-Hant', name: '繁體中文（國語）' },
@@ -225,7 +248,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
       />
       
       {/* Dialog */}
-      <div className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden transition-all duration-300 ${
+      <div className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[calc(100dvh-3rem)] flex flex-col overflow-hidden transition-all duration-300 ${
         isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
       }`}>
         {/* Header */}
@@ -410,6 +433,34 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                 </div>
                 <span className="w-6 flex-shrink-0 text-center">{t('common.settings.ttsFast', { defaultValue: 'Fast' })}</span>
               </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-gray-800" />
+
+          {/* Welcome Intro Section */}
+          <div className="pt-6 pb-2">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
+              {t('common.settings.welcomeIntro', { defaultValue: 'Welcome Card' })}
+            </h3>
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                  {t('common.settings.showWelcomeIntro', { defaultValue: 'Show welcome card for new chats' })}
+                </div>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={showWelcomeIntro}
+                onClick={() => handleShowWelcomeIntroChange(!showWelcomeIntro)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 ${showWelcomeIntro ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+              >
+                <span
+                  className={`absolute left-0.5 h-5 w-5 rounded-full bg-white transition-transform ${showWelcomeIntro ? 'translate-x-5' : 'translate-x-0'}`}
+                />
+              </button>
             </div>
           </div>
         </div>

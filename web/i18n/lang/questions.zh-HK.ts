@@ -1,7 +1,25 @@
 const translation = {
   title: '智能課程顧問',
   titleShort: '課程顧問',
-  welcome: '歡迎使用智能課程顧問',
+  welcome: '歡迎',
+  welcome_questionnaire: '歡迎使用智能課程顧問',
+  welcome_card: {
+    title: '呢個顧問可以幫你啲咩',
+    subtitle: '呢個助手主要幫你了解理大電機及電子工程學系嘅課程資訊。填好你嘅背景同目標後，建議會更加貼身。',
+    scope_title: '常見查詢主題',
+    scope_items: [
+      '課程結構、專業方向同修讀規劃',
+      '就業發展路向同專業資歷',
+      '入學途徑同收生要求',
+      '獎學金、學費同交換機會',
+    ],
+    disclaimer: '回覆會根據現有課程資料整理，只供參考。涉及重要決定時，請以理大最新官方公布為準。',
+  },
+  welcome_popup: {
+    title: '歡迎',
+    continue: '繼續',
+    dont_show_again: '唔再顯示',
+  },
   user_input_form: {
     admission_route: {
       label: '你嘅學術背景係咩？',

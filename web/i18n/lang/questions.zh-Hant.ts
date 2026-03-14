@@ -1,7 +1,25 @@
 const translation = {
   title: '智能課程顧問',
   titleShort: '課程顧問',
-  welcome: '歡迎使用智能課程顧問',
+  welcome: '歡迎',
+  welcome_questionnaire: '歡迎使用智能課程顧問',
+  welcome_card: {
+    title: '這個顧問可以幫你甚麼',
+    subtitle: '本助手聚焦於香港理工大學電機及電子工程學系的課程諮詢。填寫你的背景與目標後，可獲得更貼合的建議。',
+    scope_title: '常見諮詢主題',
+    scope_items: [
+      '課程結構、專業方向與修讀規劃',
+      '職涯發展路徑與專業資歷',
+      '入學途徑與錄取要求',
+      '獎學金、費用與交換機會',
+    ],
+    disclaimer: '回答基於現有課程資料整理，僅供參考。涉及重要決定時，請以理大最新官方公布為準。',
+  },
+  welcome_popup: {
+    title: '歡迎',
+    continue: '繼續',
+    dont_show_again: '不再顯示',
+  },
   user_input_form: {
     admission_route: {
       label: '你的學術背景是甚麼？',

@@ -45,6 +45,8 @@ const translation = {
     title: 'Settings',
     appearance: 'Appearance',
     language: 'Language',
+    welcomeIntro: 'Welcome Card',
+    showWelcomeIntro: 'Show welcome card for new chats',
     fontSize: 'Font Size',
     fontSizeXs: 'Small',
     fontSizeSm: 'Smaller',
