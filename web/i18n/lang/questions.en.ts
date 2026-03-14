@@ -20,9 +20,32 @@ const translation = {
     continue: 'Continue',
     dont_show_again: "Don't show again",
   },
+  opener: {
+    introduction: 'Hi! I\'m your PolyU EEE Programme Advisor.\nI can help you explore study focus, learning path, project style fit, and career direction.',
+    try_asking: 'Try asking:',
+    branches: {
+      selected: [
+        'Is this programme a good fit for my background and goals?',
+        'What learning experience and curriculum focus can I expect in this programme?',
+        'What are the main reasons to choose this programme over alternatives?',
+      ],
+      unselected: [
+        'Which programme fits my interests and strengths best?',
+        'What are the key differences between these programmes?',
+        'Based on my profile, which programme should I prioritize applying for?',
+      ],
+    },
+  },
   user_input_form: {
     fav_subjects: {
       placeholder: 'e.g. Physics, Mathematics...',
+    },
+    interest_stream: {
+      options: [
+        'Electrical Engineering',
+        'Info & AI Engineering',
+        'Undecided / Comparing Both',
+      ],
     },
   },
   actions: {

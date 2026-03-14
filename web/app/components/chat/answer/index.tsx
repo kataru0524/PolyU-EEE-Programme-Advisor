@@ -396,10 +396,13 @@ const Answer: FC<IAnswerProps> = ({
                   ))}
               {suggestedQuestions.length > 0 && (
                 <div className="mt-3">
-                  <div className="flex gap-1 mt-1 flex-wrap">
+                  <p className="mt-5 mb-1 pl-4 text-sm text-gray-500 dark:text-gray-400">
+                    {t('questions.opener.try_asking', { defaultValue: 'Try asking:' })}
+                  </p>
+                  <div className="mt-1 mb-2 flex flex-col items-start gap-1">
                     {suggestedQuestions.map((suggestion, index) => (
-                      <div key={index} className="flex items-center gap-1">
-                        <Button classbottome="text-sm" type="link" onClick={() => suggestionClick(suggestion)}>{suggestion}</Button>
+                      <div key={index}>
+                        <Button className="h-auto justify-start items-start whitespace-normal text-left text-base leading-6" type="link" onClick={() => suggestionClick(suggestion)}>{suggestion}</Button>
                       </div>
                     ))}
                   </div>

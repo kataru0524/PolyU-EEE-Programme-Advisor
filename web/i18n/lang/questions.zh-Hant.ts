@@ -20,6 +20,22 @@ const translation = {
     continue: '繼續',
     dont_show_again: '不再顯示',
   },
+  opener: {
+    introduction: '你好！我是你的 PolyU EEE 課程顧問。\n我可以協助你了解學習重點、修讀路徑、專案風格匹配與職涯發展方向。',
+    try_asking: '可先試問：',
+    branches: {
+      selected: [
+        '這個課程是否適合我的背景與目標？',
+        '在這個課程中，我可以期待怎樣的學習體驗與課程重點？',
+        '和其他選擇相比，選擇這個課程的主要原因是甚麼？',
+      ],
+      unselected: [
+        '哪個課程最符合我的興趣與優勢？',
+        '這些課程之間的關鍵差異是甚麼？',
+        '根據我的背景，我應該優先申請哪個課程？',
+      ],
+    },
+  },
   user_input_form: {
     admission_route: {
       label: '你的學術背景是甚麼？',

@@ -37,6 +37,8 @@ export interface IWelcomeProps {
   onRenameConversation?: (name: string) => void
   onDeleteConversation?: () => void
   isSidebarCollapsed?: boolean
+  hideHeader?: boolean
+  showSettingsPanelWhenHasSetInputs?: boolean
 }
 
 const Welcome: FC<IWelcomeProps> = ({
@@ -55,6 +57,8 @@ const Welcome: FC<IWelcomeProps> = ({
   onRenameConversation,
   onDeleteConversation,
   isSidebarCollapsed = false,
+  hideHeader = false,
+  showSettingsPanelWhenHasSetInputs = true,
 }) => {
   const { t } = useTranslation()
   const [renameDialogOpen, setRenameDialogOpen] = useState(false)
@@ -308,7 +312,7 @@ const Welcome: FC<IWelcomeProps> = ({
     const displayName = conversationId === '-1' ? t('app.chat.newChat') : conversationName
     
     return (
-      <div className='sticky top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:h-12 tablet:h-16 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible'>
+      <div className='sticky top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:h-12 tablet:h-16 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible shadow-[0_3px_8px_rgba(15,23,42,0.04)] dark:shadow-[0_3px_8px_rgba(0,0,0,0.2)]'>
         <div className='flex items-center gap-2'>
           <div className='text-gray-900 dark:text-gray-100'>{displayName}</div>
           {conversationId && conversationId !== '-1' && (
@@ -610,7 +614,7 @@ const Welcome: FC<IWelcomeProps> = ({
 
   return (
     <div className={`relative mobile:min-h-[48px] tablet:min-h-[64px] ${!hasSetInputs ? 'mobile:flex-1 mobile:flex mobile:flex-col' : ''}`}>
-      {hasSetInputs && renderHeader()}
+      {hasSetInputs && !hideHeader && renderHeader()}
       <div 
         className={`mx-auto mobile:w-full px-3.5 ${!hasSetInputs ? 'mobile:flex-1 mobile:flex mobile:flex-col' : ''}`}
         style={{ 
@@ -635,7 +639,7 @@ const Welcome: FC<IWelcomeProps> = ({
         }
 
         {/* Has set inputs */}
-        {hasSetInputs && renderHasSetInputs()}
+        {hasSetInputs && showSettingsPanelWhenHasSetInputs && renderHasSetInputs()}
 
         {!hasSetInputs && showWelcomePopupRender && isClient && createPortal(
           <div className='fixed inset-0 z-50 flex items-center justify-center p-3 tablet:p-4'>

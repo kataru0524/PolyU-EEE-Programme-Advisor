@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import Textarea from 'rc-textarea'
-import s from './style.module.css'
 import Answer from './answer'
 import Question from './question'
 import type { FeedbackFunc } from './type'
@@ -18,7 +17,7 @@ import { useImageFiles } from '@/app/components/base/image-uploader/hooks'
 import FileUploaderInAttachmentWrapper from '@/app/components/base/file-uploader-in-attachment'
 import type { FileEntity, FileUpload } from '@/app/components/base/file-uploader-in-attachment/types'
 import { getProcessedFiles } from '@/app/components/base/file-uploader-in-attachment/utils'
-import { MicrophoneIcon, StopIcon } from '@heroicons/react/24/solid'
+import { MicrophoneIcon, PaperAirplaneIcon, StopIcon } from '@heroicons/react/24/solid'
 import { audioToText } from '@/service'
 import { Mp3Encoder } from '@breezystack/lamejs'
 
@@ -444,9 +443,12 @@ const Chat: FC<IChatProps> = ({
                   </button>
                 </Tooltip>
                 {isListening ? (
-                  <div 
-                    className={`${s.sendBtn} w-8 h-8 rounded-md opacity-40 cursor-not-allowed pointer-events-none`} 
-                  ></div>
+                  <button
+                    disabled
+                    className='w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 opacity-40 cursor-not-allowed pointer-events-none'
+                  >
+                    <PaperAirplaneIcon className='w-4 h-4' />
+                  </button>
                 ) : (
                   <Tooltip
                     selector='send-tip'
@@ -457,10 +459,12 @@ const Chat: FC<IChatProps> = ({
                       </div>
                     }
                   >
-                    <div 
-                      className={`${s.sendBtn} w-8 h-8 rounded-md cursor-pointer`} 
+                    <button
                       onClick={handleSend}
-                    ></div>
+                      className='w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 transition-colors'
+                    >
+                      <PaperAirplaneIcon className='w-4 h-4' />
+                    </button>
                   </Tooltip>
                 )}
               </div>

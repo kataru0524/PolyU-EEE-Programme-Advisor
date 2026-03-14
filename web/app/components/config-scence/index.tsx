@@ -3,12 +3,16 @@ import React from 'react'
 import type { IWelcomeProps } from '../welcome'
 import Welcome from '../welcome'
 
-const ConfigSence: FC<IWelcomeProps> = (props) => {
-  const { hasSetInputs } = props
+type IConfigSenceProps = IWelcomeProps
+
+const ConfigSence: FC<IConfigSenceProps> = (props) => {
+  const { hasSetInputs, showSettingsPanelWhenHasSetInputs = true } = props
+  const hasSpacing = hasSetInputs && showSettingsPanelWhenHasSetInputs
   
   return (
-    <div className={`antialiased font-sans overflow-y-scroll ${hasSetInputs ? 'mb-5 shrink-0 max-h-[50vh]' : 'flex-1'}`}
-      style={{ WebkitOverflowScrolling: 'touch' }}
+    <div
+      className={`antialiased font-sans ${hasSetInputs ? `${hasSpacing ? 'mb-8 ' : ''}shrink-0 overflow-visible` : 'flex-1 overflow-y-auto'}`}
+      style={hasSetInputs ? undefined : { WebkitOverflowScrolling: 'touch' }}
     >
       <Welcome {...props} />
     </div>

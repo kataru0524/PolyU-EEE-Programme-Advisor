@@ -20,6 +20,23 @@ const translation = {
     continue: '继续',
     dont_show_again: '不再显示',
   },
+  opener: {
+    introduction: '你好！我是你的 PolyU EEE 课程顾问。\n我可以协助你了解学习重点、修读路径、项目风格匹配和职业发展方向。',
+    try_asking: '试着这样问：',
+
+    branches: {
+      selected: [
+        '这个专业是否适合我的背景和目标？',
+        '这个专业的学习体验和课程重点会是什么？',
+        '与其他选择相比，选择这个专业的主要理由是什么？',
+      ],
+      unselected: [
+        '哪个专业最符合我的兴趣和优势？',
+        '这些专业之间的关键差异是什么？',
+        '根据我的背景，我应该优先申请哪个专业？',
+      ],
+    },
+  },
   user_input_form: {
     admission_route: {
       label: '您的学术背景是什么？',
@@ -32,7 +49,7 @@ const translation = {
       ],
     },
     interest_stream: {
-      label: '您最感兴趣的课程是什么？',
+      label: '您最感兴趣的专业是什么？',
       options: [
         '电机工程',
         '资讯及人工智能工程',

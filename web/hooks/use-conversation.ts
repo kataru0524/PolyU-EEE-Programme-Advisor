@@ -37,6 +37,9 @@ function useConversation() {
       })
     }))
   }
+  const clearNewConversationInputs = () => {
+    setNewConversationInputs(null)
+  }
   const [existConversationInputs, setExistConversationInputs] = useState<Record<string, any> | null>(null)
   const currInputs = isNewConversation ? newConversationInputs : existConversationInputs
   const setCurrInputs = isNewConversation ? setNewConversationInputs : setExistConversationInputs
@@ -58,6 +61,7 @@ function useConversation() {
     newConversationInputs,
     existConversationInputs,
     resetNewConversationInputs,
+    clearNewConversationInputs,
     setCurrInputs,
     currConversationInfo,
     setNewConversationInfo,

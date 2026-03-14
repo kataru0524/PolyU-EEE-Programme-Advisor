@@ -43,9 +43,11 @@ export const PanelTitle: FC<{ title: string, className?: string }> = ({
   className,
 }) => {
   return (
-    <div className={cn(className, 'flex items-center space-x-1 text-indigo-600 dark:text-gray-100')}>
-      <StarIcon />
-      <span className='text-xs'>{title}</span>
+    <div className={cn(className, 'flex items-center gap-1 text-indigo-600 dark:text-gray-100')}>
+      <span className='inline-flex h-3 w-3 min-h-3 min-w-3 flex-none'>
+        <StarIcon className='h-3 w-3' />
+      </span>
+      <span className='min-w-0 text-xs'>{title}</span>
     </div>
   )
 }
@@ -58,7 +60,7 @@ export const VarOpBtnGroup: FC<{ className?: string, onConfirm: () => void, onCa
   const { t } = useTranslation()
 
   return (
-    <div className={cn(className, 'flex mt-3 space-x-2 mobile:ml-0 tablet:ml-[128px] text-sm')}>
+    <div className={cn(className, 'mt-5 flex justify-end space-x-2 text-sm')}>
       <Button
         className='text-sm'
         type='primary'

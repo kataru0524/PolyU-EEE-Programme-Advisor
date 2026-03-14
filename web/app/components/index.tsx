@@ -31,7 +31,7 @@ export interface IMainProps {
 }
 
 const Main: FC<IMainProps> = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const media = useBreakpoints()
   const isMobile = media === MediaType.mobile
   const hasSetAppConfig = APP_ID && API_KEY
@@ -127,6 +127,7 @@ const Main: FC<IMainProps> = () => {
     currInputs,
     newConversationInputs,
     resetNewConversationInputs,
+    clearNewConversationInputs,
     setCurrInputs,
     setNewConversationInfo,
     setExistConversationInfo,
@@ -157,6 +158,42 @@ const Main: FC<IMainProps> = () => {
   const conversationName = currConversationInfo?.name || t('app.chat.newChatDefaultName') as string
   const conversationIntroduction = currConversationInfo?.introduction || ''
   const suggestedQuestions = currConversationInfo?.suggested_questions || []
+
+  const detectOpenerBranchKey = (inputs?: Record<string, any> | null) => {
+    const selectedProgramme = String(inputs?.interest_programme || inputs?.interest_stream || '').trim().toLowerCase()
+    if (!selectedProgramme) return 'unselected'
+
+    // Treat the "undecided" option (last item in interest_stream.options) as unselected.
+    // Collect from all loaded locales so detection works regardless of the form's locale.
+    const undecidedValues = Object.keys(i18n.store.data).flatMap((lng) => {
+      const bundle = i18n.getResourceBundle(lng, 'translation')
+      const options = bundle?.questions?.user_input_form?.interest_stream?.options
+      if (Array.isArray(options) && options.length > 0) {
+        return [String(options[options.length - 1]).toLowerCase()]
+      }
+      return []
+    })
+    if (undecidedValues.some(val => selectedProgramme.includes(val))) return 'unselected'
+
+    return 'selected'
+  }
+
+  const getBranchedOpenerQuestions = (inputs?: Record<string, any> | null) => {
+    const branchKey = detectOpenerBranchKey(inputs)
+    const branchQuestions = t(`questions.opener.branches.${branchKey}`, {
+      returnObjects: true,
+      defaultValue: [],
+    }) as unknown
+    if (Array.isArray(branchQuestions) && branchQuestions.length > 0) { return branchQuestions }
+
+    const defaultQuestions = t('questions.opener.branches.unselected', {
+      returnObjects: true,
+      defaultValue: [],
+    }) as unknown
+    if (Array.isArray(defaultQuestions) && defaultQuestions.length > 0) { return defaultQuestions }
+
+    return suggestedQuestions
+  }
 
   const handleConversationSwitch = () => {
     if (!inited) { return }
@@ -300,9 +337,14 @@ const Main: FC<IMainProps> = () => {
   useEffect(handleConversationSwitch, [currConversationId, inited])
 
   const handleConversationIdChange = (id: string) => {
-    // Remove the temporary "New Chat" item if switching away from it without starting
-    if (currConversationId === '-1' && id !== '-1' && !isChatStarted) {
+    // Remove the temporary "New Chat" item if switching away before it has been
+    // persisted as a real conversation. This includes both the untouched form
+    // state and the post-"Start Chat" opener state where the user still hasn't
+    // sent a first message.
+    if (currConversationId === '-1' && id !== '-1' && (!isChatStarted || canEditInputs)) {
       setConversationList(prev => prev.filter(item => item.id !== '-1'))
+      clearNewConversationInputs()
+      setConversationIdChangeBecauseOfNew(false)
       setChatNotStarted()
     }
     
@@ -415,14 +457,6 @@ const Main: FC<IMainProps> = () => {
       })
     }
     
-    // Update newConversationInputs as well
-    if (newConversationInputs && 'language' in newConversationInputs) {
-      resetNewConversationInputs({
-        ...newConversationInputs,
-        language: languageName,
-      })
-    }
-    
     // Note: Language is sent with each message through the inputs field,
     // so no need to update conversation variables separately
   }
@@ -513,9 +547,13 @@ const Main: FC<IMainProps> = () => {
 
   // sometime introduction is not applied to state
   const generateNewChatListWithOpenStatement = (introduction?: string, inputs?: Record<string, any> | null) => {
-    let calculatedIntroduction = introduction || conversationIntroduction || ''
+    const localizedOpenerIntroduction = t('questions.opener.introduction', {
+      defaultValue: 'Hi! I\'m your PolyU EEE Programme Advisor.\nI can help you explore study focus, learning path, project style fit, and career direction.',
+    })
+    let calculatedIntroduction = introduction || conversationIntroduction || localizedOpenerIntroduction
     const calculatedPromptVariables = inputs || currInputs || null
     if (calculatedIntroduction && calculatedPromptVariables) { calculatedIntroduction = replaceVarWithValues(calculatedIntroduction, promptConfig?.prompt_variables || [], calculatedPromptVariables) }
+    const calculatedSuggestedQuestions = getBranchedOpenerQuestions(calculatedPromptVariables)
 
     const openStatement = {
       id: `${Date.now()}`,
@@ -523,12 +561,53 @@ const Main: FC<IMainProps> = () => {
       isAnswer: true,
       feedbackDisabled: true,
       isOpeningStatement: isShowPrompt,
-      suggestedQuestions,
+      suggestedQuestions: calculatedSuggestedQuestions,
     }
     if (calculatedIntroduction) { return [openStatement] }
 
     return []
   }
+
+  const syncLocalizedOpeningStatement = () => {
+    const current = getChatList()
+    if (!current.length) return
+
+    // Some flows don't set isOpeningStatement; use a fallback matcher for
+    // the initial assistant intro bubble.
+    const openingIndex = current.findIndex((item, index) => {
+      if (item.isOpeningStatement) return true
+      return index === 0 && item.isAnswer && !!item.feedbackDisabled
+    })
+    if (openingIndex < 0) return
+
+    const localizedOpenerIntroduction = t('questions.opener.introduction', {
+      defaultValue: 'Hi! I\'m your PolyU EEE Programme Advisor.\nI can help you explore study focus, learning path, project style fit, and career direction.',
+    })
+    const regenerated = generateNewChatListWithOpenStatement(localizedOpenerIntroduction, currInputs)
+    const regeneratedOpening = regenerated[0]
+    if (!regeneratedOpening) return
+
+    setChatList(produce(current, (draft) => {
+      draft[openingIndex] = {
+        ...draft[openingIndex],
+        content: regeneratedOpening.content,
+        suggestedQuestions: regeneratedOpening.suggestedQuestions,
+      }
+    }))
+  }
+
+  // Keep the existing opening statement in sync with runtime locale changes.
+  useEffect(() => {
+    syncLocalizedOpeningStatement()
+  }, [i18n.resolvedLanguage, currInputs])
+
+  useEffect(() => {
+    const onLocaleChange = () => {
+      syncLocalizedOpeningStatement()
+    }
+    window.addEventListener('localechange', onLocaleChange)
+    return () => window.removeEventListener('localechange', onLocaleChange)
+  }, [currInputs])
 
   // init
   useEffect(() => {
@@ -645,7 +724,6 @@ const Main: FC<IMainProps> = () => {
   }
 
   const [controlFocus, setControlFocus] = useState(0)
-  const [openingSuggestedQuestions, setOpeningSuggestedQuestions] = useState<string[]>([])
   const [messageTaskId, setMessageTaskId] = useState('')
   const [hasStopResponded, setHasStopResponded, getHasStopResponded] = useGetState(false)
   const [isRespondingConIsCurrCon, setIsRespondingConCurrCon, getIsRespondingConIsCurrCon] = useGetState(true)
@@ -1009,23 +1087,45 @@ const Main: FC<IMainProps> = () => {
         )}
         {/* main */}
         <div className='flex-grow flex flex-col min-h-0 overflow-hidden relative'>
-          <ConfigSence
-            conversationName={conversationName}
-            conversationId={currConversationId}
-            isPinned={currConversationInfo?.is_pinned}
-            hasSetInputs={hasSetInputs}
-            isPublicVersion={isShowPrompt}
-            siteInfo={APP_INFO}
-            promptConfig={promptConfig}
-            onStartChat={handleStartChat}
-            canEditInputs={canEditInputs}
-            savedInputs={currInputs as Record<string, any>}
-            onInputsChange={setCurrInputs}
-            onPinConversation={() => handlePinConversation(currConversationId)}
-            onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
-            onDeleteConversation={() => handleDeleteConversation(currConversationId)}
-            isSidebarCollapsed={isMobile || shouldAutoCollapse}
-          ></ConfigSence>
+          {!hasSetInputs && (
+            <ConfigSence
+              conversationName={conversationName}
+              conversationId={currConversationId}
+              isPinned={currConversationInfo?.is_pinned}
+              hasSetInputs={hasSetInputs}
+              isPublicVersion={isShowPrompt}
+              siteInfo={APP_INFO}
+              promptConfig={promptConfig}
+              onStartChat={handleStartChat}
+              canEditInputs={canEditInputs}
+              savedInputs={currInputs as Record<string, any>}
+              onInputsChange={setCurrInputs}
+              onPinConversation={() => handlePinConversation(currConversationId)}
+              onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
+              onDeleteConversation={() => handleDeleteConversation(currConversationId)}
+              isSidebarCollapsed={isMobile || shouldAutoCollapse}
+            ></ConfigSence>
+          )}
+          {hasSetInputs && (
+            <ConfigSence
+              conversationName={conversationName}
+              conversationId={currConversationId}
+              isPinned={currConversationInfo?.is_pinned}
+              hasSetInputs={hasSetInputs}
+              isPublicVersion={isShowPrompt}
+              siteInfo={APP_INFO}
+              promptConfig={promptConfig}
+              onStartChat={handleStartChat}
+              canEditInputs={canEditInputs}
+              savedInputs={currInputs as Record<string, any>}
+              onInputsChange={setCurrInputs}
+              onPinConversation={() => handlePinConversation(currConversationId)}
+              onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
+              onDeleteConversation={() => handleDeleteConversation(currConversationId)}
+              isSidebarCollapsed={isMobile || shouldAutoCollapse}
+              showSettingsPanelWhenHasSetInputs={false}
+            ></ConfigSence>
+          )}
 
           {/* Loading overlay — positioned against the viewport-height container, not the scroll content */}
           {isSwitchingChat && (
@@ -1076,18 +1176,37 @@ const Main: FC<IMainProps> = () => {
                 ref={chatListDomRef}
               >
                 <div
-                  className={`transition-all duration-300 ease-in-out ${
+                  className={`mx-auto transition-all duration-300 ease-in-out ${!canEditInputs ? 'pt-8' : ''} ${
                     !isContentReady
-                      ? 'opacity-0 blur-sm scale-95'
-                      : 'opacity-100 blur-0 scale-100'
+                      ? 'opacity-0'
+                      : 'opacity-100'
                   }`} 
-                  className='mx-auto'
                   style={{
                     maxWidth: (isMobile || shouldAutoCollapse) 
                       ? 'calc(100vw - 48px)' 
                       : 'min(794px, calc(100vw - var(--sidebar-width-pc, 244px) - 48px))'
                   }}
                 >
+                  {canEditInputs && (
+                    <ConfigSence
+                      conversationName={conversationName}
+                      conversationId={currConversationId}
+                      isPinned={currConversationInfo?.is_pinned}
+                      hasSetInputs={hasSetInputs}
+                      isPublicVersion={isShowPrompt}
+                      siteInfo={APP_INFO}
+                      promptConfig={promptConfig}
+                      onStartChat={handleStartChat}
+                      canEditInputs={canEditInputs}
+                      savedInputs={currInputs as Record<string, any>}
+                      onInputsChange={setCurrInputs}
+                      onPinConversation={() => handlePinConversation(currConversationId)}
+                      onRenameConversation={(name) => handleRenameConversation(currConversationId, name)}
+                      onDeleteConversation={() => handleDeleteConversation(currConversationId)}
+                      isSidebarCollapsed={isMobile || shouldAutoCollapse}
+                      hideHeader={true}
+                    ></ConfigSence>
+                  )}
                   <Chat
                     chatList={chatList}
                     onSend={handleSend}
