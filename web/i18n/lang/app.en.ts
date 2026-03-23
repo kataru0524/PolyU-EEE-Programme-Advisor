@@ -18,6 +18,8 @@ const translation = {
     configDisabled:
       'Previous session settings have been used for this session.',
     startChat: 'Start Chat',
+    waitingForAssistantReply: 'Still working on a response. Thanks for your patience.',
+    refreshSuggestedAfterDelay: 'This is taking longer than expected. Please try refreshing the page.',
     privacyPolicyLeft:
       'Please read the ',
     privacyPolicyMiddle:

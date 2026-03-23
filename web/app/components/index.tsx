@@ -140,6 +140,9 @@ const Main: FC<IMainProps> = () => {
   const switchTimeoutsRef = useRef<NodeJS.Timeout[]>([])
   const activeSwitchConversationIdRef = useRef<string | null>(null)
   const chatListScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  /** Set to true before programmatically switching into a brand-new conversation
+   *  so that handleConversationSwitch skips the loading overlay. */
+  const skipNextSwitchRef = useRef(false)
   
   const handleStartChat = (inputs: Record<string, any>) => {
     createNewChat()
@@ -237,7 +240,12 @@ const Main: FC<IMainProps> = () => {
     }
 
     // update chat list of current conversation
-    if (!isNewConversation && !conversationIdChangeBecauseOfNew && !isResponding) {
+    if (!isNewConversation && !getConversationIdChangeBecauseOfNew() && !isResponding) {
+      // Skip overlay when programmatically switching into the just-created conversation.
+      if (skipNextSwitchRef.current) {
+        skipNextSwitchRef.current = false
+        return
+      }
       const switchTargetConversationId = currConversationId
       activeSwitchConversationIdRef.current = switchTargetConversationId
       // Clear any pending timeouts from previous switches
@@ -878,6 +886,7 @@ const Main: FC<IMainProps> = () => {
         setConversationIdChangeBecauseOfNew(false)
         resetNewConversationInputs()
         setChatNotStarted()
+        skipNextSwitchRef.current = true
         setCurrConversationId(tempNewConversationId, APP_ID, true)
         setRespondingFalse()
       },

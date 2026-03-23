@@ -16,6 +16,8 @@ const translation = {
     configStatusDes: '开始前，您可以修改对话设置',
     configDisabled: '此次会话已使用上次会话表单',
     startChat: '开始对话',
+    waitingForAssistantReply: '仍在准备回复，感谢您的耐心等待。',
+    refreshSuggestedAfterDelay: '等待时间较长，建议刷新页面后重试。',
     privacyPolicyLeft: '请阅读由该应用开发者提供的',
     privacyPolicyMiddle: '隐私政策',
     privacyPolicyRight: '。',

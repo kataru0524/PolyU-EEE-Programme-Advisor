@@ -36,6 +36,7 @@ export interface IChatProps {
   onSend?: (message: string, files: VisionFile[]) => void
   useCurrentUserAvatar?: boolean
   isResponding?: boolean
+  waitingHintStartAt?: number | null
   controlClearQuery?: number
   visionConfig?: VisionSettings
   fileConfig?: FileUpload
@@ -52,6 +53,7 @@ const Chat: FC<IChatProps> = ({
   useCurrentUserAvatar,
   isSidebarCollapsed = false,
   isResponding,
+  waitingHintStartAt,
   controlClearQuery,
   visionConfig,
   fileConfig,
@@ -68,6 +70,10 @@ const Chat: FC<IChatProps> = ({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
   const timerRef = useRef<any>(null)
+  const hintReserveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [internalWaitingHintStartAt, setInternalWaitingHintStartAt] = useState<number | null>(null)
+  const [shouldReserveHintSpace, setShouldReserveHintSpace] = useState(false)
+  const effectiveWaitingHintStartAt = waitingHintStartAt ?? internalWaitingHintStartAt
 
   // Detect iOS devices
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent)
@@ -92,6 +98,46 @@ const Chat: FC<IChatProps> = ({
       }
     }
   }, [isListening])
+
+  useEffect(() => {
+    if (isResponding) {
+      setInternalWaitingHintStartAt(prev => prev ?? Date.now())
+      return
+    }
+
+    setInternalWaitingHintStartAt(null)
+  }, [isResponding])
+
+  useEffect(() => {
+    if (hintReserveTimerRef.current) {
+      clearTimeout(hintReserveTimerRef.current)
+      hintReserveTimerRef.current = null
+    }
+
+    if (!isResponding || !effectiveWaitingHintStartAt) {
+      setShouldReserveHintSpace(false)
+      return
+    }
+
+    const elapsedMs = Date.now() - effectiveWaitingHintStartAt
+    if (elapsedMs >= 3000) {
+      setShouldReserveHintSpace(true)
+      return
+    }
+
+    setShouldReserveHintSpace(false)
+    hintReserveTimerRef.current = setTimeout(() => {
+      setShouldReserveHintSpace(true)
+      hintReserveTimerRef.current = null
+    }, 3000 - elapsedMs)
+
+    return () => {
+      if (hintReserveTimerRef.current) {
+        clearTimeout(hintReserveTimerRef.current)
+        hintReserveTimerRef.current = null
+      }
+    }
+  }, [isResponding, effectiveWaitingHintStartAt])
 
   // Format duration as MM:SS
   const formatDuration = (seconds: number) => {
@@ -315,7 +361,7 @@ const Chat: FC<IChatProps> = ({
       'w-full'
     )}>
       {/* Chat List */}
-      <div className="space-y-[30px] overflow-visible">
+      <div className={cn('space-y-[30px] overflow-visible', shouldReserveHintSpace && 'pb-5')}>
         {chatList.map((item) => {
           if (item.isAnswer) {
             const isLast = item.id === chatList[chatList.length - 1].id
@@ -325,6 +371,7 @@ const Chat: FC<IChatProps> = ({
               feedbackDisabled={feedbackDisabled}
               onFeedback={onFeedback}
               isResponding={isResponding && isLast}
+              waitingHintStartAt={isResponding && isLast ? effectiveWaitingHintStartAt : null}
               suggestionClick={suggestionClick}
               isSidebarCollapsed={isSidebarCollapsed}
             />

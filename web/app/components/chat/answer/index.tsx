@@ -4,7 +4,7 @@ import type { FeedbackFunc } from '../type'
 import type { ChatItem, MessageRating, VisionFile } from '@/types/app'
 import type { Emoji } from '@/types/tools'
 import { HandThumbDownIcon, HandThumbUpIcon, SpeakerWaveIcon, PauseIcon, StopIcon, ClipboardDocumentIcon, CheckIcon } from '@heroicons/react/24/outline'
-import React, { useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '@/app/components/base/button'
 import StreamdownMarkdown from '@/app/components/base/streamdown-markdown'
@@ -17,6 +17,7 @@ import s from '../style.module.css'
 import Thought from '../thought'
 import { textToAudio } from '@/service'
 import Toast from '@/app/components/base/toast'
+import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 
 function OperationBtn({ innerContent, onClick, className }: { innerContent: React.ReactNode, onClick?: () => void, className?: string }) {
   return (
@@ -70,6 +71,7 @@ interface IAnswerProps {
   feedbackDisabled: boolean
   onFeedback?: FeedbackFunc
   isResponding?: boolean
+  waitingHintStartAt?: number | null
   allToolIcons?: Record<string, string | Emoji>
   suggestionClick?: (suggestion: string) => void
   isSidebarCollapsed?: boolean
@@ -81,19 +83,24 @@ const Answer: FC<IAnswerProps> = ({
   feedbackDisabled = false,
   onFeedback,
   isResponding,
+  waitingHintStartAt,
   allToolIcons,
   suggestionClick = () => { },
   isSidebarCollapsed = false,
 }) => {
   const { id, content, feedback, agent_thoughts, workflowProcess, suggestedQuestions = [] } = item
+  const media = useBreakpoints()
+  const isMobile = media === MediaType.mobile
   const isAgentMode = !!agent_thoughts && agent_thoughts.length > 0
   const [isPlayingAudio, setIsPlayingAudio] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [isLoadingAudio, setIsLoadingAudio] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
+  const [hintStage, setHintStage] = useState<'none' | 'waiting' | 'refresh'>('none')
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioUrlRef = useRef<string | null>(null)
   const cachedAudioBlobRef = useRef<Blob | null>(null)
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Calculate max width based on sidebar state
   const getMaxWidth = () => {
@@ -105,6 +112,50 @@ const Answer: FC<IAnswerProps> = ({
   const { notify } = Toast
 
   const { t } = useTranslation()
+
+  const hasStartedStreamingText = !!content || (agent_thoughts || []).some(thought => !!thought.thought)
+  const isStillWaitingForText = !!isResponding && !hasStartedStreamingText
+
+  useEffect(() => {
+    if (hintTimerRef.current) {
+      clearTimeout(hintTimerRef.current)
+      hintTimerRef.current = null
+    }
+
+    setHintStage('none')
+
+    if (!isStillWaitingForText) return
+
+    const elapsedMs = waitingHintStartAt ? Date.now() - waitingHintStartAt : 0
+    if (elapsedMs >= 30000) {
+      setHintStage('refresh')
+      return
+    }
+
+    if (elapsedMs >= 3000) {
+      setHintStage('waiting')
+      hintTimerRef.current = setTimeout(() => {
+        setHintStage('refresh')
+        hintTimerRef.current = null
+      }, 30000 - elapsedMs)
+      return
+    }
+
+    hintTimerRef.current = setTimeout(() => {
+      setHintStage('waiting')
+      hintTimerRef.current = setTimeout(() => {
+        setHintStage('refresh')
+        hintTimerRef.current = null
+      }, 27000)
+    }, 3000 - elapsedMs)
+
+    return () => {
+      if (hintTimerRef.current) {
+        clearTimeout(hintTimerRef.current)
+        hintTimerRef.current = null
+      }
+    }
+  }, [isStillWaitingForText, waitingHintStartAt, id])
 
   const handleTextToSpeech = async () => {
     try {
@@ -315,18 +366,20 @@ const Answer: FC<IAnswerProps> = ({
                 })}
               </Tooltip>
             )}
-            <Tooltip selector={`user-copy-${randomString(16)}`} content={isCopied ? t('common.operation.copied') as string : t('common.operation.copy') as string}>
-              {OperationBtn({ 
-                innerContent: <IconWrapper>
-                  {isCopied ? (
-                    <CheckIcon className="w-4 h-4 text-green-600" />
-                  ) : (
-                    <ClipboardDocumentIcon className="w-4 h-4" />
-                  )}
-                </IconWrapper>, 
-                onClick: handleCopyToClipboard
-              })}
-            </Tooltip>
+            {!isMobile && (
+              <Tooltip selector={`user-copy-${randomString(16)}`} content={isCopied ? t('common.operation.copied') as string : t('common.operation.copy') as string}>
+                {OperationBtn({
+                  innerContent: <IconWrapper>
+                    {isCopied ? (
+                      <CheckIcon className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <ClipboardDocumentIcon className="w-4 h-4" />
+                    )}
+                  </IconWrapper>,
+                  onClick: handleCopyToClipboard,
+                })}
+              </Tooltip>
+            )}
           </div>
         )
     }
@@ -380,7 +433,7 @@ const Answer: FC<IAnswerProps> = ({
             )}
           </div>
         )}
-        <div className={`${s.answerWrap}`} style={{ maxWidth: getMaxWidth() }} onMouseLeave={handleCopyMouseLeave}>
+        <div className={`${s.answerWrap} relative`} style={{ maxWidth: getMaxWidth() }} onMouseLeave={handleCopyMouseLeave}>
           <div className={`${s.answer} relative text-base text-gray-900 dark:text-gray-100 overflow-visible`}>
             <div className={`py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${!isSidebarCollapsed && 'ml-2'}`}>
               {(isResponding && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
@@ -415,6 +468,20 @@ const Answer: FC<IAnswerProps> = ({
               {!feedbackDisabled && renderFeedbackRating(feedback?.rating)}
             </div>
           </div>
+          {(hintStage === 'waiting' || hintStage === 'refresh') && (
+            <div className={`pointer-events-none absolute top-full mt-2 ${!isSidebarCollapsed ? 'left-2' : 'left-0'}`}>
+              {hintStage === 'waiting' && (
+                <p className={`${s.waitingHint} text-xs text-gray-500 dark:text-gray-400`}>
+                  {t('app.chat.waitingForAssistantReply') as string}
+                </p>
+              )}
+              {hintStage === 'refresh' && (
+                <p className={`${s.waitingHint} text-xs text-amber-600 dark:text-amber-400`}>
+                  {t('app.chat.refreshSuggestedAfterDelay') as string}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

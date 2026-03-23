@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -17,6 +17,22 @@ function classNames(...classes: any[]) {
 }
 
 const MAX_CONVERSATION_LENTH = 20
+const MIN_SIDEBAR_WIDTH = 244
+
+const getMaxSidebarWidth = () =>
+  typeof window !== 'undefined' ? Math.floor(window.innerWidth * 0.4) : 9999
+
+function getInitialWidth(): number {
+  if (typeof window === 'undefined') return MIN_SIDEBAR_WIDTH
+  const stored = localStorage.getItem('sidebar-width')
+  if (stored) {
+    const n = parseFloat(stored)
+    if (!Number.isNaN(n) && n >= MIN_SIDEBAR_WIDTH) return n
+  }
+  const cssVar = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width-pc')
+  const parsed = parseFloat(cssVar)
+  return Number.isNaN(parsed) ? MIN_SIDEBAR_WIDTH : Math.max(parsed, MIN_SIDEBAR_WIDTH)
+}
 
 export interface ISidebarProps {
   copyRight: string
@@ -42,11 +58,83 @@ const Sidebar: FC<ISidebarProps> = ({
   const [renamingId, setRenamingId] = useState<string>('')
   const [renamingName, setRenamingName] = useState('')
   const [isRenaming, setIsRenaming] = useState(false)
+  const [sidebarWidth, setSidebarWidth] = useState<number>(MIN_SIDEBAR_WIDTH)
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartX = useRef(0)
+  const dragStartWidth = useRef(0)
+
+  // Initialise from stored / CSS value after mount
+  useEffect(() => {
+    const w = getInitialWidth()
+    setSidebarWidth(w)
+    document.documentElement.style.setProperty('--sidebar-width-pc', `${w}px`)
+  }, [])
+
+  const startDrag = useCallback((startX: number) => {
+    dragStartX.current = startX
+    dragStartWidth.current = sidebarWidth
+    setIsDragging(true)
+  }, [sidebarWidth])
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    startDrag(e.clientX)
+  }, [startDrag])
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    // Don't call preventDefault here — it would block scrolling outside the handle.
+    startDrag(e.touches[0].clientX)
+  }, [startDrag])
+
+  useEffect(() => {
+    if (!isDragging) return
+
+    document.body.style.userSelect = 'none'
+    document.body.style.cursor = 'col-resize'
+
+    const applyDelta = (clientX: number) => {
+      const delta = clientX - dragStartX.current
+      const newWidth = Math.min(getMaxSidebarWidth(), Math.max(MIN_SIDEBAR_WIDTH, dragStartWidth.current + delta))
+      setSidebarWidth(newWidth)
+      document.documentElement.style.setProperty('--sidebar-width-pc', `${newWidth}px`)
+      return newWidth
+    }
+
+    const onMouseMove = (e: MouseEvent) => applyDelta(e.clientX)
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault() // prevent page scroll while resizing
+      applyDelta(e.touches[0].clientX)
+    }
+
+    const endDrag = (clientX: number) => {
+      const finalWidth = Math.min(getMaxSidebarWidth(), Math.max(MIN_SIDEBAR_WIDTH, dragStartWidth.current + (clientX - dragStartX.current)))
+      document.body.style.userSelect = ''
+      document.body.style.cursor = ''
+      setIsDragging(false)
+      localStorage.setItem('sidebar-width', String(finalWidth))
+    }
+
+    const onMouseUp = (e: MouseEvent) => endDrag(e.clientX)
+    const onTouchEnd = (e: TouchEvent) => endDrag(e.changedTouches[0].clientX)
+
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
+    window.addEventListener('touchend', onTouchEnd)
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
+      document.body.style.userSelect = ''
+      document.body.style.cursor = ''
+    }
+  }, [isDragging])
 
   const handleRename = (id: string) => {
     const conversation = list.find(item => item.id === id)
     if (!conversation) return
-    
+
     setRenamingId(id)
     setRenamingName(conversation.name)
     setRenameDialogOpen(true)
@@ -59,7 +147,8 @@ const Sidebar: FC<ISidebarProps> = ({
       setRenameDialogOpen(false)
       setRenamingId('')
       setRenamingName('')
-    } finally {
+    }
+    finally {
       setIsRenaming(false)
     }
   }
@@ -71,12 +160,11 @@ const Sidebar: FC<ISidebarProps> = ({
       setRenamingName('')
     }
   }
+
   return (
     <div
-      className="shrink-0 flex flex-col overflow-y-auto bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
-      style={{
-        width: 'var(--sidebar-width-pc, 244px)',
-      }}
+      className="relative shrink-0 flex flex-col overflow-y-auto bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
+      style={{ width: sidebarWidth }}
     >
       {list.length < MAX_CONVERSATION_LENTH && (
         <div className="flex flex-shrink-0 p-4 !pb-0">
@@ -90,7 +178,7 @@ const Sidebar: FC<ISidebarProps> = ({
       )}
 
       <nav className="mt-4 flex-1 space-y-1 bg-white dark:bg-gray-900 p-4 !pt-0">
-        {list.map((item, index) => {
+        {list.map((item) => {
           const isCurrent = item.id === currentId
           const ItemIcon
             = isCurrent ? ChatBubbleOvalLeftEllipsisSolidIcon : ChatBubbleOvalLeftEllipsisIcon
@@ -100,9 +188,7 @@ const Sidebar: FC<ISidebarProps> = ({
             <div
               onClick={() => onCurrentIdChange(item.id)}
               onTouchEnd={(e) => {
-                // Fire immediately on touch without waiting for the 300ms click delay
                 const target = e.target as HTMLElement
-                // Don't intercept if the touch was on the menu button
                 if (target.closest('button')) return
                 e.preventDefault()
                 onCurrentIdChange(item.id)
@@ -132,8 +218,8 @@ const Sidebar: FC<ISidebarProps> = ({
                 )}
               </div>
               <div className={classNames(
-                "transition-opacity flex-shrink-0 w-6 h-6",
-                isNewChat ? "invisible pointer-events-none" : "opacity-0 group-hover:opacity-100"
+                'transition-opacity flex-shrink-0 w-6 h-6',
+                isNewChat ? 'invisible pointer-events-none' : 'opacity-0 group-hover:opacity-100',
               )}>
                 <ConversationMenu
                   isPinned={item.is_pinned}
@@ -156,6 +242,19 @@ const Sidebar: FC<ISidebarProps> = ({
         onConfirm={handleRenameConfirm}
         onCancel={handleRenameCancel}
         isLoading={isRenaming}
+      />
+
+      {/* Resize handle – positioned on the right edge, wider tap target on touch */}
+      <div
+        onMouseDown={onMouseDown}
+        onTouchStart={onTouchStart}
+        className={classNames(
+          'absolute top-0 right-0 h-full z-10',
+          'w-1 hover:w-2 active:w-2 cursor-col-resize touch-none',
+          'hover:bg-primary-300 dark:hover:bg-primary-700 transition-all duration-150',
+          isDragging ? 'bg-primary-400 dark:bg-primary-600 w-2' : 'bg-transparent',
+        )}
+        title="Drag to resize"
       />
     </div>
   )

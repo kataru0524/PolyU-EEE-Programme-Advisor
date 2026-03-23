@@ -15,6 +15,8 @@ const translation = {
     configStatusDes: '開始前，你可以修改對話設定',
     configDisabled: '此次對話已套用上次的設定',
     startChat: '開始對話',
+    waitingForAssistantReply: '仍在準備回覆，感謝你的耐心等待。',
+    refreshSuggestedAfterDelay: '等待時間較長，建議重新整理頁面後再試。',
     privacyPolicyLeft: '請細閱由此應用程式開發者提供的',
     privacyPolicyMiddle: '私隱政策',
     privacyPolicyRight: '。',

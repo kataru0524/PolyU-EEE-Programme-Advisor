@@ -118,3 +118,25 @@
 .textArea:focus+div .sendBtn {
   background-image: url(./icons/send-active.svg);
 }
+
+.waitingHint {
+  animation: waitingHintFadeIn 220ms ease-out both;
+  display: inline-block;
+  width: max-content;
+  max-width: min(80vw, 640px);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  z-index: 2;
+}
+
+@keyframes waitingHintFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

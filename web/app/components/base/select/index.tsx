@@ -39,7 +39,6 @@ const Select: FC<ISelectProps> = ({
   bgClassName = 'bg-gray-100',
 }) => {
   const [query, setQuery] = useState('')
-  const [open, setOpen] = useState(false)
 
   const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   useEffect(() => {
@@ -66,69 +65,71 @@ const Select: FC<ISelectProps> = ({
       onChange={(value: Item) => {
         if (!disabled) {
           setSelectedItem(value)
-          setOpen(false)
           onSelect(value)
         }
       }}>
-      <div className={classNames('relative')}>
-        <div className='group text-gray-800 dark:text-gray-200'>
-          {allowSearch
-            ? <Combobox.Input
-              className={`w-full rounded-lg border-0 ${bgClassName} dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 cursor-not-allowed dark:text-gray-200`}
-              onChange={(event) => {
-                if (!disabled) { setQuery(event.target.value) }
-              }}
-              displayValue={(item: Item) => item?.name}
-            />
-            : <Combobox.Button onClick={
-              () => {
-                if (!disabled) { setOpen(!open) }
-              }
-            } className={`flex items-center min-h-9 w-full rounded-lg border-0 ${bgClassName} dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 dark:text-gray-200 whitespace-normal text-left`}>
-              {selectedItem?.name}
-            </Combobox.Button>}
-          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none group-hover:bg-gray-200 dark:group-hover:bg-gray-600" onClick={
-            () => {
-              if (!disabled) { setOpen(!open) }
-            }
-          }>
-            {open ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
-          </Combobox.Button>
-        </div>
+      {({ open }) => (
+        <div className={classNames('relative')}>
+          <div className='group text-gray-800 dark:text-gray-200'>
+            {allowSearch
+              ? <Combobox.Input
+                className={`w-full rounded-lg border-0 ${bgClassName} dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 cursor-not-allowed dark:text-gray-200`}
+                onChange={(event) => {
+                  if (!disabled) { setQuery(event.target.value) }
+                }}
+                displayValue={(item: Item) => item?.name}
+              />
+              : <Combobox.Button className={`flex items-center min-h-9 w-full rounded-lg border-0 ${bgClassName} dark:bg-gray-700 py-1.5 pl-3 pr-10 shadow-sm sm:text-sm sm:leading-6 focus-visible:outline-none focus-visible:bg-gray-200 dark:focus-visible:bg-gray-600 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 dark:text-gray-200 whitespace-normal text-left`}>
+                {selectedItem?.name}
+              </Combobox.Button>}
+            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none group-hover:bg-gray-200 dark:group-hover:bg-gray-600">
+              {open ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
+            </Combobox.Button>
+          </div>
 
-        {filteredItems.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 px-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-800 py-1 text-base shadow-lg border-gray-200 dark:border-gray-800 border-[0.5px] focus:outline-none sm:text-sm">
-            {filteredItems.map((item: Item) => (
-              <Combobox.Option
-                key={item.value}
-                value={item}
-                style={{ paddingTop: 'var(--dropdown-item-padding, 0.5rem)', paddingBottom: 'var(--dropdown-item-padding, 0.5rem)' }}
-                className={({ active }: { active: boolean }) =>
-                  classNames(
-                    'relative cursor-default select-none pl-3 pr-9 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200',
-                    active ? 'bg-gray-100 dark:bg-gray-700' : '',
-                  )
-                }
-              >
-                {({ /* active, */ selected }) => (
-                  <>
-                    <span className={classNames('block whitespace-normal', selected && 'font-normal')}>{item.name}</span>
-                    {selected && (
-                      <span
-                        className={classNames(
-                          'absolute inset-y-0 right-0 flex items-center pr-4 text-gray-700 dark:text-gray-200',
-                        )}
-                      >
-                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    )}
-                  </>
-                )}
-              </Combobox.Option>
-            ))}
-          </Combobox.Options>
-        )}
-      </div>
+          <Transition
+            as={Fragment}
+            show={open && filteredItems.length > 0}
+            enter="transition-all duration-200"
+            enterFrom="opacity-0 -translate-y-2"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition-all duration-200"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 -translate-y-2"
+          >
+            <Combobox.Options className="absolute z-10 mt-1 px-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-gray-800 py-1 text-base shadow-lg border-gray-200 dark:border-gray-800 border-[0.5px] focus:outline-none sm:text-sm">
+              {filteredItems.map((item: Item) => (
+                <Combobox.Option
+                  key={item.value}
+                  value={item}
+                  style={{ paddingTop: 'var(--dropdown-item-padding, 0.5rem)', paddingBottom: 'var(--dropdown-item-padding, 0.5rem)' }}
+                  className={({ active }: { active: boolean }) =>
+                    classNames(
+                      'relative cursor-default select-none pl-3 pr-9 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200',
+                      active ? 'bg-gray-100 dark:bg-gray-700' : '',
+                    )
+                  }
+                >
+                  {({ /* active, */ selected }) => (
+                    <>
+                      <span className={classNames('block whitespace-normal', selected && 'font-normal')}>{item.name}</span>
+                      {selected && (
+                        <span
+                          className={classNames(
+                            'absolute inset-y-0 right-0 flex items-center pr-4 text-gray-700 dark:text-gray-200',
+                          )}
+                        >
+                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      )}
+                    </>
+                  )}
+                </Combobox.Option>
+              ))}
+            </Combobox.Options>
+          </Transition>
+        </div>
+      )}
     </Combobox >
   )
 }

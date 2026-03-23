@@ -209,6 +209,34 @@ a {
   background: #6b7280;
 }
 
+/* Streamdown markdown list rendering in chat bubbles */
+.streamdown-markdown ul,
+.streamdown-markdown ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.streamdown-markdown ul {
+  list-style-type: disc;
+}
+
+.streamdown-markdown ol {
+  list-style-type: decimal;
+}
+
+.streamdown-markdown li {
+  display: list-item;
+  margin: 0.25rem 0;
+}
+
+.streamdown-markdown ul ul {
+  list-style-type: circle;
+}
+
+.streamdown-markdown ul ul ul {
+  list-style-type: square;
+}
+
 /* Font Size Settings */
 .font-size-xs {
   font-size: 14px;

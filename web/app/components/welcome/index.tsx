@@ -70,8 +70,69 @@ const Welcome: FC<IWelcomeProps> = ({
   const [isClient, setIsClient] = useState(false)
   const [currentLocale, setCurrentLocale] = useState<Locale>(getLocaleOnClient())
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false)
+  const [isLanguageDropdownAnimating, setIsLanguageDropdownAnimating] = useState(false)
+  const languageDropdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const panelAnimationResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const panelFoldTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const settingsPanelAnimationDurationMs = 280
+  const [settingsPanelAnimationClass, setSettingsPanelAnimationClass] = useState('')
   const [showWelcomeSectionFade, setShowWelcomeSectionFade] = useState(false)
   const welcomeInfoScrollRef = useRef<HTMLDivElement>(null)
+
+  const openLanguageDropdown = () => {
+    if (languageDropdownTimerRef.current) {
+      clearTimeout(languageDropdownTimerRef.current)
+      languageDropdownTimerRef.current = null
+    }
+    setLanguageDropdownOpen(true)
+    setTimeout(() => setIsLanguageDropdownAnimating(true), 10)
+  }
+
+  const closeLanguageDropdown = () => {
+    setIsLanguageDropdownAnimating(false)
+    languageDropdownTimerRef.current = setTimeout(() => {
+      setLanguageDropdownOpen(false)
+      languageDropdownTimerRef.current = null
+    }, 200)
+  }
+
+  const triggerSettingsPanelAnimation = (animationClass: string) => {
+    if (panelAnimationResetTimerRef.current) {
+      clearTimeout(panelAnimationResetTimerRef.current)
+      panelAnimationResetTimerRef.current = null
+    }
+
+    setSettingsPanelAnimationClass('')
+    requestAnimationFrame(() => {
+      setSettingsPanelAnimationClass(animationClass)
+    })
+
+    panelAnimationResetTimerRef.current = setTimeout(() => {
+      setSettingsPanelAnimationClass('')
+      panelAnimationResetTimerRef.current = null
+    }, settingsPanelAnimationDurationMs + 80)
+  }
+
+  const openSettingsPanel = () => {
+    if (panelFoldTimerRef.current) {
+      clearTimeout(panelFoldTimerRef.current)
+      panelFoldTimerRef.current = null
+    }
+    setIsFold(false)
+    triggerSettingsPanelAnimation(s.settingsPanelSlideDown)
+  }
+
+  const closeSettingsPanel = () => {
+    if (panelFoldTimerRef.current) {
+      clearTimeout(panelFoldTimerRef.current)
+      panelFoldTimerRef.current = null
+    }
+    triggerSettingsPanelAnimation(s.settingsPanelSlideUp)
+    panelFoldTimerRef.current = setTimeout(() => {
+      setIsFold(true)
+      panelFoldTimerRef.current = null
+    }, settingsPanelAnimationDurationMs)
+  }
 
   const handleRename = () => {
     setRenameDialogOpen(true)
@@ -236,14 +297,14 @@ const Welcome: FC<IWelcomeProps> = ({
   }, [])
 
   const handleCloseWelcomePopup = () => {
-    setLanguageDropdownOpen(false)
+    closeLanguageDropdown()
     setShowWelcomePopup(false)
   }
 
   const handlePopupLanguageChange = (locale: Locale) => {
     setCurrentLocale(locale)
     setLocaleOnClient(locale, true)
-    setLanguageDropdownOpen(false)
+    closeLanguageDropdown()
   }
 
   const handleDontShowAgainToggle = () => {
@@ -302,6 +363,17 @@ const Welcome: FC<IWelcomeProps> = ({
     }
   }, [showWelcomePopupRender])
 
+  useEffect(() => {
+    return () => {
+      if (languageDropdownTimerRef.current)
+        clearTimeout(languageDropdownTimerRef.current)
+      if (panelAnimationResetTimerRef.current)
+        clearTimeout(panelAnimationResetTimerRef.current)
+      if (panelFoldTimerRef.current)
+        clearTimeout(panelFoldTimerRef.current)
+    }
+  }, [])
+
   const { notify } = Toast
   const logError = (message: string) => {
     notify({ type: 'error', message, duration: 3000 })
@@ -312,8 +384,8 @@ const Welcome: FC<IWelcomeProps> = ({
     const displayName = conversationId === '-1' ? t('app.chat.newChat') : conversationName
     
     return (
-      <div className='sticky top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:h-12 tablet:h-16 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible shadow-[0_3px_8px_rgba(15,23,42,0.04)] dark:shadow-[0_3px_8px_rgba(0,0,0,0.2)]'>
-        <div className='flex items-center gap-2'>
+      <div className='sticky top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 dark:border-gray-800 mobile:min-h-12 tablet:min-h-16 mobile:py-2 tablet:py-3 px-8 bg-white dark:bg-gray-950 group z-10 overflow-visible shadow-[0_3px_8px_rgba(15,23,42,0.04)] dark:shadow-[0_3px_8px_rgba(0,0,0,0.2)]'>
+        <div className='flex items-center gap-2 min-w-0'>
           <div className='text-gray-900 dark:text-gray-100'>{displayName}</div>
           {conversationId && conversationId !== '-1' && (
             <ConversationMenu
@@ -522,14 +594,14 @@ const Welcome: FC<IWelcomeProps> = ({
           if (!canChat()) { return }
 
           onInputsChange(inputs)
-          setIsFold(true)
+          closeSettingsPanel()
         }}
         onCancel={() => {
           const reverted = { ...savedInputs }
           if ('language' in reverted)
             reverted.language = getLanguageName(getLocaleOnClient())
           setInputs(reverted)
-          setIsFold(true)
+          closeSettingsPanel()
         }}
       />
     )
@@ -556,6 +628,7 @@ const Welcome: FC<IWelcomeProps> = ({
     return (
       <TemplateVarPanel
         isFold={isFold}
+        className={settingsPanelAnimationClass}
         header={
           <>
             <PanelTitle
@@ -566,7 +639,7 @@ const Welcome: FC<IWelcomeProps> = ({
             {isFold && (
               <div className='flex items-center justify-between mt-3 border-t border-indigo-100 pt-4 text-xs text-indigo-600'>
                 <span className='text-gray-700 dark:text-gray-300'>{t('app.chat.configStatusDes')}</span>
-                <EditBtn onClick={() => setIsFold(false)} />
+                <EditBtn onClick={openSettingsPanel} />
               </div>
             )}
           </>
@@ -584,13 +657,14 @@ const Welcome: FC<IWelcomeProps> = ({
     return (
       <TemplateVarPanel
         isFold={isFold}
+        className={settingsPanelAnimationClass}
         header={
           <div className='flex items-center justify-between text-indigo-600'>
             <PanelTitle
               title={!isFold ? t('app.chat.privatePromptConfigTitle') : t('app.chat.configStatusDes')}
             />
             {isFold && (
-              <EditBtn onClick={() => setIsFold(false)} />
+              <EditBtn onClick={openSettingsPanel} />
             )}
           </div>
         }
@@ -666,7 +740,12 @@ const Welcome: FC<IWelcomeProps> = ({
                   {t('common.settings.language', { defaultValue: 'Language' })}
                 </div>
                 <button
-                  onClick={() => setLanguageDropdownOpen(prev => !prev)}
+                  onClick={() => {
+                    if (languageDropdownOpen)
+                      closeLanguageDropdown()
+                    else
+                      openLanguageDropdown()
+                  }}
                   className='w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-primary-600 dark:focus:ring-primary-500 transition-all hover:border-gray-300 dark:hover:border-gray-600'
                 >
                   <span>{languageOptions.find(l => l.code === currentLocale)?.name}</span>
@@ -680,7 +759,7 @@ const Welcome: FC<IWelcomeProps> = ({
                   </svg>
                 </button>
                 {languageDropdownOpen && (
-                  <div className='absolute z-10 mt-2 w-full py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-64 overflow-auto'>
+                  <div className={`absolute z-10 mt-2 w-full py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-64 overflow-auto transition-all duration-200 ${isLanguageDropdownAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
                     {languageOptions.map(lang => (
                       <button
                         key={lang.code}
