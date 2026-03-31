@@ -7,17 +7,12 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/jina:0.0.16@8466270487ebad423f555bee45e7146cef8f5ab9fb9d1869f224931f5f3ae4f9
+    marketplace_plugin_unique_identifier: langgenius/jina:0.0.17@8f1b7439dbce12f422f4608fe7df18d0e7f1cf7b14c7aacb1ae1d12516b3a60e
     version: null
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/jina_datasource:0.0.5@75942f5bbde870ad28e0345ff5ebf54ebd3aec63f0e66344ef76b88cf06b85c3
-    version: null
-- current_identifier: null
-  type: marketplace
-  value:
-    marketplace_plugin_unique_identifier: langgenius/openai:0.2.8@aae2be0913b8c6f0b80cff58e08d7a8b4c214569b41778413fcaea204561ff16
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.2@d70fb969e7c79719bee96573a8f4c9dc4ffd984f4171b9184cc3869c886af45d
     version: null
 - current_identifier: null
   type: marketplace
@@ -27,7 +22,7 @@ dependencies:
 kind: rag_pipeline
 rag_pipeline:
   description: ''
-  icon: 🏫
+  icon: 📝
   icon_background: '#FFEAD5'
   icon_type: emoji
   icon_url: null
@@ -53,47 +48,12 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: datasource
-        targetType: variable-aggregator
-      id: 1752491761974-source-1752565435219-target
-      source: '1752491761974'
-      sourceHandle: source
-      target: '1752565435219'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: datasource
-        targetType: variable-aggregator
-      id: 1752565402678-source-1752565435219-target
-      source: '1752565402678'
-      sourceHandle: source
-      target: '1752565435219'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: llm
         targetType: tool
       id: 1773036122475-source-1752490343805-target
       source: '1773036122475'
       sourceHandle: source
       target: '1752490343805'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: variable-aggregator
-        targetType: tool
-      id: 1752565435219-source-1773036254895-target
-      source: '1752565435219'
-      sourceHandle: source
-      target: '1773036254895'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -112,31 +72,9 @@ workflow:
     - data:
         isInLoop: false
         sourceType: datasource
-        targetType: variable-aggregator
-      id: 1752491761974-source-17730371576250-target
-      source: '1752491761974'
-      sourceHandle: source
-      target: '17730371576250'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: datasource
-        targetType: variable-aggregator
-      id: 1752565402678-source-17730371576250-target
-      source: '1752565402678'
-      sourceHandle: source
-      target: '17730371576250'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: variable-aggregator
         targetType: tool
-      id: 17730371576250-source-1773036254895-target
-      source: '17730371576250'
+      id: 1752565402678-source-1773036254895-target
+      source: '1752565402678'
       sourceHandle: source
       target: '1773036254895'
       targetHandle: target
@@ -156,7 +94,7 @@ workflow:
           reranking_enable: true
           reranking_mode: reranking_model
           reranking_model:
-            reranking_model_name: jina-reranker-v3
+            reranking_model_name: jina-reranker-m0
             reranking_provider_name: langgenius/jina/jina
           score_threshold: 0
           score_threshold_enabled: false
@@ -169,6 +107,7 @@ workflow:
               embedding_model_name: text-embedding-3-large
               embedding_provider_name: langgenius/openai/openai
               vector_weight: 0.7
+            weight_type: null
         selected: false
         summary_index_setting:
           enable: null
@@ -484,46 +423,7 @@ workflow:
       positionAbsolute:
         x: 2529.974730224641
         y: 281.3910724383104
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        datasource_configurations: {}
-        datasource_label: Jina Reader
-        datasource_name: jina_reader
-        datasource_parameters:
-          crawl_sub_pages:
-            type: mixed
-            value: '{{#rag.1752491761974.jina_crawl_sub_pages#}}'
-          limit:
-            type: variable
-            value:
-            - rag
-            - '1752491761974'
-            - jina_limit
-          url:
-            type: mixed
-            value: '{{#rag.1752491761974.jina_url#}}'
-          use_sitemap:
-            type: mixed
-            value: '{{#rag.1752491761974.jina_use_sitemap#}}'
-        plugin_id: langgenius/jina_datasource
-        provider_name: jinareader
-        provider_type: website_crawl
-        selected: false
-        title: Jina Reader
-        type: datasource
-      height: 52
-      id: '1752491761974'
-      position:
-        x: 1067.7526055798794
-        y: 281.3910724383104
-      positionAbsolute:
-        x: 1067.7526055798794
-        y: 281.3910724383104
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -555,8 +455,11 @@ workflow:
             - '1752565402678'
             - firecrawl_max_depth
           only_main_content:
-            type: mixed
-            value: '{{#rag.1752565402678.firecrawl_extract_main_content#}}'
+            type: variable
+            value:
+            - rag
+            - '1752565402678'
+            - firecrawl_extract_main_content
           url:
             type: mixed
             value: '{{#rag.1752565402678.firecrawl_url#}}'
@@ -569,33 +472,10 @@ workflow:
       height: 52
       id: '1752565402678'
       position:
-        x: 1067.7526055798794
-        y: 442.37576583769214
-      positionAbsolute:
-        x: 1067.7526055798794
-        y: 442.37576583769214
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
-    - data:
-        output_type: string
-        selected: false
-        title: Content Aggregator
-        type: variable-aggregator
-        variables:
-        - - '1752491761974'
-          - content
-        - - '1752565402678'
-          - content
-      height: 135
-      id: '1752565435219'
-      position:
-        x: 1505.4306671642219
+        x: 1513.452099765398
         y: 281.3910724383104
       positionAbsolute:
-        x: 1505.4306671642219
+        x: 1513.452099765398
         y: 281.3910724383104
       selected: false
       sourcePosition: right
@@ -606,8 +486,8 @@ workflow:
         context:
           enabled: true
           variable_selector:
-          - '1752565435219'
-          - output
+          - '1752565402678'
+          - content
         model:
           completion_params: {}
           mode: chat
@@ -635,7 +515,7 @@ workflow:
 
             1) Always start with a Source section with:
 
-               - Source URL: {{#17730371576250.output#}}
+               - Source URL: /
 
                - As-of date: {{#1773036254895.text#}}
 
@@ -899,96 +779,17 @@ workflow:
       targetPosition: left
       type: custom
       width: 242
-    - data:
-        output_type: string
-        selected: false
-        title: URL Aggregator
-        type: variable-aggregator
-        variables:
-        - - '1752491761974'
-          - source_url
-        - - '1752565402678'
-          - source_url
-      height: 135
-      id: '17730371576250'
-      position:
-        x: 1505.4306671642219
-        y: 442.37576583769214
-      positionAbsolute:
-        x: 1505.4306671642219
-        y: 442.37576583769214
-      selected: true
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 242
     viewport:
-      x: -828.6432950323165
-      y: 415.6886046274427
-      zoom: 0.9539595505475595
+      x: -1027.4447417646163
+      y: 200.17855410375483
+      zoom: 0.7453551933994611
   rag_pipeline_variables:
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
-    belong_to_node_id: '1752491761974'
-    default_value: null
-    label: URL
-    max_length: 256
-    options: []
-    placeholder: https://docs.dify.ai/en/
-    required: true
-    tooltips: null
-    type: text-input
-    unit: null
-    variable: jina_url
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
-    belong_to_node_id: '1752491761974'
-    default_value: 10
-    label: Limit
-    max_length: 48
-    options: []
-    placeholder: null
-    required: true
-    tooltips: null
-    type: number
-    unit: null
-    variable: jina_limit
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
-    belong_to_node_id: '1752491761974'
-    default_value: null
-    label: Crawl sub-pages
-    max_length: 48
-    options: []
-    placeholder: null
-    required: false
-    tooltips: null
-    type: checkbox
-    unit: null
-    variable: jina_crawl_sub_pages
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
-    belong_to_node_id: '1752491761974'
-    default_value: null
-    label: Use sitemap
-    max_length: 48
-    options: []
-    placeholder: null
-    required: false
-    tooltips: Follow the sitemap to crawl the site. If not, Jina Reader will crawl
-      iteratively based on page relevance, yielding fewer but higher-quality pages.
-    type: checkbox
-    unit: null
-    variable: jina_use_sitemap
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
     default_value: null
+    description: ''
     label: URL
     max_length: 256
     options: []
@@ -998,11 +799,12 @@ workflow:
     type: text-input
     unit: null
     variable: firecrawl_url
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
     default_value: true
+    description: ''
     label: Crawl sub-pages
     max_length: 48
     options: []
@@ -1012,25 +814,27 @@ workflow:
     type: checkbox
     unit: null
     variable: firecrawl_crawl_sub_pages
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
-    default_value: 10
+    default_value: 50
+    description: ''
     label: Limit
     max_length: 48
     options: []
-    placeholder: null
+    placeholder: ''
     required: true
-    tooltips: null
+    tooltips: ''
     type: number
-    unit: null
+    unit: ''
     variable: firecrawl_limit
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
-    default_value: null
+    default_value: 10
+    description: ''
     label: Max depth
     max_length: 48
     options: []
@@ -1040,13 +844,14 @@ workflow:
       the page of the entered url, depth 1 scrapes the url and everything after enteredURL
       + one /, and so on.
     type: number
-    unit: null
+    unit: ''
     variable: firecrawl_max_depth
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
     default_value: null
+    description: ''
     label: Exclude paths
     max_length: 256
     options: []
@@ -1056,11 +861,12 @@ workflow:
     type: text-input
     unit: null
     variable: firecrawl_exclude_paths
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
     default_value: null
+    description: ''
     label: Include only paths
     max_length: 256
     options: []
@@ -1070,25 +876,27 @@ workflow:
     type: text-input
     unit: null
     variable: firecrawl_include_only_paths
-  - allow_file_extension: null
-    allow_file_upload_methods: null
-    allowed_file_types: null
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
     belong_to_node_id: '1752565402678'
-    default_value: null
-    label: firecrawl_extract_main_content
+    default_value: true
+    description: ''
+    label: Extract only main content
     max_length: 48
     options: []
-    placeholder: null
+    placeholder: ''
     required: false
-    tooltips: null
+    tooltips: ''
     type: checkbox
-    unit: null
+    unit: ''
     variable: firecrawl_extract_main_content
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: \n\n
+    description: ''
     label: delimiter
     max_length: 100
     options: []
@@ -1100,11 +908,12 @@ workflow:
     type: text-input
     unit: null
     variable: delimiter
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: 1024
+    description: ''
     label: Maximum chunk length
     max_length: 48
     options: []
@@ -1114,11 +923,12 @@ workflow:
     type: number
     unit: characters
     variable: max_chunk_length
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: \n
+    description: ''
     label: Child delimiter
     max_length: 199
     options: []
@@ -1130,11 +940,12 @@ workflow:
     type: text-input
     unit: null
     variable: child_delimiter
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: 512
+    description: ''
     label: Child max chunk length
     max_length: 48
     options: []
@@ -1144,11 +955,12 @@ workflow:
     type: number
     unit: characters
     variable: child_max_chunk_length
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: paragraph
+    description: ''
     label: Parent mode
     max_length: 48
     options:
@@ -1160,11 +972,12 @@ workflow:
     type: select
     unit: null
     variable: parent_mode
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: null
+    description: ''
     label: Replace consecutive spaces, newlines and tabs
     max_length: 48
     options: []
@@ -1174,11 +987,12 @@ workflow:
     type: checkbox
     unit: null
     variable: replace_consecutive_spaces
-  - allow_file_extension: null
-    allow_file_upload_methods: null
+  - allowed_file_extensions: []
     allowed_file_types: null
+    allowed_file_upload_methods: []
     belong_to_node_id: shared
     default_value: null
+    description: ''
     label: Delete all URLs and email addresses
     max_length: 48
     options: []

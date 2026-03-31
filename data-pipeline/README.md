@@ -54,6 +54,10 @@ H2 sections exceeding `MAX_H2_CHARS` (2500 chars) are split into `(Part 1)`, `(P
 ### Stage 6 — Statistics Output
 Computes section sizes and character distributions, writes `_processed_stats.txt`. The key metric is **`max_h2_after_processing`** — confirms splitting kept every final chunk within Dify's indexing limits.
 
+![Statistical Validation Report Sample](prd_stats.png)
+
+*Sample output showing `max_h2_after_processing` values for each processed document. Use these to calibrate `MAX_H2_CHARS` and the parent chunk size in Dify.*
+
 ## Directory Contract
 
 | Path | Description |

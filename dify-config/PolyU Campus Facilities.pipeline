@@ -1,0 +1,838 @@
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: bowenliang123/md_exporter:3.6.9@3f027d63e80b44d5d5a9f706871afaef37905b8f8a89a2d152dc530211a8acb1
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/anthropic:0.3.6@980c45ee0dfe26b53fb9e3bc451c2f06fcb36dbadfe773c94b7f223f1602c9b8
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/firecrawl_datasource:0.2.5@d401faf8406ca001d1e13c44dacd577ecb15388d63cb1961ac7bac1de0261429
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/jina:0.0.17@8f1b7439dbce12f422f4608fe7df18d0e7f1cf7b14c7aacb1ae1d12516b3a60e
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.3.2@d70fb969e7c79719bee96573a8f4c9dc4ffd984f4171b9184cc3869c886af45d
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/qa_chunk:0.0.8@1fed9644646bdd48792cdf5a1d559a3df336bd3a8edb0807227499fb56dce3af
+    version: null
+kind: rag_pipeline
+rag_pipeline:
+  description: ''
+  icon: 🏫
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  icon_url: null
+  name: PolyU Campus Facilities
+version: 0.1.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features: {}
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: knowledge-index
+      id: 1774203169527-source-knowledgeBase-target
+      selected: false
+      source: '1774203169527'
+      sourceHandle: source
+      target: knowledgeBase
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1774203186586-source-1774203169527-target
+      selected: false
+      source: '1774203186586'
+      sourceHandle: source
+      target: '1774203169527'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: 1774203654631-source-1774203186586-target
+      selected: false
+      source: '1774203654631'
+      sourceHandle: source
+      target: '1774203186586'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1774203708328-source-1774203654631-target
+      selected: false
+      source: '1774203708328'
+      sourceHandle: source
+      target: '1774203654631'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: datasource
+        targetType: tool
+      id: 1774203856189-source-1774203708328-target
+      source: '1774203856189'
+      sourceHandle: source
+      target: '1774203708328'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        chunk_structure: qa_model
+        embedding_model: text-embedding-3-large
+        embedding_model_provider: langgenius/openai/openai
+        index_chunk_variable_selector:
+        - '1774203169527'
+        - result
+        indexing_technique: high_quality
+        keyword_number: 10
+        retrieval_model:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            reranking_model_name: jina-reranker-m0
+            reranking_provider_name: langgenius/jina/jina
+          score_threshold: 0
+          score_threshold_enabled: false
+          search_method: hybrid_search
+          top_k: 5
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-3-large
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 0.7
+            weight_type: null
+        selected: false
+        summary_index_setting:
+          enable: null
+          model_name: null
+          model_provider_name: null
+          summary_prompt: null
+        title: Knowledge Base
+        type: knowledge-index
+      height: 114
+      id: knowledgeBase
+      position:
+        x: 2080
+        y: 282
+      positionAbsolute:
+        x: 2080
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The file you want to extract QA from.
+            ja_JP: The file you want to extract QA from.
+            pt_BR: The file you want to extract QA from.
+            zh_Hans: 你想要提取 QA 的文件。
+          label:
+            en_US: Input File
+            ja_JP: Input File
+            pt_BR: Input File
+            zh_Hans: 输入文件
+          llm_description: The file you want to extract QA from.
+          max: null
+          min: null
+          name: input_file
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: 0
+          form: llm
+          human_description:
+            en_US: Column number for question.
+            ja_JP: Column number for question.
+            pt_BR: Column number for question.
+            zh_Hans: 问题所在的列。
+          label:
+            en_US: Column number for question
+            ja_JP: Column number for question
+            pt_BR: Column number for question
+            zh_Hans: 问题所在的列
+          llm_description: The column number for question, the format of the column
+            number must be an integer.
+          max: null
+          min: null
+          name: question_column
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: 1
+          form: llm
+          human_description:
+            en_US: Column number for answer.
+            ja_JP: Column number for answer.
+            pt_BR: Column number for answer.
+            zh_Hans: 答案所在的列。
+          label:
+            en_US: Column number for answer
+            ja_JP: Column number for answer
+            pt_BR: Column number for answer
+            zh_Hans: 答案所在的列
+          llm_description: The column number for answer, the format of the column
+            number must be an integer.
+          max: null
+          min: null
+          name: answer_column
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: number
+        params:
+          answer_column: ''
+          input_file: ''
+          question_column: ''
+        plugin_id: langgenius/qa_chunk
+        plugin_unique_identifier: langgenius/qa_chunk:0.0.9@7fa9a1904507c80af2f9cf9604e7699c96095654be4b2586dcc9b6280752bc6a
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=9dc1ad0c-858d-4279-a8f6-961cb6dd611f&filename=6a4c7b802bbc77ce2bab6433182e1080c1ee095b5528dc4331712ffd695dabb0.svg
+        provider_id: langgenius/qa_chunk/qa_chunk
+        provider_name: langgenius/qa_chunk/qa_chunk
+        provider_type: builtin
+        retry_config:
+          max_retries: 5
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: QA Chunk
+        tool_configurations: {}
+        tool_description: A tool for QA chunking mode.
+        tool_label: QA Chunk
+        tool_name: qa_chunk
+        tool_node_version: '2'
+        tool_parameters:
+          answer_column:
+            type: constant
+            value: 1
+          input_file:
+            type: variable
+            value:
+            - '1774203186586'
+            - files
+          question_column:
+            type: constant
+            value: 0
+        type: tool
+      height: 81
+      id: '1774203169527'
+      position:
+        x: 1780
+        y: 282
+      positionAbsolute:
+        x: 1780
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Input text of single Markdown table
+            ja_JP: Input text of single Markdown table
+            pt_BR: Input text of single Markdown table
+            zh_Hans: 单个Markdown格式文本
+          label:
+            en_US: Markdown table text
+            ja_JP: Markdown table text
+            pt_BR: Markdown table text
+            zh_Hans: Markdown 表格文本
+          llm_description: ''
+          max: null
+          min: null
+          name: md_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Optional custom output file name, and the filename suffix is not
+              required.
+            ja_JP: Optional custom output file name, and the filename suffix is not
+              required.
+            pt_BR: Optional custom output file name, and the filename suffix is not
+              required.
+            zh_Hans: 可选的自定义输出文件名，后缀名无需指定
+          label:
+            en_US: Output Filename
+            ja_JP: Output Filename
+            pt_BR: Output Filename
+            zh_Hans: 输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          md_text: ''
+          output_filename: ''
+        plugin_id: bowenliang123/md_exporter
+        plugin_unique_identifier: bowenliang123/md_exporter:2.0.0@13e1aca1995328e41c080ff9f7f6d898df60ff74a3f4d98d6de4b18ab5b92c2e
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/plugin/icon?tenant_id=9dc1ad0c-858d-4279-a8f6-961cb6dd611f&filename=f0bad95cda1671b4e49f0e05df6122ef9ec5d554e138f128795d11d3806c00ef.svg
+        provider_id: bowenliang123/md_exporter/md_exporter
+        provider_name: bowenliang123/md_exporter/md_exporter
+        provider_type: builtin
+        selected: false
+        title: Markdown to CSV file
+        tool_configurations: {}
+        tool_description: Generate CSV file from Markdown tables
+        tool_label: Markdown to CSV file
+        tool_name: md_to_csv
+        tool_node_version: '2'
+        tool_parameters:
+          md_text:
+            type: mixed
+            value: '{{#1774203654631.text#}}'
+          output_filename:
+            type: mixed
+            value: null
+        type: tool
+      height: 52
+      id: '1774203186586'
+      position:
+        x: 1480
+        y: 282
+      positionAbsolute:
+        x: 1480
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1774203856189'
+          - content
+        model:
+          completion_params: {}
+          mode: chat
+          name: claude-sonnet-4-20250514
+          provider: langgenius/anthropic/anthropic
+        prompt_template:
+        - id: f30216e7-b889-45c8-b4d4-6fde6f94f661
+          role: system
+          text: 'You are ingesting a PolyU official webpage regarding campus facilities.
+            Based on it, generate a list of Q&A pairs from the prospective students''
+            perspective to help them get familiar with the facilities. Present the
+            output as a Markdown table, where the first column 0 is Question, and
+            the second column 1 is Answer. Ensure that the table format can be easily
+            converted into a CSV file.
+
+            Example Output Format:
+
+            | 0 | 1 |
+
+            |---|---|
+
+            | What is the main purpose of the document? | The document explains the
+            company''s new product launch strategy. ![image](https://cloud.dify.ai/files/xxxxxxx)
+            |
+
+            | When will the product be launched? | The product will be launched in
+            Q3 of this year. |
+
+
+            Instructions:
+
+            In the first two rows, record the Source URL ({{#1774203856189.source_url#}})
+            and As-of Date ({{#1774203708328.text#}}).
+
+            Read and understand the input text.
+
+            Extract key information and generate meaningful questions prospective
+            students are likely to ask, along with corresponding answers.
+
+            Preserve any ![image] URLs from the input text in the answers.
+
+            Keep questions concise and specific.
+
+            Ensure answers are accurate, self-contained, and clear.
+
+            Output only the Markdown table without any extra explanation.
+
+            Use ONLY the provided page content. Do NOT infer or invent. Keep precise
+            link, date, time, amount, and so on. If information is missing, ignore
+            it (do not guess).
+
+            Ignore the virtual assistant and system warnings, such as Cookies and
+            browser support.'
+        - id: 63f7b3bf-3e2b-4c37-a011-df92652eb9a5
+          role: user
+          text: '{{#context#}}'
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1774203654631'
+      position:
+        x: 1180
+        y: 282
+      positionAbsolute:
+        x: 1180
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: '%Y-%m-%d %H:%M:%S'
+          form: form
+          human_description:
+            en_US: Time format in strftime standard.
+            ja_JP: Time format in strftime standard.
+            pt_BR: Time format in strftime standard.
+            zh_Hans: strftime 标准的时间格式。
+          label:
+            en_US: Format
+            ja_JP: Format
+            pt_BR: Format
+            zh_Hans: 格式
+          llm_description: null
+          max: null
+          min: null
+          name: format
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: UTC
+          form: form
+          human_description:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          label:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          llm_description: null
+          max: null
+          min: null
+          name: timezone
+          options:
+          - icon: null
+            label:
+              en_US: UTC
+              ja_JP: UTC
+              pt_BR: UTC
+              zh_Hans: UTC
+            value: UTC
+          - icon: null
+            label:
+              en_US: America/New_York
+              ja_JP: America/New_York
+              pt_BR: America/New_York
+              zh_Hans: 美洲/纽约
+            value: America/New_York
+          - icon: null
+            label:
+              en_US: America/Los_Angeles
+              ja_JP: America/Los_Angeles
+              pt_BR: America/Los_Angeles
+              zh_Hans: 美洲/洛杉矶
+            value: America/Los_Angeles
+          - icon: null
+            label:
+              en_US: America/Chicago
+              ja_JP: America/Chicago
+              pt_BR: America/Chicago
+              zh_Hans: 美洲/芝加哥
+            value: America/Chicago
+          - icon: null
+            label:
+              en_US: America/Sao_Paulo
+              ja_JP: America/Sao_Paulo
+              pt_BR: América/São Paulo
+              zh_Hans: 美洲/圣保罗
+            value: America/Sao_Paulo
+          - icon: null
+            label:
+              en_US: Asia/Shanghai
+              ja_JP: Asia/Shanghai
+              pt_BR: Asia/Shanghai
+              zh_Hans: 亚洲/上海
+            value: Asia/Shanghai
+          - icon: null
+            label:
+              en_US: Asia/Ho_Chi_Minh
+              ja_JP: Asia/Ho_Chi_Minh
+              pt_BR: Ásia/Ho Chi Minh
+              zh_Hans: 亚洲/胡志明市
+            value: Asia/Ho_Chi_Minh
+          - icon: null
+            label:
+              en_US: Asia/Tokyo
+              ja_JP: Asia/Tokyo
+              pt_BR: Asia/Tokyo
+              zh_Hans: 亚洲/东京
+            value: Asia/Tokyo
+          - icon: null
+            label:
+              en_US: Asia/Dubai
+              ja_JP: Asia/Dubai
+              pt_BR: Asia/Dubai
+              zh_Hans: 亚洲/迪拜
+            value: Asia/Dubai
+          - icon: null
+            label:
+              en_US: Asia/Kolkata
+              ja_JP: Asia/Kolkata
+              pt_BR: Asia/Kolkata
+              zh_Hans: 亚洲/加尔各答
+            value: Asia/Kolkata
+          - icon: null
+            label:
+              en_US: Asia/Seoul
+              ja_JP: Asia/Seoul
+              pt_BR: Asia/Seoul
+              zh_Hans: 亚洲/首尔
+            value: Asia/Seoul
+          - icon: null
+            label:
+              en_US: Asia/Singapore
+              ja_JP: Asia/Singapore
+              pt_BR: Asia/Singapore
+              zh_Hans: 亚洲/新加坡
+            value: Asia/Singapore
+          - icon: null
+            label:
+              en_US: Europe/London
+              ja_JP: Europe/London
+              pt_BR: Europe/London
+              zh_Hans: 欧洲/伦敦
+            value: Europe/London
+          - icon: null
+            label:
+              en_US: Europe/Berlin
+              ja_JP: Europe/Berlin
+              pt_BR: Europe/Berlin
+              zh_Hans: 欧洲/柏林
+            value: Europe/Berlin
+          - icon: null
+            label:
+              en_US: Europe/Moscow
+              ja_JP: Europe/Moscow
+              pt_BR: Europe/Moscow
+              zh_Hans: 欧洲/莫斯科
+            value: Europe/Moscow
+          - icon: null
+            label:
+              en_US: Australia/Sydney
+              ja_JP: Australia/Sydney
+              pt_BR: Australia/Sydney
+              zh_Hans: 澳大利亚/悉尼
+            value: Australia/Sydney
+          - icon: null
+            label:
+              en_US: Pacific/Auckland
+              ja_JP: Pacific/Auckland
+              pt_BR: Pacific/Auckland
+              zh_Hans: 太平洋/奥克兰
+            value: Pacific/Auckland
+          - icon: null
+            label:
+              en_US: Africa/Cairo
+              ja_JP: Africa/Cairo
+              pt_BR: Africa/Cairo
+              zh_Hans: 非洲/开罗
+            value: Africa/Cairo
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          format: ''
+          timezone: ''
+        plugin_id: null
+        plugin_unique_identifier: ''
+        provider_icon: https://cloud.dify.ai/console/api/workspaces/current/tool-provider/builtin/time/icon
+        provider_id: time
+        provider_name: time
+        provider_type: builtin
+        selected: false
+        title: Current Time
+        tool_configurations:
+          format:
+            type: mixed
+            value: '%d %b %Y'
+          timezone:
+            type: constant
+            value: Asia/Shanghai
+        tool_description: A tool for getting the current time.
+        tool_label: Current Time
+        tool_name: current_time
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 114
+      id: '1774203708328'
+      position:
+        x: 880
+        y: 282
+      positionAbsolute:
+        x: 880
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        datasource_configurations: {}
+        datasource_label: Firecrawl
+        datasource_name: crawl
+        datasource_parameters:
+          crawl_subpages:
+            type: variable
+            value:
+            - rag
+            - '1774203856189'
+            - crawl_subpages
+          exclude_paths:
+            type: mixed
+            value: '{{#rag.1774203856189.exclude_paths#}}'
+          include_paths:
+            type: mixed
+            value: '{{#rag.1774203856189.include_only_paths#}}'
+          limit:
+            type: variable
+            value:
+            - rag
+            - '1774203856189'
+            - limit
+          max_depth:
+            type: variable
+            value:
+            - rag
+            - '1774203856189'
+            - max_depth
+          only_main_content:
+            type: variable
+            value:
+            - rag
+            - '1774203856189'
+            - extract_main_content
+          url:
+            type: mixed
+            value: '{{#rag.1774203856189.start_url#}}'
+        plugin_id: langgenius/firecrawl_datasource
+        plugin_unique_identifier: langgenius/firecrawl_datasource:0.2.5@d401faf8406ca001d1e13c44dacd577ecb15388d63cb1961ac7bac1de0261429
+        provider_name: firecrawl
+        provider_type: website_crawl
+        selected: false
+        title: Firecrawl
+        type: datasource
+      height: 52
+      id: '1774203856189'
+      position:
+        x: 580
+        y: 282
+      positionAbsolute:
+        x: 580
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -198.8837760446429
+      y: 487.5222171380582
+      zoom: 0.6887250231915688
+  rag_pipeline_variables:
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: ''
+    description: ''
+    label: Start URL
+    max_length: 256
+    options: []
+    placeholder: https://docs.dify.ai/en/
+    required: true
+    tooltips: ''
+    type: text-input
+    unit: ''
+    variable: start_url
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: true
+    description: ''
+    label: Crawl Subpages
+    max_length: 0
+    options: []
+    placeholder: ''
+    required: false
+    tooltips: ''
+    type: checkbox
+    unit: ''
+    variable: crawl_subpages
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: 50
+    description: ''
+    label: Limit
+    max_length: 0
+    options: []
+    placeholder: ''
+    required: true
+    tooltips: ''
+    type: number
+    unit: ''
+    variable: limit
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: 10
+    description: ''
+    label: Max depth
+    max_length: 0
+    options: []
+    placeholder: ''
+    required: false
+    tooltips: Maximum depth to crawl relative to the entered URL. Depth 0 just scrapes
+      the page of the entered url, depth 1 scrapes the url and everything after enteredURL
+      + one /, and so on.
+    type: number
+    unit: ''
+    variable: max_depth
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: ''
+    description: ''
+    label: Exclude Paths
+    max_length: 256
+    options: []
+    placeholder: blog/*, /about/*
+    required: false
+    tooltips: ''
+    type: text-input
+    unit: ''
+    variable: exclude_paths
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: ''
+    description: ''
+    label: Include only paths
+    max_length: 256
+    options: []
+    placeholder: articles/*
+    required: false
+    tooltips: ''
+    type: text-input
+    unit: ''
+    variable: include_only_paths
+  - allowed_file_extensions: []
+    allowed_file_types: []
+    allowed_file_upload_methods: []
+    belong_to_node_id: '1774203856189'
+    default_value: true
+    description: ''
+    label: Extract only main content
+    max_length: 0
+    options: []
+    placeholder: ''
+    required: false
+    tooltips: ''
+    type: checkbox
+    unit: ''
+    variable: extract_main_content

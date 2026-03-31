@@ -20,6 +20,14 @@ This folder contains supervised chat data and helper scripts used to shape assis
 - **Outcome:** Validation evaluation results were below expectations. The fine-tuned checkpoint was judged insufficient in quality when assessed on the validation split.
 - **Final decision:** The full 100-example dataset (`fine_tune_data.jsonl`) was used for the production fine-tuning run without a held-out validation set, prioritizing dataset coverage over evaluation ceremony.
 
+The production fine-tuning run completed over 300 steps with clear convergence:
+
+![Training Loss](train_loss.png)
+
+![Training Accuracy](train_accuracy.png)
+
+Training loss declined from >3 to a stable range of 0.2–0.5; training accuracy rose from ~0.4 and stabilised between 0.8–0.95 in the final steps, confirming the model successfully internalised the dataset's tone and institutional persona.
+
 ## `convert_to_csv.py`
 
 This script reads `fine_tune_data.jsonl`, extracts `messages[0].content` (user) and `messages[1].content` (assistant), and writes `fine_tune_data.csv` with three columns:

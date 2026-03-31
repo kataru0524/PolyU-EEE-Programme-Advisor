@@ -15,7 +15,7 @@ Students need fast, reliable, multilingual guidance on programme regulations and
 ### Engineering Contributions
 
 - Built a document preprocessing pipeline that transforms PRD PDFs into structured `Parent > Child` markdown aligned with Dify's parent-child chunking strategy, using [MinerU](https://github.com/opendatalab/MinerU) as the PDF parser.
-- Designed a Dify Chatflow with multi-branch intent routing, conversation-variable-aware retrieval, and multilingual response via injected language context.
+- Designed a Dify Chatflow with multi-branch intent routing, conversation-variable-aware retrieval, and multilingual response via injected language context. The `INTELLIGENT RETRIEVAL` node produces three structured outputs per query — intent class, rewritten retrieval query, and `programme_code` — enabling isolated PRD retrieval per user's declared programme interest alongside 5-way admission-route metadata filtering.
 - Developed a full-stack Next.js web app (based on the [Dify webapp-conversation](https://github.com/langgenius/webapp-conversation) template) with a 5-question onboarding form, voice input/TTS, light/dark mode, font size adjustment, branched opener questions, and 4-locale i18n.
 - Packaged the web app as a Capacitor 6 native Android app for full-screen deployment on a Temi Robot at PolyU Info Day.
 - Fine-tuned `gpt-4.1-mini` on a 100-example dataset generated from Firecrawl-sourced EEE web pages via Google Gemini 3 Pro to shape assistant persona and tone.
@@ -49,10 +49,19 @@ raw PDFs (knowledge-base/raw/)										│
         HTML table conversion, H2 splitting (≤2500 chars)			│
         │															│
         ▼															│
-knowledge-base/processed/            ← indexed into Dify			│
+knowledge-base/processed/ (PRDs)     ← indexed into Dify			│
+        │															│
+Firecrawl (Admissions & Fees URLs)									│
+        │															│
+        ▼  Dify Ingestion Workflow									│
+        Current Time Stamp → gpt-5.2 HTML-to-Markdown				│
+        (Strict Parent/Child normalization prompt)					│
+        │															│
+        ▼															│
+knowledge-base/processed/ (Web)      ← chunked directly in Dify		│
         │															│
         ▼  dify-config/*.pipeline									│
-        hybrid search (0.3 kw / 0.7 vec) + Jina reranker			│
+        hybrid search (0.3 kw / 0.7 vec) + jina-reranker-m0			│
         parent-child segmentation									│
         │															│
         ▼                                                           │
@@ -78,7 +87,7 @@ mobile/  ← Capacitor 6, full-screen on Temi Robot
 | Frontend | Next.js 15, React 19, TypeScript, Tailwind CSS |
 | i18n | `i18next` / `react-i18next`, 4 locales (`en`, `zh-Hans`, `zh-Hant`, `zh-HK`) |
 | Speech | STT + TTS via server-side Dify audio proxy routes |
-| Retrieval | `text-embedding-3-large`, hybrid search (0.3 kw / 0.7 vec), Jina rerankers |
+| Retrieval | `text-embedding-3-large`, hybrid search (0.3 kw / 0.7 vec), `jina-reranker-m0` |
 | Data parsing | [MinerU](https://github.com/opendatalab/MinerU) 2.7.3, custom Python normalizer |
 | Fine-tuning | `gpt-4.1-mini` (OpenAI), Firecrawl + Google Gemini 3 Pro for dataset generation |
 | Mobile | Capacitor 6 — Temi Robot (Android 6.0.1), requires WebView update |

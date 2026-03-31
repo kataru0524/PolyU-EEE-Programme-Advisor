@@ -44,6 +44,14 @@ The processed files range significantly in size:
 - Diagnostic file produced alongside each processed markdown.
 - Reports H1/H2 section counts and character totals, max/average/min paragraph lengths, line length distributions (at 100/200/500/1000 char thresholds), and **maximum H2 section length after splitting** — the key metric proving the pipeline respected Dify's chunk size constraints.
 
+![Statistical Validation Report Sample](prd_stats.png)
+
+*Sample output: `max_h2_after_processing` confirms every final chunk stays within the 2,500-character parent chunk limit configured in Dify.*
+
+![Dify Ingestion Configuration](dify_ingestion.png)
+
+*Dify parent-child ingestion settings calibrated against the observed max H2 section length.*
+
 ## Update Lifecycle
 
 1. Add or replace PDFs in `raw/`.
