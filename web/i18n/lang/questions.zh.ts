@@ -3,6 +3,7 @@ const translation = {
   titleShort: '课程顾问',
   welcome: '欢迎',
   welcome_questionnaire: '欢迎使用智能课程顾问',
+  onboarding_hint: '您的回答有助于我们根据您的背景和目标，提供更贴合的建议。',
   welcome_card: {
     title: '这个顾问可以帮您什么',
     subtitle: '本助手面向香港理工大学电机及电子工程学系的课程咨询。填写您的背景与目标后，可获得更贴合的建议。',

@@ -1,10 +1,16 @@
 .answerIcon {
   position: relative;
-  background: #DCF4F6 url(/eee-logo.png);
-  background-size: 85%;
+  background-color: var(--color-primary-50, #FDF2F3);
+  background-image: url(/eee-logo.png);
+  background-size: 80%;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 50%;
+}
+
+:global(.dark) .answerIcon {
+  background-color: #1f2937;
+  background-image: url(/eee-logo-dark.png);
 }
 
 .typeingIcon {
@@ -32,24 +38,7 @@
   border-radius: 50%;
 }
 
-.answer::before,
-.question::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: var(--message-triangle-width, 8px);
-  height: var(--message-triangle-height, 12px);
-  background-size: contain !important;
-}
 
-.answer::before {
-  left: 0;
-  background: url(./icons/answer.svg) no-repeat;
-}
-
-:global(.dark) .answer::before {
-  background: url(./icons/answer-dark.svg) no-repeat;
-}
 
 .answerWrap .itemOperation {
   display: none;
@@ -59,14 +48,7 @@
   display: flex;
 }
 
-.question::before {
-  right: 0;
-  background: url(./icons/question.svg) no-repeat;
-}
 
-:global(.dark) .question::before {
-  background: url(./icons/question-dark.svg) no-repeat;
-}
 
 .textArea {
   padding-top: 13px;

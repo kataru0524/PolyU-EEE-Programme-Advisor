@@ -425,7 +425,7 @@ const Answer: FC<IAnswerProps> = ({
     <div key={id}>
       <div className="flex items-start">
         {!isSidebarCollapsed && (
-          <div className={`${s.answerIcon} w-10 h-10 shrink-0`} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}>
+          <div className={`${s.answerIcon} w-10 h-10 shrink-0 rounded-full flex items-center justify-center`} style={{ width: 'var(--avatar-size, 40px)', height: 'var(--avatar-size, 40px)' }}>
             {isResponding && !!content && (
               <div className={s.typeingIcon}>
                 <LoadingAnim type="avatar" />
@@ -435,7 +435,7 @@ const Answer: FC<IAnswerProps> = ({
         )}
         <div className={`${s.answerWrap} relative`} style={{ maxWidth: getMaxWidth() }} onMouseLeave={handleCopyMouseLeave}>
           <div className={`${s.answer} relative text-base text-gray-900 dark:text-gray-100 overflow-visible`}>
-            <div className={`py-3 px-4 bg-gray-100 dark:bg-gray-900 rounded-tr-2xl rounded-b-2xl ${!isSidebarCollapsed && 'ml-2'}`}>
+            <div className={`py-3 px-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-tr-2xl rounded-b-2xl ${!isSidebarCollapsed && 'ml-2'}`}>
               {(isResponding && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
                 ? (
                   <div className="flex items-center justify-center w-6 h-5">
@@ -455,7 +455,7 @@ const Answer: FC<IAnswerProps> = ({
                   <div className="mt-1 mb-2 flex flex-col items-start gap-1">
                     {suggestedQuestions.map((suggestion, index) => (
                       <div key={index}>
-                        <Button className="h-auto justify-start items-start whitespace-normal text-left text-base leading-6" type="link" onClick={() => suggestionClick(suggestion)}>{suggestion}</Button>
+                        <Button className="h-auto justify-start items-start whitespace-normal text-left text-base leading-6 !rounded-xl" type="link" onClick={() => suggestionClick(suggestion)}>{suggestion}</Button>
                       </div>
                     ))}
                   </div>

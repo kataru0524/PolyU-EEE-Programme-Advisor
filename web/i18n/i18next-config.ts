@@ -63,6 +63,6 @@ i18n.use(initReactI18next)
   })
 
 export const changeLanguage = (lan: Locale) => {
-  i18n.changeLanguage(lan)
+  return i18n.changeLanguage(lan)
 }
 export default i18n

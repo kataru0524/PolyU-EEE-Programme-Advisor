@@ -1,8 +1,9 @@
 const translation = {
   title: 'Intelligent Programme Advisor Chatbot',
-  titleShort: 'EEE Advisor',
+  titleShort: 'Programme Advisor',
   welcome: 'Welcome',
   welcome_questionnaire: 'Welcome to the Intelligent Programme Advisor Chatbot',
+  onboarding_hint: 'Your answers help us tailor advice to your background and goals.',
   welcome_card: {
     title: 'What this advisor can help with',
     subtitle: 'This chatbot is designed for PolyU EEE programme advising. Share your background and goals to get more personalized guidance.',

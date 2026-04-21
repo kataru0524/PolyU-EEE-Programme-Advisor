@@ -58,7 +58,15 @@ const translation = {
     ttsSlow: '慢',
     ttsDefault: '默认',
     ttsFast: '快',
-  },  imageUploader: {
+    accentColor: '主题颜色',
+    accentPolyuRed: 'PolyU 红色',
+    accentBlue: '蓝色',
+    accentTeal: '青绿色',
+    accentIndigo: '靛蓝色',
+    accentAmber: '琥珀色',
+    accentSlate: '石板灰',
+  },
+  imageUploader: {
     uploadFromComputer: '从本地上传',
     uploadFromComputerReadError: '图片读取失败，请重新选择。',
     uploadFromComputerUploadError: '图片上传失败，请重新上传。',

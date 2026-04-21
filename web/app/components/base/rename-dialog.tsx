@@ -25,7 +25,7 @@ const RenameDialog: FC<IRenameDialogProps> = ({
   const [name, setName] = useState(currentName)
   const [isVisible, setIsVisible] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -33,8 +33,13 @@ const RenameDialog: FC<IRenameDialogProps> = ({
       setIsVisible(true)
       setTimeout(() => setIsAnimating(true), 10)
       setTimeout(() => {
-        inputRef.current?.focus()
-        inputRef.current?.select()
+        const el = inputRef.current
+        if (el) {
+          el.focus()
+          el.select()
+          el.style.height = 'auto'
+          el.style.height = `${el.scrollHeight}px`
+        }
       }, 100)
     } else {
       setIsAnimating(false)
@@ -64,8 +69,7 @@ const RenameDialog: FC<IRenameDialogProps> = ({
     <div 
       className={`fixed inset-0 z-[100000] flex items-center justify-center bg-black transition-all duration-200 ${
         isAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
-      }`} 
-      onClick={onCancel}
+      }`}
     >
       <div 
         className={`bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden transition-all duration-200 origin-center ${
@@ -84,13 +88,18 @@ const RenameDialog: FC<IRenameDialogProps> = ({
         </div>
         
         <div className="px-6 py-4">
-          <input
+          <textarea
             ref={inputRef}
-            type="text"
+            rows={1}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value)
+              const el = e.target
+              el.style.height = 'auto'
+              el.style.height = `${el.scrollHeight}px`
+            }}
             onKeyDown={handleKeyDown}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none overflow-hidden"
             placeholder={t('app.chat.renameConversation')}
           />
         </div>

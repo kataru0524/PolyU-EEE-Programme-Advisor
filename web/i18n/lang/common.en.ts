@@ -59,6 +59,13 @@ const translation = {
     ttsSlow: 'Slow',
     ttsDefault: 'Default',
     ttsFast: 'Fast',
+    accentColor: 'Accent Color',
+    accentPolyuRed: 'PolyU Red',
+    accentBlue: 'Blue',
+    accentTeal: 'Teal',
+    accentIndigo: 'Indigo',
+    accentAmber: 'Amber',
+    accentSlate: 'Slate',
   },
   imageUploader: {
     uploadFromComputer: 'Upload from Computer',

@@ -406,8 +406,8 @@ const Chat: FC<IChatProps> = ({
               width: isSidebarCollapsed ? 'min(var(--chat-input-width, 794px), calc(100vw - 40px))' : 'min(var(--chat-input-width, 794px), calc(100vw - var(--sidebar-width-pc, 244px) - 40px))', 
               maxWidth: 'calc(100vw - 28px)' 
             }}>
-            <div className={`p-[5.5px] max-h-[150px] bg-white dark:bg-gray-800 rounded-xl overflow-y-auto shadow-lg transition-colors ${
-              isListening ? 'border-[2px] border-red-400 dark:border-red-500' : 'border-[1.5px] border-gray-200 dark:border-gray-800'
+            <div className={`p-[5.5px] max-h-[150px] bg-white dark:bg-gray-800 rounded-xl overflow-y-auto shadow-lg transition-all ${
+              isListening ? 'border-[2px] border-red-400 dark:border-red-500' : query ? 'border-[1.5px] border-primary-400 dark:border-primary-600 shadow-[0_0_0_3px_var(--color-primary-50)]' : 'border-[1.5px] border-gray-200 dark:border-gray-700'
             }`}>
               {
                 visionConfig?.enabled && (
@@ -446,11 +446,11 @@ const Chat: FC<IChatProps> = ({
               <div className="relative">
                 <Textarea
                   className={`
-                    block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-base outline-none appearance-none resize-none transition-colors
+                    block w-full px-2 pr-[118px] py-[8px] leading-5 max-h-none text-base outline-none appearance-none resize-none transition-colors
                     ${visionConfig?.enabled && 'pl-12'}
                     ${(isListening || isTranscribing) ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800 text-gray-400 dark:text-gray-500 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-200'}
                   `}
-                  style={{ minHeight: 'var(--chat-input-min-height, 44px)' }}
+                  style={{ minHeight: 'var(--chat-input-min-height, 36px)' }}
                   value={query}
                   onChange={handleContentChange}
                   onKeyUp={handleKeyUp}
@@ -508,7 +508,11 @@ const Chat: FC<IChatProps> = ({
                   >
                     <button
                       onClick={handleSend}
-                      className='w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 transition-colors'
+                      className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
+                        query.trim()
+                          ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-sm'
+                          : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 dark:text-gray-500'
+                      }`}
                     >
                       <PaperAirplaneIcon className='w-4 h-4' />
                     </button>

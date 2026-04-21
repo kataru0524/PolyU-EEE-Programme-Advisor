@@ -51,7 +51,6 @@ const DeleteDialog: FC<IDeleteDialogProps> = ({
       className={`fixed inset-0 z-[100000] flex items-center justify-center bg-black transition-all duration-200 ${
         isAnimating ? 'bg-opacity-50' : 'bg-opacity-0'
       }`}
-      onClick={onCancel}
       onKeyDown={handleKeyDown}
     >
       <div 

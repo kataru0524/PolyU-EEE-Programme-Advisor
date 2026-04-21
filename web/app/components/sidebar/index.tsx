@@ -163,21 +163,22 @@ const Sidebar: FC<ISidebarProps> = ({
 
   return (
     <div
-      className="relative shrink-0 flex flex-col overflow-y-auto bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
+      data-lang-resize-ignore
+      className="relative shrink-0 flex flex-col bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 h-full"
       style={{ width: sidebarWidth }}
     >
       {list.length < MAX_CONVERSATION_LENTH && (
         <div className="flex flex-shrink-0 p-4 !pb-0">
           <Button
             onClick={() => { onCurrentIdChange('-1') }}
-            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 dark:text-white items-center text-sm border border-primary-200 dark:border-gray-600 hover:bg-primary-50 dark:hover:bg-gray-800"
+            className="group block w-full flex-shrink-0 !justify-start !h-9 text-primary-600 dark:text-white items-center text-sm bg-primary-50 dark:bg-gray-800/50 border border-primary-200 dark:border-gray-600 hover:!bg-primary-100 dark:hover:!bg-gray-800"
           >
             <PencilSquareIcon className="mr-2 h-4 w-4" /> {t('app.chat.newChat')}
           </Button>
         </div>
       )}
 
-      <nav className="mt-4 flex-1 space-y-1 bg-white dark:bg-gray-900 p-4 !pt-0">
+      <nav className="mt-4 flex-1 overflow-y-auto space-y-1 bg-white dark:bg-gray-900 p-4 !pt-0">
         {list.map((item) => {
           const isCurrent = item.id === currentId
           const ItemIcon
@@ -196,8 +197,8 @@ const Sidebar: FC<ISidebarProps> = ({
               key={item.id}
               className={classNames(
                 isCurrent
-                  ? 'bg-primary-50 dark:bg-gray-800 text-primary-600 dark:text-gray-100'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-200',
+                  ? 'bg-gradient-to-r from-primary-50 to-transparent dark:from-gray-800 dark:to-transparent text-primary-600 dark:text-gray-100 border-l-2 border-primary-600 dark:border-primary-400 pl-[6px]'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/60 hover:text-gray-800 dark:hover:text-gray-200 hover:translate-x-0.5 border-l-2 border-transparent',
                 'group flex items-center justify-between rounded-md px-2 py-2 text-sm font-medium cursor-pointer',
                 'transition-all duration-200 ease-out',
               )}
@@ -232,9 +233,22 @@ const Sidebar: FC<ISidebarProps> = ({
           )
         })}
       </nav>
-      {/* <a className="flex flex-shrink-0 p-4" href="https://langgenius.ai/" target="_blank">
-        <Card><div className="flex flex-row items-center"><ChatBubbleOvalLeftEllipsisSolidIcon className="text-primary-600 h-6 w-6 mr-2" /><span>LangGenius</span></div></Card>
-      </a> */}
+
+      {/* PolyU Logo Footer */}
+      <div className='flex-shrink-0 px-3 py-5 flex items-center justify-center'>
+        <a href="https://www.polyu.edu.hk/" target="_blank" rel="noreferrer" className="flex items-center">
+          <img
+            src="/polyu-logo-full-light.png"
+            alt="The Hong Kong Polytechnic University"
+            className="h-10 w-auto object-contain opacity-60 hover:opacity-90 transition-opacity dark:hidden"
+          />
+          <img
+            src="/polyu-logo-full-dark.png"
+            alt="The Hong Kong Polytechnic University"
+            className="h-10 w-auto object-contain opacity-50 hover:opacity-80 transition-opacity hidden dark:block"
+          />
+        </a>
+      </div>
 
       <RenameDialog
         isOpen={renameDialogOpen}

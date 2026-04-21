@@ -82,14 +82,19 @@ export const getLocaleOnClient = (): Locale => {
 }
 
 export const setLocaleOnClient = (locale: Locale, notReload?: boolean) => {
+  // Capture the previous locale BEFORE writing, so we can detect a real change.
+  const previousLocale = getLocaleOnClient()
+
   // Mark as explicit user choice so future loads respect it.
   if (typeof localStorage !== 'undefined')
     localStorage.setItem(USER_LOCALE_EXPLICIT_KEY, locale)
   Cookies.set(LOCALE_COOKIE_NAME, locale)
   localStorage.setItem('user_language', locale)
+  // Snapshot BEFORE changeLanguage so the wrapper locks current element sizes
+  // and hides text instantly. The wrapper's useEffect([i18n.language]) hook
+  // handles the post-commit measurement and animation — no localechange event needed.
+  if (typeof window !== 'undefined' && locale !== previousLocale)
+    window.dispatchEvent(new CustomEvent('localechange-before', { detail: locale }))
   changeLanguage(locale)
-  // Notify any listeners (e.g. welcome inputs) of the locale change without a full reload.
-  if (typeof window !== 'undefined')
-    window.dispatchEvent(new CustomEvent('localechange', { detail: locale }))
   if (!notReload) { location.reload() }
 }

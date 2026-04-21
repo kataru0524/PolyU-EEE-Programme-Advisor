@@ -58,6 +58,13 @@ const translation = {
     ttsSlow: '慢',
     ttsDefault: '預設',
     ttsFast: '快',
+    accentColor: '主題顏色',
+    accentPolyuRed: 'PolyU 紅色',
+    accentBlue: '藍色',
+    accentTeal: '青綠色',
+    accentIndigo: '靛藍色',
+    accentAmber: '琥珀色',
+    accentSlate: '石板灰',
   },
   imageUploader: {
     uploadFromComputer: '從電腦上傳',

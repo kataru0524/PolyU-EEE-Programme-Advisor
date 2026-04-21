@@ -236,8 +236,8 @@ const Welcome: FC<IWelcomeProps> = ({
       setCurrentLocale(locale)
       setInputs(prev => 'language' in prev ? { ...prev, language: newLanguageName } : prev)
     }
-    window.addEventListener('localechange', handleLocaleChange)
-    return () => window.removeEventListener('localechange', handleLocaleChange)
+    window.addEventListener('localechange-before', handleLocaleChange)
+    return () => window.removeEventListener('localechange-before', handleLocaleChange)
   }, [])
 
   const highLightPromoptTemplate = (() => {
@@ -612,6 +612,7 @@ const Welcome: FC<IWelcomeProps> = ({
       return (
         <TemplateVarPanel
           isFold={false}
+          className='rounded-xl overflow-hidden'
           header={
             <>
               <PanelTitle
@@ -628,7 +629,7 @@ const Welcome: FC<IWelcomeProps> = ({
     return (
       <TemplateVarPanel
         isFold={isFold}
-        className={settingsPanelAnimationClass}
+        className={`rounded-xl overflow-hidden ${settingsPanelAnimationClass}`}
         header={
           <>
             <PanelTitle
@@ -637,7 +638,7 @@ const Welcome: FC<IWelcomeProps> = ({
             />
             <PromptTemplate html={highLightPromoptTemplate} />
             {isFold && (
-              <div className='flex items-center justify-between mt-3 border-t border-indigo-100 pt-4 text-xs text-indigo-600'>
+              <div className='flex items-center justify-between mt-3 border-t border-primary-100 pt-4 text-xs text-primary-600'>
                 <span className='text-gray-700 dark:text-gray-300'>{t('app.chat.configStatusDes')}</span>
                 <EditBtn onClick={openSettingsPanel} />
               </div>
@@ -657,9 +658,9 @@ const Welcome: FC<IWelcomeProps> = ({
     return (
       <TemplateVarPanel
         isFold={isFold}
-        className={settingsPanelAnimationClass}
+        className={`rounded-xl overflow-hidden ${settingsPanelAnimationClass}`}
         header={
-          <div className='flex items-center justify-between text-indigo-600'>
+          <div className='flex items-center justify-between text-primary-600'>
             <PanelTitle
               title={!isFold ? t('app.chat.privatePromptConfigTitle') : t('app.chat.configStatusDes')}
             />
@@ -700,14 +701,24 @@ const Welcome: FC<IWelcomeProps> = ({
         {/*  Has't set inputs  */}
         {
           !hasSetInputs && (
-            <div className={`mobile:pt-[24px] tablet:pt-[128px] pc:pt-[80px] mobile:flex-1 mobile:flex mobile:flex-col transition-all duration-500 ease-out ${questionnaireVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              {hasVar
-                ? (
-                  renderVarPanel()
-                )
-                : (
-                  renderNoVarPanel()
-                )}
+            <div className={`mobile:pt-[24px] tablet:pt-[128px] pc:pt-[80px] mobile:flex-1 mobile:flex mobile:flex-col transition-all duration-500 ease-out ${questionnaireVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+              {/* Gradient accent bar card wrapper */}
+              <div
+                data-lang-resize="height"
+                className='relative rounded-xl overflow-hidden shadow-lg ring-1 ring-black/5 dark:ring-white/10 bg-primary-50 dark:bg-gray-800'
+              >
+                {/* Left accent bar */}
+                <div className='absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-primary-400 via-primary-600 to-primary-700' />
+                <div className='pl-1.5'>
+                  {hasVar
+                    ? (
+                      renderVarPanel()
+                    )
+                    : (
+                      renderNoVarPanel()
+                    )}
+                </div>
+              </div>
             </div>
           )
         }
@@ -720,10 +731,27 @@ const Welcome: FC<IWelcomeProps> = ({
             <div
               className={`fixed inset-0 bg-black/50 dark:bg-black/70 transition-opacity duration-300 ${isWelcomePopupAnimating ? 'opacity-100' : 'opacity-0'}`}
             />
-            <div className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col overflow-hidden transition-all duration-300 ${isWelcomePopupAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-              <div className='flex-shrink-0 flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800'>
-                <div className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
-                  {t('questions.welcome_popup.title', { defaultValue: 'Welcome' })}
+            <div
+              data-lang-resize="height"
+              className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[calc(100dvh-1.5rem)] flex flex-col overflow-hidden transition-all duration-300 ${isWelcomePopupAnimating ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-3'}`}
+              style={{ transitionTimingFunction: isWelcomePopupAnimating ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-in' }}
+            >
+              <div className='flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800'>
+                <div className='flex items-center gap-3'>
+                  {/* EEE logo in popup header */}
+                  <img
+                    src="/eee-logo-light.png"
+                    alt="EEE"
+                    className="h-8 w-8 object-contain dark:hidden"
+                  />
+                  <img
+                    src="/eee-logo-dark.png"
+                    alt="EEE"
+                    className="h-8 w-8 object-contain hidden dark:block"
+                  />
+                  <div className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
+                    {t('questions.welcome_popup.title', { defaultValue: 'Welcome' })}
+                  </div>
                 </div>
                 <button
                   onClick={handleCloseWelcomePopup}
@@ -781,17 +809,17 @@ const Welcome: FC<IWelcomeProps> = ({
               <div
                 ref={welcomeInfoScrollRef}
                 onScroll={updateWelcomeScrollFade}
-                className='pt-2 pb-4 max-h-[38vh] tablet:max-h-[42vh] overflow-y-auto pr-1'
+                className='pt-2 pb-4 max-h-[38vh] tablet:max-h-[42vh] overflow-y-auto pr-3'
               >
-              <div className='text-sm font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-300'>
+              <div className='text-sm font-semibold uppercase tracking-wider text-primary-700 dark:text-primary-300'>
                 {t('questions.welcome_card.title')}
               </div>
               <p className='mt-2 text-sm leading-7 text-gray-700 dark:text-gray-300'>
                 {t('questions.welcome_card.subtitle')}
               </p>
 
-              <div className='mt-3 rounded-xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/60 dark:bg-indigo-950/20 px-4 py-3.5'>
-                <div className='text-xs font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300'>
+              <div className='mt-3 rounded-xl border border-primary-200 dark:border-gray-600 bg-primary-50 dark:bg-gray-800/50 px-4 py-3.5'>
+                <div className='text-xs font-semibold uppercase tracking-wide text-primary-700 dark:text-primary-300'>
                   {t('questions.welcome_card.scope_title')}
                 </div>
                 <ul className='mt-2.5 space-y-1.5 text-sm text-gray-700 dark:text-gray-300'>

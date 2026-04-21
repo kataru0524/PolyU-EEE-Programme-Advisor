@@ -4,6 +4,13 @@
 
 @source "../../node_modules/streamdown/dist/index.js";
 
+/* Ensure the custom font cascades to all elements including portals */
+*,
+*::before,
+*::after {
+  font-family: var(--font-latin), var(--font-cjk), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Auto-hide scrollbar styles */
 .chat-scrollbar {
   scrollbar-width: thin;
@@ -86,7 +93,58 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  /* ── Accent color system (PolyU Maroon default) ─────────────────────── */
+  --color-primary-50: #FDF2F3;
+  --color-primary-100: #FCE4E6;
+  --color-primary-200: #F9CDD2;
+  --color-primary-300: #F4A5AE;
+  --color-primary-400: #EC7583;
+  --color-primary-500: #DF4755;
+  --color-primary-600: #92303A;
+  --color-primary-700: #7A2831;
+
+  /* Accent color transition applied globally */
+  --accent-transition: color 200ms ease, background-color 200ms ease,
+    border-color 200ms ease, fill 200ms ease, stroke 200ms ease,
+    box-shadow 200ms ease;
 }
+
+/* ── Language switch text-only fade ───────────────────────────────────────
+   Only text colour transitions — backgrounds, borders, images stay solid.
+   'out' → text goes transparent instantly (no transition).
+   'in'  → transition is enabled, color returns to its declared value = fade-in.
+   ──────────────────────────────────────────────────────────────────────── */
+html[data-lang-fade='out'] *:not(img):not(video):not(svg):not(canvas) {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+  caret-color: transparent !important;
+  /* Kill ALL existing transitions (e.g. Tailwind transition-colors) so text
+     jumps instantly to transparent rather than animating there. */
+  transition: none !important;
+}
+
+html[data-lang-fade='in'] *:not(img):not(video):not(svg):not(canvas) {
+  /* Instantly pin -webkit-text-fill-color to currentColor so it tracks the
+     transitioning `color` property. Animating it separately would cause a
+     black flash because browsers resolve its initial value as black, not as
+     the element's own color. */
+  -webkit-text-fill-color: currentColor;
+  /* No !important — inline transitions on [data-lang-resize] elements take
+     precedence, letting them animate width/height in the same pass. */
+  transition: color 500ms ease;
+}
+
+/* On touch/mobile devices use a shorter fade to avoid repaints lagging on
+   weaker CPUs. The JS wrapper also detects (pointer: coarse) and uses 200ms
+   for the resize transitions, keeping both in sync. */
+@media (pointer: coarse) {
+  html[data-lang-fade='in'] *:not(img):not(video):not(svg):not(canvas) {
+    transition: color 200ms ease;
+  }
+}
+
 
 /* @media (prefers-color-scheme: dark) {
   :root {
@@ -171,11 +229,26 @@ a {
 }
 
 .text-gradient {
-  background: linear-gradient(91.58deg, #2250F2 -29.55%, #0EBCF3 75.22%);
+  background: linear-gradient(91.58deg, var(--color-primary-600) -29.55%, var(--color-primary-400) 75.22%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+}
+
+/* Smooth accent color transitions across the app */
+*,
+*::before,
+*::after {
+  transition-property: color, background-color, border-color, fill, stroke, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* Reset transition for elements that need snappy interactions */
+.no-accent-transition,
+.no-accent-transition * {
+  transition: none !important;
 }
 
 /* Scrollbar styles */
@@ -244,7 +317,9 @@ a {
   --sidebar-width-tablet: 180px;
   --sidebar-width-mobile: 230px;
   --chat-input-min-height: 32px;
-  --start-chat-btn-width: 140px;  --start-chat-icon-size: 18px;  --avatar-size: 36px;
+  --start-chat-btn-width: 140px;
+  --start-chat-icon-size: 18px;
+  --avatar-size: 36px;
   --message-triangle-width: 7px;
   --message-triangle-height: 11px;
   --field-spacing: 0.5rem;
@@ -268,7 +343,9 @@ a {
   --sidebar-width-tablet: 186px;
   --sidebar-width-mobile: 238px;
   --chat-input-min-height: 34px;
-  --start-chat-btn-width: 145px;  --start-chat-icon-size: 19px;  --avatar-size: 38px;
+  --start-chat-btn-width: 145px;
+  --start-chat-icon-size: 19px;
+  --avatar-size: 38px;
   --message-triangle-width: 7.5px;
   --message-triangle-height: 11.5px;
   --field-spacing: 0.625rem;

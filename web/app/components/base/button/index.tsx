@@ -22,7 +22,7 @@ const Button: FC<IButtonProps> = ({
   let style = 'cursor-pointer'
   switch (type) {
     case 'link':
-      style = disabled ? 'border-solid border border-gray-200 dark:border-gray-800 bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-800 dark:text-gray-400' : 'border-solid border border-gray-200 dark:border-gray-800 cursor-pointer text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600'
+      style = disabled ? 'border-solid border border-gray-200 dark:border-gray-800 bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-800 dark:text-gray-400' : 'border-solid border border-gray-200 dark:border-gray-800 cursor-pointer text-primary-600 dark:text-primary-400 bg-white dark:bg-gray-800 hover:shadow-sm hover:border-gray-300 dark:hover:border-gray-600'
       break
     case 'primary':
       style = (disabled || loading) ? 'bg-primary-600/75 cursor-not-allowed text-white' : 'bg-primary-600 hover:bg-primary-600/75 hover:shadow-md cursor-pointer text-white hover:shadow-sm'
@@ -36,6 +36,7 @@ const Button: FC<IButtonProps> = ({
     <div
       className={`flex justify-center items-center content-center h-9 leading-5 rounded-lg px-4 py-2 text-base ${style} ${className && className}`}
       onClick={disabled ? undefined : onClick}
+      data-lang-resize=""
     >
       {children}
       {/* Spinner is hidden when loading is false */}

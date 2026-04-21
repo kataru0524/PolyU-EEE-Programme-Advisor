@@ -1,9 +1,24 @@
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { getLocaleOnServer } from '@/i18n/server'
 import type { Metadata } from 'next'
+import { Inter, Noto_Sans_SC } from 'next/font/google'
+import LanguageTransitionWrapper from '@/app/components/language-transition-wrapper'
 
 import './styles/globals.css'
 import './styles/markdown.scss'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-latin',
+})
+
+const notoSansSC = Noto_Sans_SC({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+  display: 'swap',
+  variable: '--font-cjk',
+})
 
 const resolveSiteUrl = () => {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim()
@@ -31,6 +46,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: META_TITLE,
   description: META_DESCRIPTION,
+  icons: {
+    icon: [
+      { url: '/favicon.ico', type: 'image/x-icon' },
+      { url: '/appicon.png', type: 'image/png' },
+    ],
+    apple: '/appicon.png',
+  },
   alternates: {
     canonical: SITE_URL,
   },
@@ -72,10 +94,12 @@ const LocaleLayout = async ({
     locale = 'en'
   }
   return (
-    <html lang={locale} className="h-full" suppressHydrationWarning>
-      <body className="h-full bg-white dark:bg-gray-950" suppressHydrationWarning>
+    <html lang={locale} className={`h-full ${inter.variable} ${notoSansSC.variable}`} suppressHydrationWarning>
+      <body className={`h-full bg-white dark:bg-gray-950 ${inter.className}`} suppressHydrationWarning>
         <div className="w-full h-full min-w-[300px]">
-          {children}
+          <LanguageTransitionWrapper>
+            {children}
+          </LanguageTransitionWrapper>
         </div>
         <SpeedInsights />
       </body>

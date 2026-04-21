@@ -1,6 +1,6 @@
 'use client'
 import type { FC } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { XMarkIcon, SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid'
 import { getLocaleOnClient, setLocaleOnClient } from '@/i18n/client'
@@ -11,6 +11,96 @@ import RabbitIcon from '@/app/components/icons/RabbitIcon'
 
 type ThemeMode = 'light' | 'dark' | 'system'
 type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
+type AccentPreset = 'polyu-maroon' | 'classic-blue' | 'teal' | 'indigo' | 'amber' | 'slate'
+
+const ACCENT_PRESETS: Record<AccentPreset, { colors: Record<string, string>, labelKey: string }> = {
+  'polyu-maroon': {
+    labelKey: 'accentPolyuRed',
+    colors: {
+      '--color-primary-50': '#FDF2F3',
+      '--color-primary-100': '#FCE4E6',
+      '--color-primary-200': '#F9CDD2',
+      '--color-primary-300': '#F4A5AE',
+      '--color-primary-400': '#EC7583',
+      '--color-primary-500': '#DF4755',
+      '--color-primary-600': '#92303A',
+      '--color-primary-700': '#7A2831',
+    }
+  },
+  'classic-blue': {
+    labelKey: 'accentBlue',
+    colors: {
+      '--color-primary-50': '#EBF5FF',
+      '--color-primary-100': '#E1EFFE',
+      '--color-primary-200': '#C3DDFD',
+      '--color-primary-300': '#A4CAFE',
+      '--color-primary-400': '#76A9FA',
+      '--color-primary-500': '#3F83F8',
+      '--color-primary-600': '#1C64F2',
+      '--color-primary-700': '#1A56DB',
+    }
+  },
+  'teal': {
+    labelKey: 'accentTeal',
+    colors: {
+      '--color-primary-50': '#F0FDFA',
+      '--color-primary-100': '#CCFBF1',
+      '--color-primary-200': '#99F6E4',
+      '--color-primary-300': '#5EEAD4',
+      '--color-primary-400': '#2DD4BF',
+      '--color-primary-500': '#14B8A6',
+      '--color-primary-600': '#0D9488',
+      '--color-primary-700': '#0F766E',
+    }
+  },
+  'indigo': {
+    labelKey: 'accentIndigo',
+    colors: {
+      '--color-primary-50': '#EEF2FF',
+      '--color-primary-100': '#E0E7FF',
+      '--color-primary-200': '#C7D2FE',
+      '--color-primary-300': '#A5B4FC',
+      '--color-primary-400': '#818CF8',
+      '--color-primary-500': '#6366F1',
+      '--color-primary-600': '#4F46E5',
+      '--color-primary-700': '#4338CA',
+    }
+  },
+  'amber': {
+    labelKey: 'accentAmber',
+    colors: {
+      '--color-primary-50': '#FFFBEB',
+      '--color-primary-100': '#FEF3C7',
+      '--color-primary-200': '#FDE68A',
+      '--color-primary-300': '#FCD34D',
+      '--color-primary-400': '#FBBF24',
+      '--color-primary-500': '#F59E0B',
+      '--color-primary-600': '#D97706',
+      '--color-primary-700': '#B45309',
+    }
+  },
+  'slate': {
+    labelKey: 'accentSlate',
+    colors: {
+      '--color-primary-50': '#F8FAFC',
+      '--color-primary-100': '#F1F5F9',
+      '--color-primary-200': '#E2E8F0',
+      '--color-primary-300': '#CBD5E1',
+      '--color-primary-400': '#94A3B8',
+      '--color-primary-500': '#64748B',
+      '--color-primary-600': '#475569',
+      '--color-primary-700': '#334155',
+    }
+  },
+}
+
+const applyAccentPreset = (preset: AccentPreset) => {
+  const root = document.documentElement
+  const colors = ACCENT_PRESETS[preset].colors
+  Object.entries(colors).forEach(([key, value]) => {
+    root.style.setProperty(key, value)
+  })
+}
 
 const fontSizeMap: Record<string, FontSize> = {
   '1': 'xs',
@@ -92,7 +182,94 @@ if (typeof window !== 'undefined') {
   } else {
     applyFontSizeGlobal('md')
   }
+
+  const savedAccent = (localStorage.getItem('accent_preset') as AccentPreset | null) || 'polyu-maroon'
+  applyAccentPreset(savedAccent)
 }
+
+// ---------------------------------------------------------------------------
+// Custom cross-browser slider (replaces native <input type="range"> which
+// renders poorly in Safari / WebKit).
+// ---------------------------------------------------------------------------
+interface CustomSliderProps {
+  min: number
+  max: number
+  value: number
+  onChange: (value: number) => void
+  'aria-label'?: string
+}
+
+const CustomSlider: FC<CustomSliderProps> = ({ min, max, value, onChange, 'aria-label': ariaLabel }) => {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const dragging = useRef(false)
+
+  const computeValue = useCallback((clientX: number) => {
+    const track = trackRef.current
+    if (!track) return
+    const { left, width } = track.getBoundingClientRect()
+    const ratio = Math.max(0, Math.min(1, (clientX - left) / width))
+    const stepped = Math.round(ratio * (max - min) + min)
+    onChange(stepped)
+  }, [min, max, onChange])
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    dragging.current = true
+    computeValue(e.clientX)
+    const onMove = (ev: MouseEvent) => { if (dragging.current) computeValue(ev.clientX) }
+    const onUp = () => { dragging.current = false; window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }, [computeValue])
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    dragging.current = true
+    computeValue(e.touches[0].clientX)
+    const onMove = (ev: TouchEvent) => { if (dragging.current) computeValue(ev.touches[0].clientX) }
+    const onEnd = () => { dragging.current = false; window.removeEventListener('touchmove', onMove); window.removeEventListener('touchend', onEnd) }
+    window.addEventListener('touchmove', onMove, { passive: true })
+    window.addEventListener('touchend', onEnd)
+  }, [computeValue])
+
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); onChange(Math.min(max, value + 1)) }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); onChange(Math.max(min, value - 1)) }
+    if (e.key === 'Home') { e.preventDefault(); onChange(min) }
+    if (e.key === 'End') { e.preventDefault(); onChange(max) }
+  }, [min, max, value, onChange])
+
+  const pct = ((value - min) / (max - min)) * 100
+
+  return (
+    <div
+      ref={trackRef}
+      role="slider"
+      aria-label={ariaLabel}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuenow={value}
+      tabIndex={0}
+      className="relative flex-1 h-5 flex items-center cursor-pointer select-none focus:outline-none group"
+      onMouseDown={onMouseDown}
+      onTouchStart={onTouchStart}
+      onKeyDown={onKeyDown}
+    >
+      {/* Track background */}
+      <div className="absolute inset-x-0 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700" />
+      {/* Filled portion */}
+      <div
+        className="absolute left-0 h-1.5 rounded-full transition-none"
+        style={{ width: `${pct}%`, backgroundColor: 'var(--color-primary-600, #92303A)' }}
+      />
+      {/* Thumb */}
+      <div
+        className="absolute w-4 h-4 rounded-full shadow-md border -translate-x-1/2 transition-transform group-hover:scale-110 group-active:scale-125"
+        style={{ left: `${pct}%`, backgroundColor: 'var(--color-primary-600, #92303A)', borderColor: 'var(--color-primary-600, #92303A)' }}
+      />
+    </div>
+  )
+}
+// ---------------------------------------------------------------------------
 
 const SettingsDialog: FC<ISettingsDialogProps> = ({
   isOpen,
@@ -124,6 +301,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
   const [currentLanguage, setCurrentLanguage] = useState(getLocaleOnClient())
   const [ttsSpeed, setTtsSpeed] = useState(1.10)
   const [showWelcomeIntro, setShowWelcomeIntro] = useState(true)
+  const [accentPreset, setAccentPreset] = useState<AccentPreset>('polyu-maroon')
 
   useEffect(() => {
     setCurrentLanguage(getLocaleOnClient())
@@ -152,6 +330,9 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     const savedShowWelcomeIntro = localStorage.getItem(WELCOME_INTRO_SHOW_KEY)
     // Default to enabled when no explicit preference exists.
     setShowWelcomeIntro(savedShowWelcomeIntro !== '0')
+
+    const savedAccent = (localStorage.getItem('accent_preset') as AccentPreset | null) || 'polyu-maroon'
+    setAccentPreset(savedAccent)
   }, [isOpen])
 
   useEffect(() => {
@@ -219,6 +400,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
     window.dispatchEvent(new CustomEvent(WELCOME_INTRO_PREF_EVENT, { detail: nextShow }))
   }
 
+  const handleAccentChange = (preset: AccentPreset) => {
+    setAccentPreset(preset)
+    localStorage.setItem('accent_preset', preset)
+    applyAccentPreset(preset)
+  }
+
   const getTtsSpeedLevel = (speed: number): string => {
     // Find the closest speed level
     const speeds = Object.values(speedMap)
@@ -248,9 +435,11 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
       />
       
       {/* Dialog */}
-      <div className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[calc(100dvh-3rem)] flex flex-col overflow-hidden transition-all duration-300 ${
-        isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-      }`}>
+      <div
+        data-lang-resize="height"
+        className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[calc(100dvh-3rem)] flex flex-col overflow-hidden transition-all duration-300 ${
+        isAnimating ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-3'
+      }`} style={{ transitionTimingFunction: isAnimating ? 'cubic-bezier(0.34, 1.56, 0.64, 1)' : 'ease-in' }}>
         {/* Header */}
         <div className="flex-shrink-0 flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
@@ -266,7 +455,7 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
         </div>
 
         {/* Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto px-6 pb-8">
+        <div className="flex-1 min-h-0 overflow-y-auto px-6 pb-8">
           {/* Language Section */}
           <div className="relative py-6">
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
@@ -362,6 +551,45 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                 <span className="text-xs hidden sm:block">{t('common.theme.dark')}</span>
               </button>
             </div>
+
+
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-gray-800" />
+
+          {/* Accent Color Section */}
+          <div className="py-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wider">
+              {t('common.settings.accentColor', { defaultValue: 'Accent Color' })}
+            </h3>
+            <div className="flex items-center justify-between">
+              {(Object.entries(ACCENT_PRESETS) as [AccentPreset, typeof ACCENT_PRESETS[AccentPreset]][]).map(([key, preset]) => {
+                const swatch = preset.colors['--color-primary-600']
+                const isSelected = accentPreset === key
+                return (
+                  <button
+                    key={key}
+                    onClick={() => handleAccentChange(key)}
+                    title={t(`common.settings.${preset.labelKey}`, { defaultValue: key })}
+                    aria-label={t(`common.settings.${preset.labelKey}`, { defaultValue: key })}
+                    aria-pressed={isSelected}
+                    className={`relative w-8 h-8 rounded-full transition-all duration-200 hover:scale-110 active:scale-95 ${
+                      isSelected ? 'ring-2 ring-offset-2 ring-gray-400 dark:ring-offset-gray-900 scale-105' : ''
+                    }`}
+                    style={{ backgroundColor: swatch }}
+                  >
+                    {isSelected && (
+                      <span className="absolute inset-0 flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5 text-white drop-shadow" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Divider */}
@@ -377,14 +605,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">A</span>
                 </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="7"
-                  value={reverseFontSizeMap[fontSize]}
-                  onChange={(e) => handleFontSizeChange(fontSizeMap[e.target.value])}
+                <CustomSlider
+                  min={1}
+                  max={7}
+                  value={parseInt(reverseFontSizeMap[fontSize])}
+                  onChange={(v) => handleFontSizeChange(fontSizeMap[String(v)])}
                   aria-label="Font size"
-                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300 transition-all duration-150 hover:h-2.5 active:h-3"
                 />
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
                   <span className="text-2xl font-semibold text-gray-600 dark:text-gray-400">A</span>
@@ -413,14 +639,12 @@ const SettingsDialog: FC<ISettingsDialogProps> = ({
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
                   <TurtleIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="7"
-                  value={getTtsSpeedLevel(ttsSpeed)}
-                  onChange={(e) => handleTtsSpeedChange(speedMap[e.target.value])}
+                <CustomSlider
+                  min={1}
+                  max={7}
+                  value={parseInt(getTtsSpeedLevel(ttsSpeed))}
+                  onChange={(v) => handleTtsSpeedChange(speedMap[String(v)])}
                   aria-label="Speech speed"
-                  className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600 dark:accent-gray-300 transition-all duration-150 hover:h-2.5 active:h-3"
                 />
                 <div className="w-6 flex items-center justify-center flex-shrink-0">
                   <RabbitIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
